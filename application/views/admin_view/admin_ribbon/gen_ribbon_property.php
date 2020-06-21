@@ -44,7 +44,8 @@ $dm = date('dm') . strval(date('Y') + 543);
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->headerUnitName = $unit_name['NPRT_NAME'];
-$pdf->myYear = strval(date('Y') + 543);
+// $pdf->myYear = strval(date('Y') + 543);
+$pdf->myYear = $year;
 $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
 $pdf->SetMargins(5, 45, 5);
 $pdf->SetHeaderMargin(15);
