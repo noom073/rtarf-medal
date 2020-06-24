@@ -250,17 +250,17 @@ class Person_data
             && in_array(substr($person['BIOG_CPOS'], 0, 5), $rank05_position)
             && in_array($person['BIOG_DEC'], $medal_rank_tc)
             && $countYear >= 5
-            && $retire60 == $curYear
+            && ($retire60 == $curYear || $retire60 == $curYear + 1) /**พ.อ.(พ) เกษียณอายุ ปีปัจุบัน หรือขอได้ตั้งแต่ก่อนเกษียณ 1 ปี */
         ) return 'ป.ม.';
 
         /**พ.อ.(พ) เกษียณอายุ ขอได้ตั้งแต่ก่อนเกษียณ 1 ปี */
-        if (
-            $person['BIOG_RANK'] == '05'
-            && in_array(substr($person['BIOG_CPOS'], 0, 5), $rank05_position)
-            && in_array($person['BIOG_DEC'], $medal_rank_tc)
-            && $countYear >= 5
-            && $retire60 == $curYear + 1
-        ) return 'ป.ม.';
+        // if (
+        //     $person['BIOG_RANK'] == '05'
+        //     && in_array(substr($person['BIOG_CPOS'], 0, 5), $rank05_position)
+        //     && in_array($person['BIOG_DEC'], $medal_rank_tc)
+        //     && $countYear >= 5
+        //     && $retire60 == $curYear + 1
+        // ) return 'ป.ม.';
 
         /**พ.อ.(พ) ที่ดำรงตำแหน่งตรงตามคุณสมบัติ*/
         if (
