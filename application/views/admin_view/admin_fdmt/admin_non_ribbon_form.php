@@ -143,7 +143,7 @@
                     educationOpt += `</optgroup>`;
 
                     $("#unitid").html(hqOpt + jointOpt + operationOpt + specialOpt + educationOpt);
-                    $("#loading-page").addClass('is-hidden');
+                    $("#loading-page").addClass('is-invisible');
                 })
                 .fail((jhr, status, error) => {
                     console.error(jhr, status, error);

@@ -5,6 +5,7 @@
         </div>
         <div class="column is-four-fifths">
             <div class="container">
+                <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
                 <h1 class="container content is-size-4">บัญชีการรับเครื่องราชฯ ชั้นสายสะพาย</h1>
                 <div class="container">
                     <div class="content">
@@ -110,7 +111,7 @@
                     educationOpt += `</optgroup>`;
 
                     $("#unitid").html(hqOpt + jointOpt + operationOpt + specialOpt + educationOpt);
-                    $("#loading-page").addClass('is-hidden');
+                    $("#loading-page").addClass('is-invisible');
                 })
                 .fail((jhr, status, error) => {
                     console.error(jhr, status, error);

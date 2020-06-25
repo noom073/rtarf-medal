@@ -309,7 +309,7 @@
 <script>
     $(document).ready(function() {
         console.log('ok');
-        $("#loading-page").addClass('is-hidden');
+        $("#loading-page").addClass('is-invisible');
 
     });
 </script>

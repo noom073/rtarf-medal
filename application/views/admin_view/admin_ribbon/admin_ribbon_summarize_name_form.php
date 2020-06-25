@@ -61,6 +61,18 @@
                                 </div>
                             </div>
 
+                            <hr />
+                            
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal"></div>
+
+                                <div class="field-body">
+                                    <div class="field">
+                                        <label class="label">ชื่อผู้ลงนาม</label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">ยศ</label>
@@ -77,7 +89,7 @@
 
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">ชื่อ-สกุล</label>
+                                    <label class="label">ชื่อ - สกุล</label>
                                 </div>
 
                                 <div class="field-body">
@@ -176,7 +188,7 @@
                 educationOpt += `</optgroup>`;
 
                 $("#unitid").html(hqOpt + jointOpt + operationOpt + specialOpt + educationOpt);
-                $("#loading-page").addClass('is-hidden');
+                $("#loading-page").addClass('is-invisible');
             })
             .fail((jhr, status, error) => {
                 console.error(jhr, status, error);

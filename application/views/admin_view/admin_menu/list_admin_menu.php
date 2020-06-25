@@ -16,7 +16,7 @@
     <ul class="menu-list">
         <li><a id="people-property-ul-ribbon" href="<?= site_url('admin_ribbon/property_form') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-ribbon" href="<?= site_url('admin_ribbon/summarize_name_form') ?>">พิมพ์สรุปราบชื่อ</a></li>
-        <li><a>พิมพ์สรุปจำนวน</a></li>
+        <li><a id="amount-person-ul-ribbon" href="<?= site_url('admin_ribbon/ribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
     </ul>
 
     <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>

@@ -107,3 +107,4 @@ $pdf->resetColumns();
 
 
 $pdf->Output('A.pdf', 'I');
+?>

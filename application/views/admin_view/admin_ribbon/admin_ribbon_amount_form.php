@@ -9,11 +9,11 @@
                     <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
 
                     <div class="container content is-size-4">
-                        พิมพ์บัญชีแสดงคุณสมบัติ
+                        พิมพ์บัญชีสรุปจำนวน
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_ribbon/action_get_ribbon_person_prop') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_ribbon/action_get_ribbon_amount') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
@@ -23,35 +23,6 @@
                                     <div class="field">
                                         <div class="select is-fullwidth">
                                             <select id="unitid" name="unitid"></select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">ชั้น</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <div class="select">
-                                                <select name="ribbon_type">
-                                                    <option value="ม.ป.ช.">ม.ป.ช.</option>
-                                                    <option value="ม.ว.ม.">ม.ว.ม.</option>
-                                                    <option value="ป.ช.">ป.ช.</option>
-                                                    <option value="ป.ม.">ป.ม.</option>
-                                                    <!-- <option value="ท.ช.">ท.ช.</option>
-                                                    <option value="ท.ม.">ท.ม.</option>
-                                                    <option value="ต.ช.">ต.ช.</option>
-                                                    <option value="ต.ม.">ต.ม.</option>
-                                                    <option value="จ.ช.">จ.ช.</option>
-                                                    <option value="จ.ม.">จ.ม.</option>
-                                                    <option value="บ.ช.">บ.ช.</option>
-                                                    <option value="บ.ม.">บ.ม.</option> -->
-                                                </select>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -97,47 +68,6 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <label class="label">ชื่อผู้ลงนาม</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">ยศ</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <input class="input" type="text" name="p1_rank" placeholder="Text input">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">ชื่อ - สกุล</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <input class="input" type="text" name="p1_name" placeholder="Text input">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">ตำแหน่ง <br /> ผู้เสนอขอพระราชทาน</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <input class="input" type="text" name="p1_position" placeholder="Text input">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +139,7 @@
 
         const init_func = function() {
             // $("ul#fdmt-report-ul").removeClass('is-hidden');
-            $("a#people-property-ul-ribbon").addClass('is-active');
+            $("a#amount-person-ul-ribbon").addClass('is-active');
         };
         init_func();
 

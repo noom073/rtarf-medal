@@ -147,3 +147,4 @@ $html .= '</table>';
 // echo $html;
 $pdf->writeHTML($html, true, 0, true, 0);
 $pdf->Output('A.pdf', 'I');
+?>
