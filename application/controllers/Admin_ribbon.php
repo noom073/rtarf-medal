@@ -49,38 +49,7 @@ class Admin_ribbon extends CI_Controller
         } else if ($ribbon == 'ป.ช.') {
             $data['persons'] = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
         } else if ($ribbon == 'ป.ม.') {
-            $persons = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year'])->result_array();
-            $data['persons'] = array();
-            $specialCpos = array(
-                '01165', '01107', '01109', '01092', '01093', '01131',
-                '01117', '01164', '01119', '01123', '05010'
-            );
-
-            foreach ($persons as $r) {
-                $cpos5 = substr($r['BIOG_CPOS'], 0, 5);
-                $fcol5 = $this->person_data->check_col5_5($r['BIOG_ID']);
-                // var_dump($r);
-
-                if (
-                    ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && ($data['year'] - $r['BIOG_DECY']) >= 3)
-
-                    || ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && $r['RETIRE60'] == $data['year'])
-
-                    || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '20'
-                        && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
-                        && ($r['RETIRE60'] == $data['year'] || $r['RETIRE60'] == $data['year'] + 1)) //  พ.อ.(พ) เกษียณอายุ
-
-                    || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
-                        && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
-                        && ($data['year'] - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) ที่ดำรงตำแหน่งตรงตามคุณสมบัติ
-
-                    || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
-                        && $r['BIOG_DEC'] == 'ท.ช.' && $fcol5 == 1
-                        && ($data['year'] - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) รับเงินเดือน น.5/5.0   ไม่น้อยกว่า 5 ปี   และ ได้รับ  ท.ช.  >=3 ปี  (ตามระเบียบของคมช.) 
-                ) {
-                    array_push($data['persons'], $r);
-                }
-            }
+            $data['persons'] = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
         } else {
             $data['persons'] = [];
         }
@@ -110,40 +79,8 @@ class Admin_ribbon extends CI_Controller
         $data['persons_mpc']    = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
         $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
         $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
-
-        $persons_pm     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year'])->result_array();
-        $data['persons_pm'] = array();
-        $specialCpos = array(
-            '01165', '01107', '01109', '01092', '01093', '01131',
-            '01117', '01164', '01119', '01123', '05010'
-        );
-
-        foreach ($persons_pm as $r) {
-            $cpos5 = substr($r['BIOG_CPOS'], 0, 5);
-            $fcol5 = $this->person_data->check_col5_5($r['BIOG_ID']);
-            // var_dump($r);
-
-            if (
-                ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && ($data['year'] - $r['BIOG_DECY']) >= 3)
-
-                || ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && $r['RETIRE60'] == $data['year'])
-
-                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '20'
-                    && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
-                    && ($r['RETIRE60'] == $data['year'] || $r['RETIRE60'] == $data['year'] + 1)) //  พ.อ.(พ) เกษียณอายุ
-
-                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
-                    && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
-                    && ($data['year'] - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) ที่ดำรงตำแหน่งตรงตามคุณสมบัติ
-
-                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
-                    && $r['BIOG_DEC'] == 'ท.ช.' && $fcol5 == 1
-                    && ($data['year'] - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) รับเงินเดือน น.5/5.0   ไม่น้อยกว่า 5 ปี   และ ได้รับ  ท.ช.  >=3 ปี  (ตามระเบียบของคมช.) 
-            ) {
-                array_push($data['persons_pm'], $r);
-            }
-        }
-
+        $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+        
         // var_dump($data);
         // echo json_encode($data);
         $this->load->view('admin_view/admin_ribbon/gen_ribbon_summarize_name', $data);
@@ -170,68 +107,38 @@ class Admin_ribbon extends CI_Controller
         $data['persons_mpc']    = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
         $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
         $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
-
-        $persons_pm     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year'])->result_array();
-        $data['persons_pm'] = array();
-        $specialCpos = array(
-            '01165', '01107', '01109', '01092', '01093', '01131',
-            '01117', '01164', '01119', '01123', '05010'
-        );
-
-        foreach ($persons_pm as $r) {
-            $cpos5 = substr($r['BIOG_CPOS'], 0, 5);
-            $fcol5 = $this->person_data->check_col5_5($r['BIOG_ID']);
-            // var_dump($r);
-
-            if (
-                ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && ($data['year'] - $r['BIOG_DECY']) >= 3)
-
-                || ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && $r['RETIRE60'] == $data['year'])
-
-                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '20'
-                    && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
-                    && ($r['RETIRE60'] == $data['year'] || $r['RETIRE60'] == $data['year'] + 1)) //  พ.อ.(พ) เกษียณอายุ
-
-                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
-                    && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
-                    && ($data['year'] - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) ที่ดำรงตำแหน่งตรงตามคุณสมบัติ
-
-                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
-                    && $r['BIOG_DEC'] == 'ท.ช.' && $fcol5 == 1
-                    && ($data['year'] - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) รับเงินเดือน น.5/5.0   ไม่น้อยกว่า 5 ปี   และ ได้รับ  ท.ช.  >=3 ปี  (ตามระเบียบของคมช.) 
-            ) {
-                array_push($data['persons_pm'], $r);
-            }
-        }
-
-        $count['mpc']['men'] = 0;
-        $count['mpc']['women'] = 0;
+        $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+        
+        $data['mpc']['men'] = 0;
+        $data['mpc']['women'] = 0;
         foreach ($data['persons_mpc'] as $r) {
-            if($r['BIOG_SEX'] == 0) $count['mpc']['men']++;
-            if($r['BIOG_SEX'] == 1) $count['mpc']['women']++;
+            if($r['BIOG_SEX'] == 0) $data['mpc']['men']++;
+            if($r['BIOG_SEX'] == 1) $data['mpc']['women']++;
         }
 
-        $count['mvm']['men'] = 0;
-        $count['mvm']['women'] = 0;
+        $data['mvm']['men'] = 0;
+        $data['mvm']['women'] = 0;
         foreach ($data['persons_mvm'] as $r) {
-            if($r['BIOG_SEX'] == 0) $count['mvm']['men']++;
-            if($r['BIOG_SEX'] == 1) $count['mvm']['women']++;
+            if($r['BIOG_SEX'] == 0) $data['mvm']['men']++;
+            if($r['BIOG_SEX'] == 1) $data['mvm']['women']++;
         }
 
-        $count['pc']['men'] = 0;
-        $count['pc']['women'] = 0;
+        $data['pc']['men'] = 0;
+        $data['pc']['women'] = 0;
         foreach ($data['persons_pc'] as $r) {
-            if($r['BIOG_SEX'] == 0) $count['pc']['men']++;
-            if($r['BIOG_SEX'] == 1) $count['pc']['women']++;
+            if($r['BIOG_SEX'] == 0) $data['pc']['men']++;
+            if($r['BIOG_SEX'] == 1) $data['pc']['women']++;
         }
 
-        $count['pm']['men'] = 0;
-        $count['pm']['women'] = 0;
+        $data['pm']['men'] = 0;
+        $data['pm']['women'] = 0;
         foreach ($data['persons_pm'] as $r) {
-            if($r['BIOG_SEX'] == 0) $count['pm']['men']++;
-            if($r['BIOG_SEX'] == 1) $count['pm']['women']++;
+            if($r['BIOG_SEX'] == 0) $data['pm']['men']++;
+            if($r['BIOG_SEX'] == 1) $data['pm']['women']++;
         }
 
-        var_dump($count);
+        // var_dump($data);
+        $this->load->view('admin_view/admin_ribbon/gen_ribbon_amount', $data);
+
     }
 }

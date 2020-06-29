@@ -174,6 +174,39 @@ class Admin_ribbon_prop_model extends CI_Model
             )
         )");
 
-        return $result;
+        $persons = $result->result_array();
+        $data = array();
+        $specialCpos = array(
+            '01165', '01107', '01109', '01092', '01093', '01131',
+            '01117', '01164', '01119', '01123', '05010'
+        );
+
+        foreach ($persons as $r) {
+            $cpos5 = substr($r['BIOG_CPOS'], 0, 5);
+            $fcol5 = $this->person_data->check_col5_5($r['BIOG_ID']);
+            // var_dump($r);
+
+            if (
+                ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && ($year - $r['BIOG_DECY']) >= 3)
+
+                || ($r['BIOG_RANK'] == '04' && $r['BIOG_DEC'] == 'ท.ช.' && $r['RETIRE60'] == $year)
+
+                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '20'
+                    && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
+                    && ($r['RETIRE60'] == $year || $r['RETIRE60'] == $year + 1)) //  พ.อ.(พ) เกษียณอายุ
+
+                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
+                    && in_array($cpos5, $specialCpos) && $r['BIOG_DEC'] == 'ท.ช.'
+                    && ($year - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) ที่ดำรงตำแหน่งตรงตามคุณสมบัติ
+
+                || ($r['BIOG_RANK'] == '05' && $r['BIOG_SLEVEL'] == 'น.5' && $r['BIOG_SCLASS'] >= '05.0'
+                    && $r['BIOG_DEC'] == 'ท.ช.' && $fcol5 == 1
+                    && ($year - $r['BIOG_DECY']) >= 3) // พ.อ.(พ) รับเงินเดือน น.5/5.0   ไม่น้อยกว่า 5 ปี   และ ได้รับ  ท.ช.  >=3 ปี  (ตามระเบียบของคมช.) 
+            ) {
+                array_push($data, $r);
+            }
+        }
+
+        return $data;
     }
 }
