@@ -10,7 +10,7 @@ class Admin_ribbon extends CI_Controller
         $this->load->library('myfunction');
         $this->load->library('person_data');
 
-        $this->load->model('admin_ribbon_model');
+        // $this->load->model('admin_ribbon_model');
         $this->load->model('admin_ribbon_prop_model');
     }
 

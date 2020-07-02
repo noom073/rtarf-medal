@@ -21,7 +21,7 @@
 
     <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>
     <ul class="menu-list">
-        <li><a>พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
+        <li><a id="people-property-ul-nonribbon" href="<?= site_url('admin_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a>พิมพ์สรุปราบชื่อ</a></li>
         <li><a>พิมพ์สรุปจำนวน</a></li>
         <li><a>พิมพ์บัญชีเสนอขอ รจม.</a></li>

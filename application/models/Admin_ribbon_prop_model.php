@@ -13,7 +13,8 @@ class Admin_ribbon_prop_model extends CI_Model
 
     public function get_person_prop_mpc($unitID, $year)
     {
-        $unitID4 = substr($unitID, 0, 4);
+        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+        $year       = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
@@ -47,7 +48,8 @@ class Admin_ribbon_prop_model extends CI_Model
 
     public function get_person_prop_mvm($unitID, $year)
     {
-        $unitID4 = substr($unitID, 0, 4);
+        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+        $year       = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
@@ -93,7 +95,8 @@ class Admin_ribbon_prop_model extends CI_Model
 
     public function get_person_prop_pc($unitID, $year)
     {
-        $unitID4 = substr($unitID, 0, 4);
+        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+        $year       = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
@@ -139,13 +142,13 @@ class Admin_ribbon_prop_model extends CI_Model
                 AND retire60(A.BIOG_DMY_BORN) = $year
             )
         )");
-
         return $result;
     }
 
     public function get_person_prop_pm($unitID, $year)
     {
-        $unitID4 = substr($unitID, 0, 4);
+        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+        $escYear    = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_SCLASS, A.BIOG_RANK, A.BIOG_SLEVEL, A.BIOG_CPOS, A.BIOG_SEX,

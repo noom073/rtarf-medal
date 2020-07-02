@@ -17,7 +17,8 @@ class Admin_ribbon_model extends CI_Model
 
         $this->oracle->select('BIOG_NAME, BIOG_DECY, BIOG_DMY_BORN, BIOG_RANK, BIOG_ID, 
         BIOG_DEC, BIOG_CPOS, BIOG_SLEVEL, BIOG_SCLASS');
-        $this->oracle->where("substr(BIOG_UNIT, 1, 4) like $unitID4");
+        // $this->oracle->where("substr(BIOG_UNIT, 1, 4) like $unitID4");
+        $this->oracle->like("substr(BIOG_UNIT, 1, 4)", $unitID4);
         $result = $this->oracle->get('PER_BIOG_VIEW');
         
         return $result;
