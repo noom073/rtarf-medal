@@ -25,8 +25,10 @@ class Admin_non_ribbon extends CI_Controller
 
     public function action_get_person_prop()
     {
+        $this->load->library('pdf');
+
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
-        $ribbon    = $this->input->post('ribbon_type');
+        $ribbon = $this->input->post('ribbon_type');
 
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
@@ -40,19 +42,60 @@ class Admin_non_ribbon extends CI_Controller
         $data['p2_position']    = $this->input->post('p2_position');
 
         if ($ribbon == 'ท.ช.') {
+            $decArray = array('ท.ช.');
+            $data['persons'] = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, '05')->result_array();
         } else if ($ribbon == 'ท.ม.') {
+            $decArray = array('ท.ม.');
+            $data['persons'] = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, '06')->result_array();
         } else if ($ribbon == 'ต.ช.') {
+            $decArray = array('ต.ช.');
+            $data['persons'] = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, '07')->result_array();
         } else if ($ribbon == 'ต.ม.') {
+            $decArray = array('ต.ม.');
+            $data['persons'] = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, '08')->result_array();
         } else if ($ribbon == 'จ.ช.') {
+            $decArray = array('จ.ช.');
+            $data['persons'] = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, '09')->result_array();
         } else if ($ribbon == 'จ.ม.') {
+            $decArray = array('จ.ม.');
+            $rankAray = array('10', '11');
+            $result = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->jm_person_filter($result);
         } else if ($ribbon == 'บ.ช.') {
+            $decArray = array('บ.ช.');
+            $rankAray = array('11', '21');
+            $result = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->bc_person_filter($result);
         } else if ($ribbon == 'บ.ม.') {
+            $decArray = array('บ.ม.');
+            $rankAray = array('11', '21', '22', '23', '24');
+            $result = $this->admin_nonribbon_model->get_person_prop($unitID, $decArray, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->bm_person_filter($result);
         } else if ($ribbon == 'ร.ท.ช.') {
+            $decArray = array('ร.ท.ช.');
+            $rankAray = array('21', '22', '23', '24');
+            $result = $this->admin_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->rtc_person_filter($result);
         } else if ($ribbon == 'ร.ท.ม.') {
+            $decArray = array('ร.ท.ม.');
+            $rankAray = array('25');
+            $result = $this->admin_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->rtm_person_filter($result);
         } else if ($ribbon == 'ร.ง.ช.') {
+            $decArray = array('ร.ง.ช.');
+            $rankAray = array('26');
+            $result = $this->admin_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->rgc_person_filter($result);
         } else if ($ribbon == 'ร.ง.ม.') {
+            $decArray = array('ร.ง.ม.');
+            $rankAray = array('27');
+            $result = $this->admin_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
+            $data['persons'] = $this->admin_nonribbon_model->rgm_person_filter($result);
         } else {
-            # code...
+            $data['persons'] = [];
         }
+
+        // var_dump($data['persons']);
+        // $this->load->view('admin_view/admin_nonribbon/gen_property', $data);
     }
 }

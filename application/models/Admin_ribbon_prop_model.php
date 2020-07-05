@@ -41,7 +41,8 @@ class Admin_ribbon_prop_model extends CI_Model
                 AND A.BIOG_DEC = 'ม.ว.ม.' 
                 AND $year - A.BIOG_DECY >= 5
             )
-        )");
+        )
+        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
 
         return $result;
     }
@@ -88,7 +89,8 @@ class Admin_ribbon_prop_model extends CI_Model
                 AND A.BIOG_DEC = 'ป.ช.' 
                 AND $year - A.BIOG_DECY >= 5
             )
-        )");
+        )
+        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
 
         return $result;
     }
@@ -141,7 +143,8 @@ class Admin_ribbon_prop_model extends CI_Model
                 AND A.BIOG_DEC = 'ป.ม.' 
                 AND retire60(A.BIOG_DMY_BORN) = $year
             )
-        )");
+        )
+        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
         return $result;
     }
 
@@ -175,7 +178,8 @@ class Admin_ribbon_prop_model extends CI_Model
                 AND A.BIOG_SCLASS >= '05.0'
                 AND A.BIOG_DEC = 'ท.ช.'
             )
-        )");
+        )
+        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
 
         $persons = $result->result_array();
         $data = array();
