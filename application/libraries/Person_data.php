@@ -315,6 +315,18 @@ class Person_data
     {
         $result = '';
         switch ($medal_acm) {
+            case 'ร.ง.ม.':
+                $result = 'เหรียญเงินมงกุฎไทย';
+                break;
+            case 'ร.ง.ช.':
+                $result = 'เหรียญเงินช้างเผือก';
+                break;
+            case 'ร.ท.ม.':
+                $result = 'เหรียญทองมงกุฎไทย';
+                break;
+            case 'ร.ท.ช.':
+                $result = 'เหรียญทองช้างเผือก';
+                break;
             case 'บ.ม.':
                 $result = 'เบญจมาภรณ์มงกุฎไทย';
                 break;
