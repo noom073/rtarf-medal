@@ -14,26 +14,28 @@
                 </div>
             </div>
 
-            <form id="login-form">
-                <div class="field">
-                    <label for="" class="label">Username :</label>
-                    <div class="control">
-                        <input class="input" type="text" name="username" id="">
+            <div class="mx-3">
+                <form id="login-form">
+                    <div class="field">
+                        <label for="" class="label">Username :</label>
+                        <div class="control">
+                            <input class="input" type="text" name="username" id="">
+                        </div>
                     </div>
-                </div>
 
-                <div class="field">
-                    <label for="" class="label">Password :</label>
-                    <div class="control">
-                        <input class="input" type="password" name="password" id="">
+                    <div class="field">
+                        <label for="" class="label">Password :</label>
+                        <div class="control">
+                            <input class="input" type="password" name="password" id="">
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control has-text-right">
-                        <button class="button">Submit</button>
+                    <div class="field">
+                        <div class="control has-text-right">
+                            <button class="button">Submit</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </section>
@@ -51,7 +53,7 @@
                 })
                 .done(res => {
                     console.log(res);
-                    window.location.href = '<?= site_url('admin_fundamental/index')?>';
+                    window.location.href = '<?= site_url('admin_fundamental/index') ?>';
                 })
                 .fail((jhr, status, error) => {
                     console.error(jhr, status, error);

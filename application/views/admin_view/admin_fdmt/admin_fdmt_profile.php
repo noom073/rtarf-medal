@@ -40,8 +40,8 @@
                                                 <div class="control">
                                                     <div class="select">
                                                         <select name="type">
-                                                            <option value="mid">เลขประจำตัวข้าราชการ</option>
                                                             <option value="name">ชื่อ นามสกุล</option>
+                                                            <option value="mid">เลขประจำตัวข้าราชการ</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -78,7 +78,7 @@
 
                         <div id="search-result"></div>
 
-                        <div id="search-data" style="height: 400px; overflow-y: auto"></div>
+                        <div id="search-data" class="has-background-light px-3 py-3" style="height: 400px; overflow-y: auto">ผลการค้นหา:</div>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
         console.log('ok');
 
         $("#search-reset").click(function() {
-            $("#search-data").prop("class", '');
+            // $("#search-data").prop("class", '');
             $("#search-data").text('');
         });
 
@@ -156,10 +156,12 @@
                     // console.log(res)
                     if (res.status) {
 
-                        let html = '';
+                        let totalPersons = res.data.length;
+                        let html = `<p>ทั้งหมด จำนวน: ${totalPersons} นาย</p>`;
                         res.data.forEach(r => {
-                            html += `<p class="container">
-                                <a href="<?= site_url('admin_fundamental/biog/')?>${r.BIOG_ID}">${r.BIOG_NAME}</a>
+                            html += `
+                                <p class="container">
+                                    <a href="<?= site_url('admin_fundamental/biog/') ?>${r.BIOG_ID}">${r.BIOG_NAME}</a>
                                 </p>`;
                         });
                         $("#search-data").html(html);

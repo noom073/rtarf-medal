@@ -1,3 +1,9 @@
+<div class="has-text-left">
+    <a id="side-menu-ctrl" class="has-text-dark">
+        <!-- <i class="fa fa-bars" aria-hidden="true"></i> -->
+        <button class="button is-small is-rounded mb-3">Menu</button>
+    </a>
+</div>
 <aside class="menu">
     <p class="menu-label">ข้อมูลพื้นฐาน</p>
     <ul class="menu-list">
@@ -72,6 +78,10 @@
     $(document).ready(function() {
         $(".has-dropdown").click(function() {
             $(this).siblings("ul").toggleClass('is-hidden')
+        });
+
+        $("#side-menu-ctrl").click(function() {
+            $("aside.menu").toggleClass('is-hidden')
         });
     });
 </script>
