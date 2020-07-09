@@ -1,6 +1,5 @@
-<div class="has-text-left">
+<div class="has-text-left is-hidden-tablet">
     <a id="side-menu-ctrl" class="has-text-dark">
-        <!-- <i class="fa fa-bars" aria-hidden="true"></i> -->
         <button class="button is-small is-rounded mb-3">Menu</button>
     </a>
 </div>
@@ -29,7 +28,7 @@
     <ul class="menu-list">
         <li><a id="people-property-ul-nonribbon" href="<?= site_url('admin_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-nonribbon" href="<?= site_url('admin_non_ribbon/summarize_name') ?>">พิมพ์สรุปราบชื่อ</a></li>
-        <li><a>พิมพ์สรุปจำนวน</a></li>
+        <li><a id="amount-person-ul-nonribbon" href="<?= site_url('admin_non_ribbon/nonribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
         <li><a>พิมพ์บัญชีเสนอขอ รจม.</a></li>
         <li><a>พิมพ์บัญชีรายชื่อ รจม.</a></li>
     </ul>
