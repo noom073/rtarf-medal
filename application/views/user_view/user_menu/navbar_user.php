@@ -5,6 +5,7 @@
                 <img src="<?= base_url('assets/images/medal.png') ?>" height="28">
                 RTARF-MEDAL
             </a>
+            <a class="navbar-item"><?= $unitname ?></a>
 
             <a role="button" id="nav-menu-burger" class="navbar-burger burger">
                 <span aria-hidden="true"></span>
@@ -17,7 +18,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-warning is-light" href="<?= site_url('login/logout') ?>">Log out</a>
+                        <a class="button is-info" href="<?= site_url('login/logout') ?>">Log out</a>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,8 @@ class Login extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url', 'security');
+		$this->load->helper('url');
+		$this->load->library('session');
 	}
 
 	public function index()
@@ -21,10 +22,24 @@ class Login extends CI_Controller
 
 	public function ajax_login_process()
 	{
-		$data['username'] = $this->security->xss_clean($this->input->post('username'));
-		$data['password'] = $this->security->xss_clean($this->input->post('password'));
+		$data['username'] = $this->input->post('username');
+		$data['password'] = $this->input->post('password');
+
+		$sessData = array(
+			'user' => $data['username'],
+			'privilege' => $data['username'],
+			'unit' => $data['username'],
+			'isLogged' => true
+		);
+
+		$this->session->set_userdata($sessData);
 
 		echo json_encode($data);
+	}
 
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('login/index');
 	}
 }

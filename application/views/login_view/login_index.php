@@ -19,14 +19,14 @@
                     <div class="field">
                         <label for="" class="label">Username :</label>
                         <div class="control">
-                            <input class="input" type="text" name="username" id="">
+                            <input class="input" type="text" name="username" id="usr">
                         </div>
                     </div>
 
                     <div class="field">
                         <label for="" class="label">Password :</label>
                         <div class="control">
-                            <input class="input" type="password" name="password" id="">
+                            <input class="input" type="password" name="password" id="pwd">
                         </div>
                     </div>
                     <div class="field">
@@ -53,7 +53,12 @@
                 })
                 .done(res => {
                     console.log(res);
-                    window.location.href = '<?= site_url('admin_fundamental/index') ?>';
+                    let username = $("#usr").val();
+                    if (username == 'admin') {
+                        window.location.href = '<?= site_url('admin_fundamental/index') ?>';                        
+                    } else {
+                        window.location.href = '<?= site_url('user_fundamental/index') ?>';                        
+                    }
                 })
                 .fail((jhr, status, error) => {
                     console.error(jhr, status, error);
