@@ -20,22 +20,6 @@ class MYPDF extends PDF
         $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
     }
 
-    // Page footer
-    // public function Footer()
-    // {
-    //     // Position at 15 mm from bottom
-    //     $this->SetY(-15);
-    //     // Set font
-    //     $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
-    //     $this->SetFont($fontname, '', 14, '', true);
-    //     $footer1 = '<span style="text-decoration: underline; font-weight:bold;">หมายเหตุ</span>';
-    //     $this->writeHTMLCell(50, '', 30, '', $footer1, 0, 0, 0, true, 'C', true);
-    //     $this->writeHTMLCell(30, '', '', '', '*** เกษียณปีปัจจุบัน', 0, 0, 0, true, 'C', true);
-    //     $this->writeHTMLCell(30, '', '', '', 'xxx วดป.ผิด', 0, 0, 0, true, 'C', true);
-    //     $this->writeHTMLCell(30, '', '', '', '-*- ไม่ครบขอฯ', 0, 0, 0, true, 'C', true);
-    //     $this->writeHTMLCell(30, '', '', '', '-- ชั้นสูงสุด', 0, 0, 0, true, 'C', true);
-    //     $this->writeHTMLCell(30, '', '', '', '??? เครื่องราชฯ เดิมผิด', 0, 0, 0, true, 'C', true);
-    // }
 }
 
 $dm = date('dm') . strval( date('Y') + 543);
@@ -104,13 +88,6 @@ $html .= '</tr>';
 $html .= '</thead>';
 $html .= '<tbody>';
 foreach ($persons as $person) {
-    // echo "{$num} {$person['BIOG_NAME']} {$person['BIOG_POSNAME']} - $txtLength : {$rowHeight} <br />";
-
-    // $rank           = $this->person_data->army_rank($person['BIOG_RANK'])['CRAK_NAME_ACM'];
-    // $biog_dmy_rank  = $this->myfunction->dmy_to_thai($person['BIOG_DMY_RANK'], 1);
-    // $nearRetire     = $this->person_data->this_retire($person['BIOG_DMY_BORN']) === true ? '***' : '';
-    // $cdecDate       = $this->person_data->set_cdec_date($person['BIOG_DECY']);
-    // $this_medal     = $this->person_data->next_medal($person, $year);
     $n5 = $person['BIOG_RANK'] == '05' ? '*':'';
     $bm = $this->person_data->cdec_year2($person['BIOG_ID'], array('บม.', 'บ.ม.'));
     $bc = $this->person_data->cdec_year2($person['BIOG_ID'], array('บช.', 'บ.ช.'));

@@ -6,8 +6,6 @@
         <div class="column is-four-fifths">
             <div class="container">
                 <div id="profile" class="container form-detail">
-                    <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
-
                     <div class="container content is-size-4">
                         พิมพ์บัญชีแสดงคุณสมบัติ
                     </div>
@@ -22,7 +20,9 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="select is-fullwidth">
-                                            <select id="unitid" name="unitid"></select>
+                                            <select id="unitid" name="unitid">
+                                                <option value="<?= $unitID ?>"><?= $unitname ?></option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                             </div>
 
                             <hr />
-                            
+
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal"></div>
 
@@ -216,54 +216,6 @@
             $("a#people-property-ul-nonribbon").addClass('is-active');
         };
         init_func();
-
-        $.get({
-                url: '<?= site_url("admin/ajax_get_unit") ?>',
-                dataType: 'json'
-            })
-            .done(res => {
-                let hq = res.filter(r => r.NPRT_KEY.substring(0, 2) == '60');
-                let joint = res.filter(r => r.NPRT_KEY.substring(0, 2) == '61');
-                let operation = res.filter(r => r.NPRT_KEY.substring(0, 2) == '62');
-                let special = res.filter(r => r.NPRT_KEY.substring(0, 2) == '63');
-                let education = res.filter(r => r.NPRT_KEY.substring(0, 2) == '64');
-
-                let hqOpt = '<optgroup label="ส่วนบังคับบัญชา">';
-                hq.forEach(r => {
-                    hqOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                hqOpt += `</optgroup>`;
-
-                let jointOpt = '<optgroup label="ส่วนเสนาธิการร่วม">';
-                joint.forEach(r => {
-                    jointOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                jointOpt += `</optgroup>`;
-
-                let operationOpt = '<optgroup label="ส่วนปฏิบัติการ">';
-                operation.forEach(r => {
-                    operationOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                operationOpt += `</optgroup>`;
-
-                let specialOpt = '<optgroup label="ส่วนกิจการพิเศษ">';
-                special.forEach(r => {
-                    specialOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                specialOpt += `</optgroup>`;
-
-                let educationOpt = '<optgroup label="ส่วนการศึกษา">';
-                education.forEach(r => {
-                    educationOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                educationOpt += `</optgroup>`;
-
-                $("#unitid").html(hqOpt + jointOpt + operationOpt + specialOpt + educationOpt);
-                $("#loading-page").addClass('is-invisible');
-            })
-            .fail((jhr, status, error) => {
-                console.error(jhr, status, error);
-            });
 
         $("#property-form").submit(function(event) {
             // $("#property-form-data").html('Loading...');           

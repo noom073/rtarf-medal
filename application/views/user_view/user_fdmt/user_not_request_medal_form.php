@@ -128,7 +128,6 @@
 
             $('select#rankid').html(rankOption);
             $('#search-form-modal').addClass('is-active');
-            getUnitList();
 
             console.log(rankList);
         });

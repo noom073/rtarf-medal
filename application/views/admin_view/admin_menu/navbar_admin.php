@@ -17,7 +17,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <a class="button is-warning is-light" href="<?= site_url('login/logout') ?>">Log out</a>
+                        <a class="button is-info" href="<?= site_url('login/logout') ?>">Log out</a>
                     </div>
                 </div>
             </div>
