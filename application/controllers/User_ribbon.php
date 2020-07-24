@@ -119,33 +119,25 @@ class User_ribbon extends CI_Controller
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
         $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
         
-        $data['mpc']['men'] = 0;
-        $data['mpc']['women'] = 0;
-        foreach ($data['persons_mpc'] as $r) {
-            if($r['BIOG_SEX'] == 0) $data['mpc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['mpc']['women']++;
-        }
+        $persons_mpc_men        = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_mpc_women      = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['mpc']['men']     = count($persons_mpc_men);
+        $data['mpc']['women']   = count($persons_mpc_women);
 
-        $data['mvm']['men'] = 0;
-        $data['mvm']['women'] = 0;
-        foreach ($data['persons_mvm'] as $r) {
-            if($r['BIOG_SEX'] == 0) $data['mvm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['mvm']['women']++;
-        }
+        $persons_mvm_men        = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_mvm_women      = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['mvm']['men']     = count($persons_mvm_men);
+        $data['mvm']['women']   = count($persons_mvm_women);
 
-        $data['pc']['men'] = 0;
-        $data['pc']['women'] = 0;
-        foreach ($data['persons_pc'] as $r) {
-            if($r['BIOG_SEX'] == 0) $data['pc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['pc']['women']++;
-        }
+        $persons_pc_men        = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_pc_women      = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['pc']['men']     = count($persons_pc_men);
+        $data['pc']['women']   = count($persons_pc_women);
 
-        $data['pm']['men'] = 0;
-        $data['pm']['women'] = 0;
-        foreach ($data['persons_pm'] as $r) {
-            if($r['BIOG_SEX'] == 0) $data['pm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['pm']['women']++;
-        }
+        $persons_pm_men        = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_pm_women      = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['pm']['men']     = count($persons_pm_men);
+        $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
         $this->load->view('user_view/user_ribbon/gen_ribbon_amount', $data);

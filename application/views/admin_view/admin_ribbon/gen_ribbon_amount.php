@@ -71,7 +71,6 @@ $html   .= '<tbody>';
 $html       .= '<tr>';
 $html           .= '<th style="text-align:center;" width="5%">1</th>';
 $html           .= '<th style="text-align:left;" width="25%">' . $unit_name['NPRT_NAME'] . '</th>';
-
 $html           .= '<th style="text-align:center;" width="6.25%">' . $mpcMen . '</th>';
 $html           .= '<th style="text-align:center;" width="6.25%">' . $mpcWomen . '</th>';
 $html           .= '<th style="text-align:center;" width="6.25%">' . $mvmMen . '</th>';

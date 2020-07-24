@@ -22,6 +22,7 @@
         <li><a id="people-property-ul-ribbon" href="<?= site_url('user_ribbon/property_form') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-ribbon" href="<?= site_url('user_ribbon/summarize_name_form') ?>">พิมพ์สรุปรายชื่อ</a></li>
         <li><a id="amount-person-ul-ribbon" href="<?= site_url('user_ribbon/ribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
+        <li><a id="save-person-ul-ribbon" href="<?= site_url('user_ribbon/ribbon_amount') ?>">บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
     <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>
@@ -29,6 +30,7 @@
         <li><a id="people-property-ul-nonribbon" href="<?= site_url('user_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-nonribbon" href="<?= site_url('user_non_ribbon/summarize_name') ?>">พิมพ์สรุปรายชื่อ</a></li>
         <li><a id="amount-person-ul-nonribbon" href="<?= site_url('user_non_ribbon/nonribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
+        <li><a id="save-person-ul-nonribbon" href="<?= site_url('user_non_ribbon/nonribbon_amount') ?>">บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
     <p class="menu-label">ขอเครื่องราชฯ เพิ่มเติม</p>

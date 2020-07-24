@@ -210,89 +210,65 @@ class User_non_ribbon extends CI_Controller
         $rsRgm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
         $dtrgm = $this->user_nonribbon_model->rgm_person_filter($rsRgm);
 
-        $data['thc']['men'] = 0;
-        $data['thc']['women'] = 0;
-        foreach ($dtthc as $r) {
-            if($r['BIOG_SEX'] == 0) $data['thc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['thc']['women']++;
-        }
+        $persons_thc_men        = array_filter($dtthc, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_thc_women      = array_filter($dtthc, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['thc']['men']     = count($persons_thc_men);
+        $data['thc']['women']   = count($persons_thc_women);
 
-        $data['thm']['men'] = 0;
-        $data['thm']['women'] = 0;
-        foreach ($dtthm as $r) {
-            if($r['BIOG_SEX'] == 0) $data['thm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['thm']['women']++;
-        }
+        $persons_thm_men        = array_filter($dtthm, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_thm_women      = array_filter($dtthm, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['thm']['men']     = count($persons_thm_men);
+        $data['thm']['women']   = count($persons_thm_women);
 
-        $data['tc']['men'] = 0;
-        $data['tc']['women'] = 0;
-        foreach ($dttc as $r) {
-            if($r['BIOG_SEX'] == 0) $data['tc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['tc']['women']++;
-        }
+        $persons_tc_men        = array_filter($dttc, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_tc_women      = array_filter($dttc, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['tc']['men']     = count($persons_tc_men);
+        $data['tc']['women']   = count($persons_tc_women);
 
-        $data['tm']['men'] = 0;
-        $data['tm']['women'] = 0;
-        foreach ($dttm as $r) {
-            if($r['BIOG_SEX'] == 0) $data['tm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['tm']['women']++;
-        }
+        $persons_tm_men        = array_filter($dttm, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_tm_women      = array_filter($dttm, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['tm']['men']     = count($persons_tm_men);
+        $data['tm']['women']   = count($persons_tm_women);
         
-        $data['jc']['men'] = 0;
-        $data['jc']['women'] = 0;
-        foreach ($dtjc as $r) {
-            if($r['BIOG_SEX'] == 0) $data['jc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['jc']['women']++;
-        }
+        $persons_jc_men        = array_filter($dtjc, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_jc_women      = array_filter($dtjc, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['jc']['men']     = count($persons_jc_men);
+        $data['jc']['women']   = count($persons_jc_women);
 
-        $data['jm']['men'] = 0;
-        $data['jm']['women'] = 0;
-        foreach ($dtjm as $r) {
-            if($r['BIOG_SEX'] == 0) $data['jm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['jm']['women']++;
-        }
+        $persons_jm_men        = array_filter($dtjm, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_jm_women      = array_filter($dtjm, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['jm']['men']     = count($persons_jm_men);
+        $data['jm']['women']   = count($persons_jm_women);
 
-        $data['bc']['men'] = 0;
-        $data['bc']['women'] = 0;
-        foreach ($dtbc as $r) {
-            if($r['BIOG_SEX'] == 0) $data['bc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['bc']['women']++;
-        }
+        $persons_bc_men        = array_filter($dtbc, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_bc_women      = array_filter($dtbc, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['bc']['men']     = count($persons_bc_men);
+        $data['bc']['women']   = count($persons_bc_women);
 
-        $data['bm']['men'] = 0;
-        $data['bm']['women'] = 0;
-        foreach ($dtbm as $r) {
-            if($r['BIOG_SEX'] == 0) $data['bm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['bm']['women']++;
-        }
+        $persons_bm_men        = array_filter($dtbm, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_bm_women      = array_filter($dtbm, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['bm']['men']     = count($persons_bm_men);
+        $data['bm']['women']   = count($persons_bm_women);
 
-        $data['rtc']['men'] = 0;
-        $data['rtc']['women'] = 0;
-        foreach ($dtrtc as $r) {
-            if($r['BIOG_SEX'] == 0) $data['rtc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['rtc']['women']++;
-        }
+        $persons_rtc_men        = array_filter($dtrtc, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_rtc_women      = array_filter($dtrtc, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['rtc']['men']     = count($persons_rtc_men);
+        $data['rtc']['women']   = count($persons_rtc_women);
 
-        $data['rtm']['men'] = 0;
-        $data['rtm']['women'] = 0;
-        foreach ($dtrtm as $r) {
-            if($r['BIOG_SEX'] == 0) $data['rtm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['rtm']['women']++;
-        }
+        $persons_rtm_men        = array_filter($dtrtm, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_rtm_women      = array_filter($dtrtm, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['rtm']['men']     = count($persons_rtm_men);
+        $data['rtm']['women']   = count($persons_rtm_women);
 
-        $data['rgc']['men'] = 0;
-        $data['rgc']['women'] = 0;
-        foreach ($dtrgc as $r) {
-            if($r['BIOG_SEX'] == 0) $data['rgc']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['rgc']['women']++;
-        }
+        $persons_rgc_men        = array_filter($dtrgc, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_rgc_women      = array_filter($dtrgc, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['rgc']['men']     = count($persons_rgc_men);
+        $data['rgc']['women']   = count($persons_rgc_women);
 
-        $data['rgm']['men'] = 0;
-        $data['rgm']['women'] = 0;
-        foreach ($dtrgm as $r) {
-            if($r['BIOG_SEX'] == 0) $data['rgm']['men']++;
-            if($r['BIOG_SEX'] == 1) $data['rgm']['women']++;
-        }
+        $persons_rgm_men        = array_filter($dtrgm, function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_rgm_women      = array_filter($dtrgm, function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['rgm']['men']     = count($persons_rgm_men);
+        $data['rgm']['women']   = count($persons_rgm_women);
         // var_dump($data);
         $this->load->view('user_view/user_nonribbon/gen_person_amount', $data);
 
