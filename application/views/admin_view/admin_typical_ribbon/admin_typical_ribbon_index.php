@@ -8,12 +8,13 @@
                 <div id="profile" class="container form-detail">
                     <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
 
-                    <div class="container content is-size-4">
-                        พิมพ์บัญชีแสดงคุณสมบัติ
+                    <div class="container content">
+                        <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>                        
+                        <div class="is-size-5">พิมพ์บัญชีแสดงคุณสมบัติ</div>                        
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_non_ribbon/action_get_person_prop') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_ribbon/action_get_ribbon_person_prop') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
@@ -38,22 +39,18 @@
                                         <div class="control">
                                             <div class="select">
                                                 <select name="ribbon_type">
-                                                    <!-- <option value="ม.ป.ช.">ม.ป.ช.</option>
+                                                    <option value="ม.ป.ช.">ม.ป.ช.</option>
                                                     <option value="ม.ว.ม.">ม.ว.ม.</option>
                                                     <option value="ป.ช.">ป.ช.</option>
-                                                    <option value="ป.ม.">ป.ม.</option> -->
-                                                    <option value="ท.ช.">ท.ช.</option>
+                                                    <option value="ป.ม.">ป.ม.</option>
+                                                    <!-- <option value="ท.ช.">ท.ช.</option>
                                                     <option value="ท.ม.">ท.ม.</option>
                                                     <option value="ต.ช.">ต.ช.</option>
                                                     <option value="ต.ม.">ต.ม.</option>
                                                     <option value="จ.ช.">จ.ช.</option>
                                                     <option value="จ.ม.">จ.ม.</option>
                                                     <option value="บ.ช.">บ.ช.</option>
-                                                    <option value="บ.ม.">บ.ม.</option>
-                                                    <option value="ร.ท.ช.">ร.ท.ช.</option>
-                                                    <option value="ร.ท.ม.">ร.ท.ม.</option>
-                                                    <option value="ร.ง.ช.">ร.ง.ช.</option>
-                                                    <option value="ร.ง.ม.">ร.ง.ม.</option>
+                                                    <option value="บ.ม.">บ.ม.</option> -->
                                                 </select>
                                             </div>
                                         </div>
@@ -212,8 +209,8 @@
         console.log('ok');
 
         const init_func = function() {
-            // $("ul#fdmt-report-ul").removeClass('is-hidden');
-            $("a#people-property-ul-nonribbon").addClass('is-active');
+            $("ul#typical-ribbon").removeClass('is-hidden');
+            $("a#admin-typical-ribbon-property").addClass('is-active');
         };
         init_func();
 

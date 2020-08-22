@@ -1,4 +1,4 @@
-<div class="has-text-left is-hidden-tablet">
+<div class="has-text-left">
     <a id="side-menu-ctrl" class="has-text-dark">
         <button class="button is-small is-rounded mb-3">Menu</button>
     </a>
@@ -22,7 +22,7 @@
         <li><a id="people-property-ul-ribbon" href="<?= site_url('admin_ribbon/property_form') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-ribbon" href="<?= site_url('admin_ribbon/summarize_name_form') ?>">พิมพ์สรุปรายชื่อ</a></li>
         <li><a id="amount-person-ul-ribbon" href="<?= site_url('admin_ribbon/ribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
-        <li><a id="save-person-ul-ribbon" href="<?= site_url('admin_ribbon/ribbon_save') ?>">บันทึกบัญชีขอเครื่องราชฯ</a></li>
+        <li><a class="has-text-grey-light" id="save-person-ul-ribbon">บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
     <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>
@@ -30,24 +30,24 @@
         <li><a id="people-property-ul-nonribbon" href="<?= site_url('admin_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-nonribbon" href="<?= site_url('admin_non_ribbon/summarize_name') ?>">พิมพ์สรุปรายชื่อ</a></li>
         <li><a id="amount-person-ul-nonribbon" href="<?= site_url('admin_non_ribbon/nonribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
-        <li><a id="save-person-ul-nonribbon" href="<?= site_url('admin_non_ribbon/nonribbon_save') ?>">บันทึกบัญชีขอเครื่องราชฯ</a></li>
+        <li><a class="has-text-grey-light" id="save-person-ul-nonribbon" >บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
     <p class="menu-label">ขอเครื่องราชฯ เพิ่มเติม</p>
     <ul class="menu-list">
         <li>
             <a class="has-dropdown">รอบปกติ ชั้นสายสะพาย <i class="fas fa-angle-down" aria-hidden="true"></i></a>
-            <ul class="is-hidden">
-                <li><a>รอบปกติ ชั้นสายสะพาย ข้อมูลพื้นฐาน</a></li>
-                <li><a>รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
-                <li><a>รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
-                <li><a>รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
+            <ul class="is-hidden" id="typical-ribbon">
+                <li><a id="admin-typical-ribbon-index" href="#">รอบปกติ ชั้นสายสะพาย ข้อมูลพื้นฐาน</a></li>
+                <li><a id="admin-typical-ribbon-property" href="<?= site_url('admin_typical_ribbon/property') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
+                <li><a id="" >รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
+                <li><a id="" >รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
             </ul>
         </li>
 
         <li>
             <a class="has-dropdown">รอบปกติ ชั้นต่ำกว่าสายสะพาย <i class="fas fa-angle-down" aria-hidden="true"></i></a>
-            <ul class="is-hidden">
+            <ul class="is-hidden" id="typical-non-ribbon">
                 <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย ข้อมูลพื้นฐาน</a></li>
                 <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
                 <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
