@@ -28,8 +28,9 @@ class Admin_ribbon extends CI_Controller
     {
         $this->load->library('pdf');
 
-        $unitID = $this->myfunction->decode($this->input->post('unitid'));
-        $ribbon    = $this->input->post('ribbon_type');
+        $unitID     = $this->myfunction->decode($this->input->post('unitid'));
+        $ribbon     = $this->input->post('ribbon_type');
+        $condition  = $this->input->post('condition');
 
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
@@ -54,7 +55,13 @@ class Admin_ribbon extends CI_Controller
             $data['persons'] = [];
         }
 
-        // var_dump($data);
+        if ($condition == 'retire') {
+            // echo 'ok';
+            $data['persons'] = array_filter($data['persons'], function($r) use($data) {
+                return $r['RETIRE60'] == $data['year'];
+            });
+        }
+        
         $this->load->view('admin_view/admin_ribbon/gen_ribbon_property', $data);
     }
 

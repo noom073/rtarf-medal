@@ -17,7 +17,7 @@ class User_ribbon_prop_model extends CI_Model
         $year       = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
+        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, RETIRE60(A.BIOG_DMY_BORN ) AS RETIRE60,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
@@ -53,7 +53,7 @@ class User_ribbon_prop_model extends CI_Model
         $year       = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
+        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, RETIRE60(A.BIOG_DMY_BORN ) AS RETIRE60,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
@@ -101,7 +101,7 @@ class User_ribbon_prop_model extends CI_Model
         $year       = $this->oracle->escape($year);
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
+        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, RETIRE60(A.BIOG_DMY_BORN ) AS RETIRE60,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
