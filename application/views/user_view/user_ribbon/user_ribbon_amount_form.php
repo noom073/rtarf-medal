@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('user_ribbon/action_get_ribbon_amount') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_ribbon/action_get_ribbon_amount') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
@@ -53,7 +53,6 @@
                                             <div class="select">
                                                 <select name="condition">
                                                     <option value="normal">ปกติ</option>
-                                                    <option value="retire">เกษียณ</option>
                                                 </select>
                                             </div>
                                         </div>

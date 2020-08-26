@@ -18,8 +18,8 @@ class User_ribbon extends CI_Controller
     public function property_form()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']     = $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname'] 	= $unit['NPRT_NAME'];
+		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
         $this->load->view('user_view/user_menu/navbar_user', $data);
@@ -32,9 +32,8 @@ class User_ribbon extends CI_Controller
     {
         $this->load->library('pdf');
 
-        $unitID     = $this->myfunction->decode($this->input->post('unitid'));
-        $ribbon     = $this->input->post('ribbon_type');
-        $condition  = $this->input->post('condition');
+        $unitID = $this->myfunction->decode($this->input->post('unitid'));
+        $ribbon    = $this->input->post('ribbon_type');
 
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
@@ -59,11 +58,6 @@ class User_ribbon extends CI_Controller
             $data['persons'] = [];
         }
 
-        if ($condition == 'retire') {
-            $data['persons'] = array_filter($data['persons'], function ($r) use ($data) {
-                return $r['RETIRE60'] == $data['year'];
-            });
-        }
         // var_dump($data);
         $this->load->view('user_view/user_ribbon/gen_ribbon_property', $data);
     }
@@ -71,8 +65,8 @@ class User_ribbon extends CI_Controller
     public function summarize_name_form()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']     = $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname'] 	= $unit['NPRT_NAME'];
+		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
         $this->load->view('user_view/user_menu/navbar_user', $data);
@@ -85,8 +79,7 @@ class User_ribbon extends CI_Controller
     {
         $this->load->library('pdf');
 
-        $unitID     = $this->myfunction->decode($this->input->post('unitid'));
-        $condition  = $this->input->post('condition');
+        $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
@@ -94,25 +87,7 @@ class User_ribbon extends CI_Controller
         $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
         $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
-
-        if ($condition == 'retire') {
-            $data['persons_mpc'] = array_filter($data['persons_mpc'], function ($r) use ($data) {
-                return $r['RETIRE60'] == $data['year'];
-            });
-
-            $data['persons_mvm'] = array_filter($data['persons_mvm'], function ($r) use ($data) {
-                return $r['RETIRE60'] == $data['year'];
-            });
-
-            $data['persons_pc'] = array_filter($data['persons_pc'], function ($r) use ($data) {
-                return $r['RETIRE60'] == $data['year'];
-            });
-
-            $data['persons_pm'] = array_filter($data['persons_pm'], function ($r) use ($data) {
-                return $r['RETIRE60'] == $data['year'];
-            });
-        }
-
+        
         // var_dump($data);
         // echo json_encode($data);
         $this->load->view('user_view/user_ribbon/gen_ribbon_summarize_name', $data);
@@ -121,11 +96,11 @@ class User_ribbon extends CI_Controller
     public function ribbon_amount()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']     = $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname'] 	= $unit['NPRT_NAME'];
+		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
-        $this->load->view('user_view/user_menu/navbar_user', $data);
+        $this->load->view('user_view/user_menu/navbar_user',$data);
         $this->load->view('user_view/user_ribbon/user_ribbon_amount_form', $data);
         $this->load->view('main_view/container_footer');
         $this->load->view('foundation_view/footer');
@@ -135,8 +110,7 @@ class User_ribbon extends CI_Controller
     {
         $this->load->library('pdf');
 
-        $unitID     = $this->myfunction->decode($this->input->post('unitid'));
-        $condition  = $this->input->post('condition');
+        $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
@@ -144,74 +118,29 @@ class User_ribbon extends CI_Controller
         $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
         $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+        
+        $persons_mpc_men        = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_mpc_women      = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['mpc']['men']     = count($persons_mpc_men);
+        $data['mpc']['women']   = count($persons_mpc_women);
 
-        $data['mpc']['men']     = count(array_filter($data['persons_mpc'], function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        }));
-        $data['mpc']['women']   = count(array_filter($data['persons_mpc'], function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        }));
-        /** ********************************************* */
+        $persons_mvm_men        = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_mvm_women      = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['mvm']['men']     = count($persons_mvm_men);
+        $data['mvm']['women']   = count($persons_mvm_women);
 
-        $data['mvm']['men']     = count(array_filter($data['persons_mvm'], function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        }));
-        $data['mvm']['women']   = count(array_filter($data['persons_mvm'], function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        }));
-        /** ********************************************* */
+        $persons_pc_men        = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_pc_women      = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['pc']['men']     = count($persons_pc_men);
+        $data['pc']['women']   = count($persons_pc_women);
 
-        $data['pc']['men']     = count(array_filter($data['persons_pc'], function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        }));
-        $data['pc']['women']   = count(array_filter($data['persons_pc'], function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        }));
-        /** ********************************************* */
-
-        $data['pm']['men']     = count(array_filter($data['persons_pm'], function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        }));
-        $data['pm']['women']   = count(array_filter($data['persons_pm'], function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        }));
-        /** ********************************************* */
-
-        if($condition == 'retire') {
-            $data['mpc']['men']     = count(array_filter($data['persons_mpc'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 0 && $r['RETIRE60'] == $data['year'];
-            }));
-            $data['mpc']['women']   = count(array_filter($data['persons_mpc'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 1 && $r['RETIRE60'] == $data['year'];
-            }));
-            /** ********************************************* */
-    
-            $data['mvm']['men']     = count(array_filter($data['persons_mvm'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 0 && $r['RETIRE60'] == $data['year'];
-            }));
-            $data['mvm']['women']   = count(array_filter($data['persons_mvm'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 1 && $r['RETIRE60'] == $data['year'];
-            }));
-            /** ********************************************* */
-    
-            $data['pc']['men']     = count(array_filter($data['persons_pc'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 0 && $r['RETIRE60'] == $data['year'];
-            }));
-            $data['pc']['women']   = count(array_filter($data['persons_pc'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 1 && $r['RETIRE60'] == $data['year'];
-            }));
-            /** ********************************************* */
-    
-            $data['pm']['men']     = count(array_filter($data['persons_pm'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 0 && $r['RETIRE60'] == $data['year'];
-            }));
-            $data['pm']['women']   = count(array_filter($data['persons_pm'], function ($r) use($data) {
-                return $r['BIOG_SEX'] == 1 && $r['RETIRE60'] == $data['year'];
-            }));
-            /** ********************************************* */
-        }
+        $persons_pm_men        = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 0; });
+        $persons_pm_women      = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $data['pm']['men']     = count($persons_pm_men);
+        $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
         $this->load->view('user_view/user_ribbon/gen_ribbon_amount', $data);
+
     }
 }
