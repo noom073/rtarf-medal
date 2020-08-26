@@ -54,6 +54,7 @@
                                             <div class="select">
                                                 <select name="condition">
                                                     <option value="normal">ปกติ</option>
+                                                    <option value="retire">เกษียณ</option>
                                                 </select>
                                             </div>
                                         </div>

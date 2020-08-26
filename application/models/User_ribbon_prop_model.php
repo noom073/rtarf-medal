@@ -11,10 +11,16 @@ class User_ribbon_prop_model extends CI_Model
         $this->oracle = $this->load->database('oracle', true);
     }
 
-    public function get_person_prop_mpc($unitID, $year)
+    public function get_person_prop_mpc($unitID, $array)
     {
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
-        $year       = $this->oracle->escape($year);
+        $year       = (int) $array['year'];
+
+        if ($array['condition'] == 'retire') {
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
+        } else {
+            $retireCondition = '';
+        }        
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
@@ -42,16 +48,23 @@ class User_ribbon_prop_model extends CI_Model
                 AND $year - A.BIOG_DECY >= 5
             )
         )
+        {$retireCondition}
         order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
 
         return $result;
     }
 
-    public function get_person_prop_mvm($unitID, $year)
+    public function get_person_prop_mvm($unitID, $array)
     {
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
-        $year       = $this->oracle->escape($year);
+        $year       = (int) $array['year'];
 
+        if ($array['condition'] == 'retire') {
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
+        } else {
+            $retireCondition = '';
+        }
+        
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
@@ -90,15 +103,22 @@ class User_ribbon_prop_model extends CI_Model
                 AND $year - A.BIOG_DECY >= 5
             )
         )
+        {$retireCondition}
         order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
 
         return $result;
     }
 
-    public function get_person_prop_pc($unitID, $year)
+    public function get_person_prop_pc($unitID, $array)
     {
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
-        $year       = $this->oracle->escape($year);
+        $year       = (int) $array['year'];
+
+        if ($array['condition'] == 'retire') {
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
+        } else {
+            $retireCondition = '';
+        }
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
@@ -144,14 +164,22 @@ class User_ribbon_prop_model extends CI_Model
                 AND retire60(A.BIOG_DMY_BORN) = $year
             )
         )
+        {$retireCondition}
         order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
+        // echo $this->oracle->last_query();
         return $result;
     }
 
-    public function get_person_prop_pm($unitID, $year)
+    public function get_person_prop_pm($unitID, $array)
     {
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
-        $escYear    = $this->oracle->escape($year);
+        $year       = (int) $array['year'];
+
+        if ($array['condition'] == 'retire') {
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
+        } else {
+            $retireCondition = '';
+        }
 
         $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_SCLASS, A.BIOG_RANK, A.BIOG_SLEVEL, A.BIOG_CPOS, A.BIOG_SEX,
@@ -179,6 +207,7 @@ class User_ribbon_prop_model extends CI_Model
                 AND A.BIOG_DEC = 'ท.ช.'
             )
         )
+        {$retireCondition}
         order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
 
         $persons = $result->result_array();

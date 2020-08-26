@@ -67,6 +67,15 @@
     $(document).ready(function() {
         $(".has-dropdown").click(function() {
             $(this).siblings("ul").toggleClass('is-hidden')
+
+            let angle = $(this).children('i');
+            if (angle.hasClass('fa-angle-down')) {
+                angle.removeClass('fa-angle-down');
+                angle.addClass('fa-angle-up');
+            } else {
+                angle.removeClass('fa-angle-up');
+                angle.addClass('fa-angle-down');                
+            }
         });
 
         $("#side-menu-ctrl").click(function() {

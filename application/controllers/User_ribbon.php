@@ -32,8 +32,8 @@ class User_ribbon extends CI_Controller
     {
         $this->load->library('pdf');
 
-        $unitID = $this->myfunction->decode($this->input->post('unitid'));
-        $ribbon    = $this->input->post('ribbon_type');
+        $unitID     = $this->myfunction->decode($this->input->post('unitid'));
+        $ribbon     = $this->input->post('ribbon_type');
 
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
@@ -45,15 +45,16 @@ class User_ribbon extends CI_Controller
         $data['p2_rank']        = $this->input->post('p2_rank');
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
+        $data['condition']      = $this->input->post('condition');
 
         if ($ribbon == 'ม.ป.ช.') {
-            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
+            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         } else if ($ribbon == 'ม.ว.ม.') {
-            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
+            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         } else if ($ribbon == 'ป.ช.') {
-            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
+            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         } else if ($ribbon == 'ป.ม.') {
-            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+            $data['persons'] = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
         } else {
             $data['persons'] = [];
         }
@@ -82,11 +83,12 @@ class User_ribbon extends CI_Controller
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
         $data['year']           = $this->input->post('year');
+        $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
-        $data['persons_mpc']    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
-        $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
-        $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
-        $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+        $data['persons_mpc']    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
+        $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
+        $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
+        $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
         
         // var_dump($data);
         // echo json_encode($data);
@@ -113,11 +115,12 @@ class User_ribbon extends CI_Controller
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
         $data['year']           = $this->input->post('year');
+        $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
-        $data['persons_mpc']    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
-        $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
-        $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
-        $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+        $data['persons_mpc']    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
+        $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
+        $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
+        $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
         
         $persons_mpc_men        = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 0; });
         $persons_mpc_women      = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 1; });
