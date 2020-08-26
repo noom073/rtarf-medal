@@ -1,4 +1,4 @@
-<div class="has-text-left">
+<div class="has-text-left is-hidden-tablet">
     <a id="side-menu-ctrl" class="has-text-dark">
         <button class="button is-small is-rounded mb-3">Menu</button>
     </a>
@@ -66,20 +66,11 @@
 <script>
     $(document).ready(function() {
         $(".has-dropdown").click(function() {
-            $(this).siblings("ul").toggleClass('is-hidden');
-
-            let angle = $(this).children('i');
-            if (angle.hasClass('fa-angle-down')) {
-                angle.removeClass('fa-angle-down');
-                angle.addClass('fa-angle-up');
-            } else {
-                angle.removeClass('fa-angle-up');
-                angle.addClass('fa-angle-down');                
-            }
+            $(this).siblings("ul").toggleClass('is-hidden')
         });
 
         $("#side-menu-ctrl").click(function() {
-            $("aside.menu").toggleClass('is-hidden');
+            $("aside.menu").toggleClass('is-hidden')
         });
     });
 </script>

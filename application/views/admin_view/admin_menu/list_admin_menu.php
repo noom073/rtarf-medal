@@ -22,6 +22,7 @@
         <li><a id="people-property-ul-ribbon" href="<?= site_url('admin_ribbon/property_form') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-ribbon" href="<?= site_url('admin_ribbon/summarize_name_form') ?>">พิมพ์สรุปรายชื่อ</a></li>
         <li><a id="amount-person-ul-ribbon" href="<?= site_url('admin_ribbon/ribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
+        <li><a class="has-text-grey-light" id="save-person-ul-ribbon">บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
     <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>
@@ -29,6 +30,7 @@
         <li><a id="people-property-ul-nonribbon" href="<?= site_url('admin_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-nonribbon" href="<?= site_url('admin_non_ribbon/summarize_name') ?>">พิมพ์สรุปรายชื่อ</a></li>
         <li><a id="amount-person-ul-nonribbon" href="<?= site_url('admin_non_ribbon/nonribbon_amount') ?>">พิมพ์สรุปจำนวน</a></li>
+        <li><a class="has-text-grey-light" id="save-person-ul-nonribbon" >บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
     <p class="menu-label">ขอเครื่องราชฯ เพิ่มเติม</p>
@@ -65,15 +67,6 @@
     $(document).ready(function() {
         $(".has-dropdown").click(function() {
             $(this).siblings("ul").toggleClass('is-hidden')
-
-            let angle = $(this).children('i');
-            if (angle.hasClass('fa-angle-down')) {
-                angle.removeClass('fa-angle-down');
-                angle.addClass('fa-angle-up');
-            } else {
-                angle.removeClass('fa-angle-up');
-                angle.addClass('fa-angle-down');                
-            }
         });
 
         $("#side-menu-ctrl").click(function() {
