@@ -43,24 +43,6 @@
                                 </div>
                             </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">เงื่อนไข</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <div class="select">
-                                                <select name="condition">
-                                                    <option value="normal">ปกติ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <hr />
                             
                             <div class="field is-horizontal">

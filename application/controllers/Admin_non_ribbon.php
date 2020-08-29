@@ -145,11 +145,6 @@ class Admin_non_ribbon extends CI_Controller
         $rsRgm = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
         $data['rgm'] = $this->admin_nonribbon_model->rgm_person_filter($rsRgm);
 
-        // $data['persons_mpc']    = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
-        // $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
-        // $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
-        // $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
-
         // var_dump($data);
         $this->load->view('admin_view/admin_nonribbon/gen_summarize_name', $data);
     }
