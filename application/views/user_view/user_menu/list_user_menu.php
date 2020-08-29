@@ -1,4 +1,4 @@
-<div class="has-text-left is-hidden-tablet">
+<div class="has-text-left">
     <a id="side-menu-ctrl" class="has-text-dark">
         <button class="button is-small is-rounded mb-3">Menu</button>
     </a>
