@@ -18,8 +18,8 @@ class User_ribbon extends CI_Controller
     public function property_form()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-		$data['unitname'] 	= $unit['NPRT_NAME'];
-		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
+        $data['unitname']     = $unit['NPRT_NAME'];
+        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
         $this->load->view('user_view/user_menu/navbar_user', $data);
@@ -66,8 +66,8 @@ class User_ribbon extends CI_Controller
     public function summarize_name_form()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-		$data['unitname'] 	= $unit['NPRT_NAME'];
-		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
+        $data['unitname']     = $unit['NPRT_NAME'];
+        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
         $this->load->view('user_view/user_menu/navbar_user', $data);
@@ -89,7 +89,7 @@ class User_ribbon extends CI_Controller
         $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
-        
+
         // var_dump($data);
         // echo json_encode($data);
         $this->load->view('user_view/user_ribbon/gen_ribbon_summarize_name', $data);
@@ -98,11 +98,11 @@ class User_ribbon extends CI_Controller
     public function ribbon_amount()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-		$data['unitname'] 	= $unit['NPRT_NAME'];
-		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
+        $data['unitname']     = $unit['NPRT_NAME'];
+        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
-        $this->load->view('user_view/user_menu/navbar_user',$data);
+        $this->load->view('user_view/user_menu/navbar_user', $data);
         $this->load->view('user_view/user_ribbon/user_ribbon_amount_form', $data);
         $this->load->view('main_view/container_footer');
         $this->load->view('foundation_view/footer');
@@ -121,29 +121,76 @@ class User_ribbon extends CI_Controller
         $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         $data['persons_pm']     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
-        
-        $persons_mpc_men        = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_mpc_women      = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 1; });
+
+        $persons_mpc_men        = array_filter($data['persons_mpc'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_mpc_women      = array_filter($data['persons_mpc'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['mpc']['men']     = count($persons_mpc_men);
         $data['mpc']['women']   = count($persons_mpc_women);
 
-        $persons_mvm_men        = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_mvm_women      = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $persons_mvm_men        = array_filter($data['persons_mvm'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_mvm_women      = array_filter($data['persons_mvm'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['mvm']['men']     = count($persons_mvm_men);
         $data['mvm']['women']   = count($persons_mvm_women);
 
-        $persons_pc_men        = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_pc_women      = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $persons_pc_men        = array_filter($data['persons_pc'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_pc_women      = array_filter($data['persons_pc'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['pc']['men']     = count($persons_pc_men);
         $data['pc']['women']   = count($persons_pc_women);
 
-        $persons_pm_men        = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_pm_women      = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $persons_pm_men        = array_filter($data['persons_pm'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_pm_women      = array_filter($data['persons_pm'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['pm']['men']     = count($persons_pm_men);
         $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
         $this->load->view('user_view/user_ribbon/gen_ribbon_amount', $data);
+    }
 
+    public function prepare_save_bdec()
+    {
+        $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
+        $data['unitname']   = $unit['NPRT_NAME'];
+        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+        $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);
+        $this->load->view('foundation_view/header');
+        $this->load->view('user_view/user_menu/navbar_user', $data);
+        $this->load->view('user_view/user_ribbon/prepare_save_bdec_view', $data);
+        $this->load->view('main_view/container_footer');
+        $this->load->view('foundation_view/footer');
+    }
+
+    public function ajax_show_person_before_save_bdec()
+    {
+        $unitIDEnc  = $this->input->post('unitid');
+        $unitID     = $this->myfunction->decode($unitIDEnc);
+        $data['year']       = (int) date("Y")+543;
+        
+        $persons_mpc    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
+        $persons_mvm    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
+        $persons_pc     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
+        $persons_pm     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
+        
+        $persons    = array_merge($persons_mpc, $persons_mvm, $persons_pc, $persons_pm);
+        $response   = json_encode($persons);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output($response);
     }
 }

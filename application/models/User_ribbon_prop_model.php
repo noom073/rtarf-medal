@@ -16,11 +16,11 @@ class User_ribbon_prop_model extends CI_Model
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
         $year       = (int) $array['year'];
 
-        if ($array['condition'] == 'retire') {
+        if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
             $retireCondition = '';
-        }        
+        }
 
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
@@ -59,12 +59,12 @@ class User_ribbon_prop_model extends CI_Model
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
         $year       = (int) $array['year'];
 
-        if ($array['condition'] == 'retire') {
+        if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
             $retireCondition = '';
         }
-        
+
         $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
@@ -114,7 +114,7 @@ class User_ribbon_prop_model extends CI_Model
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
         $year       = (int) $array['year'];
 
-        if ($array['condition'] == 'retire') {
+        if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
             $retireCondition = '';
@@ -175,7 +175,7 @@ class User_ribbon_prop_model extends CI_Model
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
         $year       = (int) $array['year'];
 
-        if ($array['condition'] == 'retire') {
+        if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
             $retireCondition = '';
@@ -249,7 +249,7 @@ class User_ribbon_prop_model extends CI_Model
     public function get_unitname($unitID4)
     {
         $this->oracle->select('NPRT_NAME, NPRT_ACM, NPRT_UNIT');
-        $this->oracle->where('NPRT_UNIT', $unitID4.'000000');
+        $this->oracle->where('NPRT_UNIT', $unitID4 . '000000');
         $result = $this->oracle->get('PER_NPRT_TAB');
         // echo $this->oracle->last_query();
         return $result;

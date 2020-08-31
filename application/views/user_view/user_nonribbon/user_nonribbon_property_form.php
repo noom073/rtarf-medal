@@ -173,7 +173,7 @@
                                 <div class="field-label"></div>
                                 <div class="field-body">
                                     <div class="field">
-                                        <button class="button">ค้นหา</button>
+                                        <button class="button is-primary">Submit</button>
                                         <button id="search-reset" type="reset" class="button">Reset</button>
                                     </div>
                                 </div>
