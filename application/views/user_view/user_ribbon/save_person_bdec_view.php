@@ -75,7 +75,7 @@
                     <div class="field-label"></div>
                     <div class="field-body">
                         <div class="field">
-                            <button id="save-person-bdec-form-save" type="submit" class="button is-primary">Yes, confirm.</button>
+                            <button id="save-person-bdec-form-save" type="submit" class="button is-primary">Yes</button>
                             <button id="save-person-bdec-form-cancel" type="button" class="button is-danger">Cancel</button>
                         </div>
                     </div>

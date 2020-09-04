@@ -179,14 +179,14 @@ class User_ribbon extends CI_Controller
     {
         $unitIDEnc  = $this->input->post('unitid');
         $unitID     = $this->myfunction->decode($unitIDEnc);
-        $data['year']       = (int) date("Y") + 543;
+        $data['year'] = (int) date("Y") + 543;
 
-        $persons_mpc    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
-        $persons_mvm    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
-        $persons_pc     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
-        $persons_pm     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
+        $personsMpc = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
+        $personsMvm = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
+        $personsPc  = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
+        $personsPm  = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
 
-        $personsBefore  = array_merge($persons_mpc, $persons_mvm, $persons_pc, $persons_pm);
+        $personsBefore  = array_merge($personsMpc, $personsMvm, $personsPc, $personsPm);
         if (count($personsBefore) > 0) {
             $result['status']   = true;
             $result['text']     = 'พบข้อมูล';
