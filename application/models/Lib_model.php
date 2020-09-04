@@ -79,4 +79,13 @@ class Lib_model extends CI_Model {
 
         return $result;
     }
+
+    public function get_person_in_bdec($id, $medal)
+    {
+        $this->oracle->where('BDEC_ID');
+        $this->oracle->where('BDEC_COIN');
+        $query = $this->oracle->get('PER_BDEC_TAB');
+
+        return $query;
+    }
 }

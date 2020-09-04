@@ -170,24 +170,33 @@ class User_ribbon extends CI_Controller
         $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');
         $this->load->view('user_view/user_menu/navbar_user', $data);
-        $this->load->view('user_view/user_ribbon/prepare_save_bdec_view', $data);
+        $this->load->view('user_view/user_ribbon/save_person_bdec_view', $data);
         $this->load->view('main_view/container_footer');
         $this->load->view('foundation_view/footer');
     }
 
-    public function ajax_show_person_before_save_bdec()
+    public function ajax_save_person_to_bdec()
     {
         $unitIDEnc  = $this->input->post('unitid');
         $unitID     = $this->myfunction->decode($unitIDEnc);
-        $data['year']       = (int) date("Y")+543;
-        
+        $data['year']       = (int) date("Y") + 543;
+
         $persons_mpc    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         $persons_mvm    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $persons_pc     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         $persons_pm     = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
+
+        $personsBefore  = array_merge($persons_mpc, $persons_mvm, $persons_pc, $persons_pm);
+        if (count($personsBefore) > 0) {
+            $result['status']   = true;
+            $result['text']     = 'พบข้อมูล';
+            $result['persons']  = $personsBefore;
+        } else {
+            $result['status']   = false;
+            $result['text']     = 'ไม่พบข้อมูล';
+        }
         
-        $persons    = array_merge($persons_mpc, $persons_mvm, $persons_pc, $persons_pm);
-        $response   = json_encode($persons);
+        $response = json_encode($result);
 
         $this->output
             ->set_content_type('application/json')

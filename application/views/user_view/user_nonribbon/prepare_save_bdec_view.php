@@ -7,7 +7,7 @@
             <div class="container">
                 <div id="profile" class="container form-detail">
                     <div class="container content is-size-4">
-                        พิมพ์บัญชีแสดงคุณสมบัติ
+                    บันทึกบัญชีขอเครื่องราชฯ ชั้นต่ำกว่าสายสะพาย
                     </div>
 
                     <div class="container content">

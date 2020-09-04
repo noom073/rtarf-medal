@@ -371,4 +371,12 @@ class Person_data
 
         return $result;
     }
+
+    public function check_person_in_bdec($id, $medal)
+    {
+        $result = $this->CI->lib_model->get_person_in_bdec($id, $medal)->num_rows();
+
+        return $result;
+    }
 }
+

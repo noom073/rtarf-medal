@@ -22,7 +22,7 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
@@ -65,7 +65,7 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
@@ -120,7 +120,7 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
         A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
