@@ -186,18 +186,28 @@ class User_ribbon extends CI_Controller
         $personsPc  = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         $personsPm  = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
 
-        $personsBefore  = array_merge($personsMpc, $personsMvm, $personsPc, $personsPm);
-        if (count($personsBefore) > 0) {
-            $result['status']   = true;
-            $result['text']     = 'พบข้อมูล';
-            $result['persons']  = $personsBefore;
-        } else {
-            $result['status']   = false;
-            $result['text']     = 'ไม่พบข้อมูล';
+        $result = array();
+        foreach ($personsMpc as $r) {
+            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ป.ช.');
+            array_push($result, $insertBdec);
+        }
+
+        foreach ($personsMvm as $r) {
+            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ป.ม.');           
+            array_push($result, $insertBdec);
+        }
+
+        foreach ($personsPc as $r) {
+            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ป.ช.');           
+            array_push($result, $insertBdec);
+        }
+
+        foreach ($personsPm as $r) {
+            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ป.ม.');           
+            array_push($result, $insertBdec);
         }
         
         $response = json_encode($result);
-
         $this->output
             ->set_content_type('application/json')
             ->set_output($response);

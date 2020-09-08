@@ -127,16 +127,16 @@
             }).done(res => {
                 console.log(res);
                 drawPersons(res.persons);
-                if (res.status) {
+                if (res) {
                     $(".save-person-bdec-form-result").addClass('notification is-info');
-                    $(".save-person-bdec-form-result").html(res.text);
+                    $(".save-person-bdec-form-result").html('Finish');
                     setTimeout(() => {
                         $(".save-person-bdec-form-result").removeClass('notification is-info');
                         $(".save-person-bdec-form-result").html('');
                     }, 5000);
                 } else {
                     $(".save-person-bdec-form-result").addClass('class', 'notification is-warning');
-                    $(".save-person-bdec-form-result").html(res.text);
+                    $(".save-person-bdec-form-result").html('Failure');
                 }
             }).fail((jhr, status, error) => {
                 console.error(jhr, status, error);

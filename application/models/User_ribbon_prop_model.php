@@ -22,8 +22,8 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
+        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
@@ -65,8 +65,8 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
+        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
@@ -120,8 +120,8 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, 
+        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
@@ -181,8 +181,8 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, 
-        A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CPOS, A.BIOG_SEX,
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
+        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CPOS, A.BIOG_SEX,
         A.BIOG_DEC, A.BIOG_DECY, retire60(A.BIOG_DMY_BORN) as RETIRE60,
         B.CRAK_NAME_FULL
         FROM PER_BIOG_VIEW A
@@ -252,6 +252,85 @@ class User_ribbon_prop_model extends CI_Model
         $this->oracle->where('NPRT_UNIT', $unitID4 . '000000');
         $result = $this->oracle->get('PER_NPRT_TAB');
         // echo $this->oracle->last_query();
+        return $result;
+    }
+
+    private function check_before_insert_bdec($biogID, $nextMedal)
+    {
+        $this->oracle->where('BDEC_ID', $biogID);
+        $this->oracle->where('BDEC_COIN', $nextMedal);
+        $query = $this->oracle->get('PER_BDEC_TAB');
+
+        return $query;
+    }
+
+    private function insert_bdec($row, $nextMedal, $round, $bdecSeq)
+    {
+        $this->oracle->set('BDEC_ROUND', $round);
+        $this->oracle->set('BDEC_ID', $row['BIOG_ID']);
+        $this->oracle->set('BDEC_NAME', $row['BIOG_NAME']);
+        $this->oracle->set('BDEC_RANK', $row['BIOG_RANK']);
+        $this->oracle->set('BDEC_UNIT', $row['BIOG_UNIT']);
+        $this->oracle->set('BDEC_COIN', $nextMedal);
+        $this->oracle->set('BDEC_CSEQ', $bdecSeq);
+
+        $insert = $this->oracle->insert('PER_BDEC_TAB');
+        return $insert;
+    }
+
+    public function process_insert_to_bdec($person, $nextMedal)
+    {
+        if ($nextMedal == 'ม.ป.ช.') {
+            $cseq = '1';
+        } else if ($nextMedal == 'ม.ป.ม.') {
+            $cseq = '2';
+        } else if ($nextMedal == 'ป.ช.') {
+            $cseq = '3';
+        } else if ($nextMedal == 'ป.ม.') {
+            $cseq = '4';
+        } else {
+            $cseq = null;
+        }
+
+        $checkPersonInBdec = $this->check_before_insert_bdec($person['BIOG_ID'], $nextMedal);
+        if ($checkPersonInBdec->num_rows() == 0) {
+            $insert = $this->insert_bdec($person, $nextMedal, 'P0', $cseq);
+            if ($insert) {
+                $result['status']   = true;
+                $result['text']     = 'บันทึกสำเร็จ';
+                $result['data']     = array( 
+                    'BIOG_ID' => $person['BIOG_ID'],
+                    'BIOG_NAME' => $person['BIOG_NAME'],
+                    'BIOG_RANK' => $person['BIOG_RANK'],
+                    'BIOG_UNIT' => $person['BIOG_UNIT'],
+                    'BIOG_DEC' => $person['BIOG_DEC'],
+                    'NEXT_DEC' => $nextMedal
+                );
+            } else {
+                $result['status']   = false;
+                $result['text']     = 'บันทึกไม่สำเร็จ';
+                $result['data']     = array( 
+                    'BIOG_ID' => $person['BIOG_ID'],
+                    'BIOG_NAME' => $person['BIOG_NAME'],
+                    'BIOG_RANK' => $person['BIOG_RANK'],
+                    'BIOG_UNIT' => $person['BIOG_UNIT'],
+                    'BIOG_DEC' => $person['BIOG_DEC'],
+                    'NEXT_DEC' => $nextMedal
+                );
+            }            
+        } else {
+            $result['status']   = false;
+            $result['text']     = 'มีข้อมูลแล้ว';
+            $result['data']     = array( 
+                'BIOG_ID' => $person['BIOG_ID'],
+                'BIOG_NAME' => $person['BIOG_NAME'],
+                'BIOG_RANK' => $person['BIOG_RANK'],
+                'BIOG_UNIT' => $person['BIOG_UNIT'],
+                'BIOG_DEC' => $person['BIOG_DEC'],
+                'NEXT_DEC' => $nextMedal
+            );
+        }
+
         return $result;
     }
 }
