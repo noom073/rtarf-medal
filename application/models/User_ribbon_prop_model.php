@@ -292,7 +292,7 @@ class User_ribbon_prop_model extends CI_Model
             if ($insert) {
                 $result['status']   = true;
                 $result['text']     = 'บันทึกสำเร็จ';
-                $result['data']     = array( 
+                $result['person']     = array( 
                     'BIOG_ID' => $person['BIOG_ID'],
                     'BIOG_NAME' => $person['BIOG_NAME'],
                     'BIOG_RANK' => $person['BIOG_RANK'],
@@ -303,7 +303,7 @@ class User_ribbon_prop_model extends CI_Model
             } else {
                 $result['status']   = false;
                 $result['text']     = 'บันทึกไม่สำเร็จ';
-                $result['data']     = array( 
+                $result['person']     = array( 
                     'BIOG_ID' => $person['BIOG_ID'],
                     'BIOG_NAME' => $person['BIOG_NAME'],
                     'BIOG_RANK' => $person['BIOG_RANK'],
@@ -315,7 +315,7 @@ class User_ribbon_prop_model extends CI_Model
         } else {
             $result['status']   = false;
             $result['text']     = 'มีข้อมูลแล้ว';
-            $result['data']     = array( 
+            $result['person']     = array( 
                 'BIOG_ID' => $person['BIOG_ID'],
                 'BIOG_NAME' => $person['BIOG_NAME'],
                 'BIOG_RANK' => $person['BIOG_RANK'],
