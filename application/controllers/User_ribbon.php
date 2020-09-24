@@ -193,7 +193,7 @@ class User_ribbon extends CI_Controller
         }
 
         foreach ($personsMvm as $r) {
-            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ป.ม.');           
+            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ว.ม.');           
             array_push($result, $insertBdec);
         }
 

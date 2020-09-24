@@ -280,17 +280,11 @@ class User_ribbon_prop_model extends CI_Model
 
     public function process_insert_to_bdec($person, $nextMedal)
     {
-        if ($nextMedal == 'ม.ป.ช.') {
-            $cseq = '1';
-        } else if ($nextMedal == 'ม.ป.ม.') {
-            $cseq = '2';
-        } else if ($nextMedal == 'ป.ช.') {
-            $cseq = '3';
-        } else if ($nextMedal == 'ป.ม.') {
-            $cseq = '4';
-        } else {
-            $cseq = null;
-        }
+        if ($nextMedal == 'ม.ป.ช.')  $cseq = '1';
+        else if ($nextMedal == 'ม.ว.ม.') $cseq = '2';
+        else if ($nextMedal == 'ป.ช.') $cseq = '3';
+        else if ($nextMedal == 'ป.ม.') $cseq = '4';
+        else $cseq = null;
 
         $checkPersonInBdec = $this->check_before_insert_bdec($person['BIOG_ID'], $nextMedal);
         if ($checkPersonInBdec->num_rows() == 0) {

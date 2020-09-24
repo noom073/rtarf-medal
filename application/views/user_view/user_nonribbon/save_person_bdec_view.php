@@ -7,7 +7,7 @@
             <div class="container">
                 <div id="profile" class="container form-detail">
                     <div class="container content is-size-4">
-                        บันทึกบัญชีขอเครื่องราชฯ ชั้นสายสะพาย
+                        บันทึกบัญชีขอเครื่องราชฯ ชั้นต่ำกว่าสายสะพาย
                     </div>
 
                     <div class="container content">
@@ -51,7 +51,7 @@
     <div class="modal-content">
         <div class="box">
             <div class="container content is-size-4 has-text-centered">
-                ยืนยันการบันทึกบัญชีขอเครื่องราชฯ ชั้นสายสะพาย
+                ยืนยันการบันทึกบัญชีขอเครื่องราชฯ ชั้นต่ำกว่าสายสะพาย
             </div>
 
             <form class="content" id="save-person-bdec-form">
@@ -94,11 +94,11 @@
     $(document).ready(function() {
         console.log('ok');
 
-        function initFunc() {
-            $("a#save-person-ul-ribbon").addClass('is-active');
+        const init_func = function() {
+            // $("ul#fdmt-report-ul").removeClass('is-hidden');
+            $("a#save-person-ul-nonribbon").addClass('is-active');
         };
-
-        initFunc();
+        init_func();
 
         $("#save-alert").click(function() {
             $("#save-bdec-modal").addClass('is-active');
@@ -112,8 +112,9 @@
             event.preventDefault();
             let formData = $(this).serialize();
             $(".save-person-bdec-form-result").html('Loading...');
+
             $.post({
-                url: '<?= site_url('user_ribbon/ajax_save_person_to_bdec') ?>',
+                url: '<?= site_url('user_non_ribbon/ajax_save_person_to_bdec') ?>',
                 data: formData,
                 dataType: 'json'
             }).done(res => {
@@ -132,6 +133,7 @@
             }).fail((jhr, status, error) => {
                 console.error(jhr, status, error);
             });
+            // $("#property-form-data").html('Loading...');           
         });
     });
 </script>
