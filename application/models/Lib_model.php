@@ -88,4 +88,16 @@ class Lib_model extends CI_Model {
 
         return $query;
     }
+
+    public function update_medal_bdec($biogID, $medal, $nextMedal, $cseq)
+    {
+        $this->oracle->set('BDEC_COIN', $nextMedal);
+        $this->oracle->set('BDEC_CSEQ', $cseq);
+
+        $this->oracle->where('BDEC_ID', $biogID);
+        $this->oracle->where('BDEC_COIN', $medal);
+        $result = $this->oracle->update('PER_BDEC_TAB');
+        // echo $this->oracle->last_query();
+        return $result;
+    }
 }

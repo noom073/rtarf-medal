@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/bulma/css/bulma.css') ?>">
     <link href="https://fonts.googleapis.com/css2?family=Kanit" rel="stylesheet"> 
     <link href="<?= base_url('assets/fontawesome/css/all.css') ?>" rel="stylesheet"> 
+    <link href="<?= base_url('assets/dataTable/datatables.min.css') ?>" rel="stylesheet"> 
 
     <script src="<?= base_url('assets/jquery/jquery.min.js') ?>"></script>
 

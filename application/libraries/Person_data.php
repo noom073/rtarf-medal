@@ -378,5 +378,26 @@ class Person_data
 
         return $result;
     }
+
+    public function save_update_medal_bdec($array)
+    {
+        if ($array['nextMedal'] == 'ม.ป.ช.')  $cseq = '1';
+        else if ($array['nextMedal'] == 'ม.ว.ม.') $cseq = '2';
+        else if ($array['nextMedal'] == 'ป.ช.') $cseq = '3';
+        else if ($array['nextMedal'] == 'ป.ม.') $cseq = '4';
+        else if ($array['nextMedal'] == 'ท.ช.') $cseq = '5';
+        else if ($array['nextMedal'] == 'ท.ม.') $cseq = '6';
+        else if ($array['nextMedal'] == 'ต.ช.') $cseq = '7';
+        else if ($array['nextMedal'] == 'ต.ม.') $cseq = '8';
+        else if ($array['nextMedal'] == 'จ.ช.') $cseq = '9';
+        else if ($array['nextMedal'] == 'จ.ม.') $cseq = '10';
+        else if ($array['nextMedal'] == 'บ.ช.') $cseq = '11';
+        else if ($array['nextMedal'] == 'บ.ม.') $cseq = '12';
+        else if ($array['nextMedal'] == 'ร.ท.ช.') $cseq = '13';
+        else $cseq = null;
+
+        $update = $this->CI->lib_model->update_medal_bdec($array['biogID'], $array['medal'], $array['nextMedal'], $cseq);
+        return $update;        
+    }
 }
 

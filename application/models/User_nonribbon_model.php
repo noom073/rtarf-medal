@@ -214,7 +214,7 @@ class User_nonribbon_model extends CI_Model
     public function process_insert_to_bdec($person, $nextMedal)
     {
         if ($nextMedal == 'ท.ช.') $cseq = '5';
-        else if ($nextMedal == 'ทม.') $cseq = '6';
+        else if ($nextMedal == 'ท.ม.') $cseq = '6';
         else if ($nextMedal == 'ต.ช.') $cseq = '7';
         else if ($nextMedal == 'ต.ม.') $cseq = '8';
         else if ($nextMedal == 'จ.ช.') $cseq = '9';
