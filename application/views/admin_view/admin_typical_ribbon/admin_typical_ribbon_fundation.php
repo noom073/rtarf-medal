@@ -69,7 +69,7 @@
     </div>
 </section>
 
-<script type="text/javascript" src="<?= base_url('assets/dataTable/datatables.min.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('assets/datatable/datatables.min.js') ?>"></script>
 
 <script>
     $(document).ready(function() {
@@ -124,7 +124,7 @@
             console.error(jhr, status, error);
         });
 
-        function generateDataTable(dataObj) {
+        function drawDataTable(dataObj) {
 
             let num = 1;
             let dt = dataObj.map(r => {
@@ -169,18 +169,22 @@
             });
         }
 
-        $("#search-form").submit(function(event) {
-            event.preventDefault();
-
-            $("#search-result").text('Loading...');
-            let formData = $(this).serialize();
+        function generateDataTable(formData) {
             $.post({
                 url: '<?= site_url('admin_typical_ribbon/ajax_get_person_bdec') ?>',
                 data: formData,
                 dataType: 'json',
             }).done(res => {
-                generateDataTable(res);
+                drawDataTable(res);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
+        }
+
+        $("#search-form").submit(function(event) {
+            event.preventDefault();
+
+            $("#search-result").text('Loading...');
+            let formData = $(this).serialize();
+            generateDataTable(formData);
         });
 
         $(document).on("change", ".medal-name", function() {
@@ -197,18 +201,20 @@
             }).done(res => {
                 console.log(res);
                 if (res.status) {
-                    $("#data-result").prop('class','has-text-success');
+                    $("#data-result").prop('class', 'has-text-success');
                     $("#data-result").text(res.text);
+                    
                 } else {
-                    $("#data-result").prop('class','has-text-warning');
+                    $("#data-result").prop('class', 'has-text-warning');
                     $("#data-result").text(res.text);
                 }
 
-                setTimeout( () => {
-                    $("#data-result").prop('class','');
+                setTimeout(() => {
+                    $("#data-result").prop('class', '');
                     $("#data-result").text('');
+                    let searchFormData = $("#search-form").serialize();
+                    generateDataTable(searchFormData);
                 }, 3000);
-
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
