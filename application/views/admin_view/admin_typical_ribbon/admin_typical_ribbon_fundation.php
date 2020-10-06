@@ -61,6 +61,55 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="mt-5">
+                                <div class="is-size-5">ค้นหารายชื่อกำลังพล</div>
+                                <button class="button is-success mt-3" id="search-person-btn">Search</button>
+                                <div class="mt-3">
+                                    <div id="search-person-form-data"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="modal" id="search-person-modal">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-content has-background-light py-5 px-5">
+                                        <div class="container">
+                                            <form id="search-person-form">
+                                                <div class="field">
+                                                    <div class="is-size-5">ค้นหารายชื่อกำลังพล</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <label class="radio">
+                                                            <input type="radio" name="type_opt" value="id" checked> เลขประจำตัว
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="type_opt" value="name"> ชื่อ-นามสกุล
+                                                        </label>
+                                                        <label class="radio">
+                                                            <input type="radio" name="type_opt" value="lastname"> นามสกุล
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="text_search">
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <button class="button is-primary" type="submit">Search</button>
+                                                    <button class="button is-light" type="reset">Reset</button>
+                                                </div>
+                                            </form>
+
+                                            <div class="mt-3">
+                                                <div id="search-person-form-result"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="modal-close is-large" aria-label="close"></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,7 +211,8 @@
                                     <option value="ป.ช." ${row.BDEC_COIN == 'ป.ช.' ? 'selected':''}>ป.ช.</option>
                                     <option value="ป.ม." ${row.BDEC_COIN == 'ป.ม.' ? 'selected':''}>ป.ม.</option>
                                 </select>`;
-                            return select;
+                            let delButton = `<button class="del-bdec-person">ลบ</button>`;
+                            return `${select} ${delButton}`;
                         }
                     }
                 ]
@@ -180,14 +230,15 @@
         }
 
         $("#search-form").submit(function(event) {
+            /** search person in per_bdec_tab */
             event.preventDefault();
-
             $("#search-result").text('Loading...');
             let formData = $(this).serialize();
             generateDataTable(formData);
         });
 
         $(document).on("change", ".medal-name", function() {
+            /** change person's medal */
             let formData = {
                 id: $(this).parent('td').siblings('.biog-id').text(),
                 medal: $(this).parent('td').siblings('.medal').text(),
@@ -203,7 +254,7 @@
                 if (res.status) {
                     $("#data-result").prop('class', 'has-text-success');
                     $("#data-result").text(res.text);
-                    
+
                 } else {
                     $("#data-result").prop('class', 'has-text-warning');
                     $("#data-result").text(res.text);
@@ -215,6 +266,54 @@
                     let searchFormData = $("#search-form").serialize();
                     generateDataTable(searchFormData);
                 }, 3000);
+            }).fail((jhr, status, error) => console.error(jhr, status, error));
+        });
+
+        $(".modal-close").click(function() {
+            $(this).parent(".modal").removeClass("is-active");
+        });
+
+        $("#search-person-btn").click(function() {
+            $("#search-person-modal").addClass("is-active");
+        });
+
+        $("#search-person-form").submit(function(event) {
+            /** search person for insert to per_bdec_tab */
+            event.preventDefault();
+            $("#search-person-form-result").html('Loading...');
+            $("#search-person-form-data").html('');
+            let formData = $(this).serialize();
+            let unitID = $("#unitid").val();
+            formData += "&unitID=" + unitID;
+
+            $.post({
+                url: '<?= site_url('admin_typical_ribbon/ajax_search_person') ?>',
+                data: formData,
+                dataType: 'json'
+            }).done(res => {
+                console.log(res)
+                if (res.status) {
+                    let person = `<table class="table"><thead><tr>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>เครื่องราชฯเดิม</th>
+                                <th>เครื่องราชฯ ที่จะขอ</th>
+                                <th>สถานะ</th>
+                            </tr></thead><tbody>   
+                    `;
+                    res.data.forEach(el => {
+                        let stat = (el.BDEC_ID !== null) ? 'มีรายชื่อแล้ว' : 'ยังไม่มีรายชื่อ';
+                        person += `<tr>
+                            <td>${el.BIOG_NAME}</td>    
+                            <td>${el.BIOG_DEC}</td>    
+                            <td>${el.BDEC_COIN}</td>    
+                            <td>${stat}</td>
+                            </tr>`;
+                    });
+                    person += `</tbody></table>`;
+                    $("#search-person-form-data").html(person);
+                }
+                $("#search-person-form-result").html(res.text);
+                setTimeout(() => $("#search-person-form-result").text(''), 3000);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 

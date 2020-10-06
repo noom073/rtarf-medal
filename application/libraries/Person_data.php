@@ -399,5 +399,11 @@ class Person_data
         $update = $this->CI->lib_model->update_medal_bdec($array['biogID'], $array['medal'], $array['nextMedal'], $cseq);
         return $update;        
     }
+
+    public function search_person($array)
+    {
+        $result = $this->CI->lib_model->search_person($array);
+        return $result;
+    }
 }
 

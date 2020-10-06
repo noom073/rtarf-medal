@@ -24,11 +24,11 @@ class Admin_typical_ribbon extends CI_Controller
 		$this->load->view('main_view/container_footer');
 		$this->load->view('foundation_view/footer');
 	}
-	
+
 	public function fundation()
 	{
 		$data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
-	
+
 		$this->load->view('foundation_view/header');
 		$this->load->view('admin_view/admin_menu/navbar_admin');
 		$this->load->view('admin_view/admin_typical_ribbon/admin_typical_ribbon_fundation', $data);
@@ -39,12 +39,12 @@ class Admin_typical_ribbon extends CI_Controller
 	public function ajax_get_person_bdec()
 	{
 		$unitInput 	= $this->input->post('unitid');
-		$unitID4 	= substr($this->myfunction->decode($unitInput),0,4);
+		$unitID4 	= substr($this->myfunction->decode($unitInput), 0, 4);
 		$person 	= $this->atr_model->get_person_bdec($unitID4)->result_array();
 		$response 	= json_encode($person);
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output($response);
+		$this->output
+			->set_content_type('application/json')
+			->set_output($response);
 	}
 
 	public function ajax_update_medal_bdec()
@@ -68,5 +68,27 @@ class Admin_typical_ribbon extends CI_Controller
 			->set_output($response);
 	}
 
-	
+	public function ajax_search_person()
+	{
+		$data['type']	= $this->input->post('type_opt', true);
+		$data['text']	= $this->input->post('text_search', true);
+		$unitInput 		= $this->input->post('unitID', true);
+		$data['unitID4'] = substr($this->myfunction->decode($unitInput), 0, 4);
+		$personData		= $this->person_data->search_person($data)->result_array();
+		$persons 		= array_filter($personData, function ($x) {
+			/** filter person's rank <= 06 only */
+			return $x['BIOG_RANK'] <= '06';
+		});
+		if (count($persons) > 0) {
+			$result['status']	= true;
+			$result['text'] 	= "พบข้อมูล";
+			$result['data'] 	= $persons;
+		} else {
+			$result['status'] 	= false;
+			$result['text'] 	= "ไม่พบข้อมูล";
+		}
+
+
+		echo json_encode($result);
+	}
 }
