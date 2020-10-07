@@ -119,6 +119,36 @@ class Lib_model extends CI_Model
         $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1,4) = '{$array['unitID4']}'");
         $this->oracle->order_by("A.BIOG_RANK");
         $query = $this->oracle->get('PER_BIOG_VIEW A');
+        return $query;
+    }
+
+    public function search_person_by_id($biogID)
+    {
+        $this->oracle->select('A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_UNIT, A.BIOG_DEC');
+        $this->oracle->where('A.BIOG_ID', $biogID);
+        $this->oracle->order_by("A.BIOG_RANK");
+        $query = $this->oracle->get('PER_BIOG_VIEW A');
+        return $query;
+    }
+
+    public function check_person_in_bdec($biogID)
+    {
+        $this->oracle->where('A.BDEC_ID', $biogID);
+        $query = $this->oracle->get('PER_BDEC_TAB A');
+        return $query;
+    }
+
+    public function insert_person_bdec($array)
+    {
+        $this->oracle->set('BDEC_ROUND', $array['BDEC_ROUND']);
+        $this->oracle->set('BDEC_ID', $array['BDEC_ID']);
+        $this->oracle->set('BDEC_NAME', $array['BDEC_NAME']);
+        $this->oracle->set('BDEC_RANK', $array['BDEC_RANK']);
+        $this->oracle->set('BDEC_UNIT', $array['BDEC_UNIT']);
+        $this->oracle->set('BDEC_COIN', $array['BDEC_COIN']);
+        $this->oracle->set('BDEC_CSEQ', $array['BDEC_CSEQ']);
+        $this->oracle->set('BDEC_REM', $array['BDEC_REM']);
+        $query = $this->oracle->insert('PER_BDEC_TAB');
 
         return $query;
     }

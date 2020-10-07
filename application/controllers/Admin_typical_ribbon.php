@@ -87,7 +87,28 @@ class Admin_typical_ribbon extends CI_Controller
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";
 		}
+		echo json_encode($result);
+	}
 
+	public function ajax_add_person_to_bdec()
+	{
+		$data['nextMedal'] 	= $this->input->post('medal', true);
+		$data['biogID']	= $this->input->post('biog_id', true);
+
+		$insert = $this->person_data->add_person_bdec($data);
+		if ($insert == 'SUCCESS') {
+			$result['status'] = true;
+			$result['text'] = 'บันทึกสำเร็จ';
+		} else if ($insert == 'ERR-DUPLICATE') {
+			$result['status'] = false;
+			$result['text'] = 'มีรายชื่อแล้ว';
+		} else if ($insert == 'ERR-INSERT-FAIL') {
+			$result['status'] = false;
+			$result['text'] = 'ไม่สามารถบันทึกได้';
+		} else {
+			$result['status'] = false;
+			$result['text'] = 'NOT IN CASE';
+		}
 
 		echo json_encode($result);
 	}

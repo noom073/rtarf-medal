@@ -63,7 +63,7 @@
                             </div>
 
                             <div class="mt-5">
-                                <div class="is-size-5">ค้นหารายชื่อกำลังพล</div>
+                                <div class="is-size-5">เพิ่มรายชื่อกำลังพล</div>
                                 <button class="button is-success mt-3" id="search-person-btn">Search</button>
                                 <div class="mt-3">
                                     <div id="search-person-form-data"></div>
@@ -104,6 +104,44 @@
 
                                             <div class="mt-3">
                                                 <div id="search-person-form-result"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="modal-close is-large" aria-label="close"></button>
+                                </div>
+
+                                <div class="modal" id="prepare-person-modal">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-content has-background-light py-5 px-5">
+                                        <div class="container">
+                                            <form id="prepare-person-form">
+                                                <div class="field">
+                                                    <div class="is-size-5">บันทึกรายชื่อกำลังพล</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <div class="input" id="prepare-person-name">xxxx</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label class="label">เครื่องราชฯที่ขอ</label>
+                                                    <div class="control">
+                                                        <select name="medal">
+                                                            <option value="ม.ป.ช.">ม.ป.ช.</option>
+                                                            <option value="ม.ว.ม.">ม.ว.ม.</option>
+                                                            <option value="ป.ช.">ป.ช.</option>
+                                                            <option value="ป.ม.">ป.ม.</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <input id="prepare-person-biog-id" type="hidden" name="biog_id">
+                                                    <button class="button is-primary" type="submit">Save</button>
+                                                </div>
+                                            </form>
+
+                                            <div class="mt-3">
+                                                <div id="prepare-person-form-result"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -298,22 +336,58 @@
                                 <th>เครื่องราชฯเดิม</th>
                                 <th>เครื่องราชฯ ที่จะขอ</th>
                                 <th>สถานะ</th>
+                                <th>#</th>
                             </tr></thead><tbody>   
                     `;
                     res.data.forEach(el => {
                         let stat = (el.BDEC_ID !== null) ? 'มีรายชื่อแล้ว' : 'ยังไม่มีรายชื่อ';
                         person += `<tr>
-                            <td>${el.BIOG_NAME}</td>    
+                            <td class="biog-name">${el.BIOG_NAME}</td>    
                             <td>${el.BIOG_DEC}</td>    
-                            <td>${el.BDEC_COIN}</td>    
+                            <td>${el.BDEC_COIN === null ? '-' : el.BDEC_COIN}</td>    
                             <td>${stat}</td>
+                            <td><button class="add-bdec-person" data-biog-id="${el.BIOG_ID}">เพิ่ม</button></td>
                             </tr>`;
                     });
                     person += `</tbody></table>`;
                     $("#search-person-form-data").html(person);
                 }
                 $("#search-person-form-result").html(res.text);
-                setTimeout(() => $("#search-person-form-result").text(''), 3000);
+                setTimeout(() => {
+                    $("#search-person-form-result").text('');
+                    $("#search-person-modal").removeClass('is-active');
+
+                }, 1000);
+            }).fail((jhr, status, error) => console.error(jhr, status, error));
+        });
+
+        $(document).on("click", ".add-bdec-person", function() {
+            /** on click "เพิ่ม" button to active prepare person form modal */
+            let biogID = $(this).data("biog-id");
+            let personName = $(this).parent("td").siblings(".biog-name").html();
+            $("#prepare-person-modal").addClass("is-active");
+            $("#prepare-person-name").html(personName);
+            $("#prepare-person-biog-id").val(biogID);
+            console.log(personName);
+        });
+
+        $("#prepare-person-form").submit(function(event) {
+            /** submit add person to per_bdec_tab */
+            event.preventDefault();
+            let formData = $(this).serialize();
+            console.log(formData);
+            $.post({
+                url: '<?= site_url('admin_typical_ribbon/ajax_add_person_to_bdec') ?>',
+                data: formData,
+                dataType: 'json'
+            }).done(res => {
+                console.log(res);
+                if (res.status) {
+                    $("#prepare-person-form-result").html(`Success: ${res.text}`);
+                } else {
+                    $("#prepare-person-form-result").html(`Error: ${res.text}`);
+
+                }
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 

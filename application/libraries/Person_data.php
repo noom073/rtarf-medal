@@ -250,7 +250,8 @@ class Person_data
             && in_array(substr($person['BIOG_CPOS'], 0, 5), $rank05_position)
             && in_array($person['BIOG_DEC'], $medal_rank_tc)
             && $countYear >= 5
-            && ($retire60 == $curYear || $retire60 == $curYear + 1) /**พ.อ.(พ) เกษียณอายุ ปีปัจุบัน หรือขอได้ตั้งแต่ก่อนเกษียณ 1 ปี */
+            && ($retire60 == $curYear || $retire60 == $curYear + 1)
+            /**พ.อ.(พ) เกษียณอายุ ปีปัจุบัน หรือขอได้ตั้งแต่ก่อนเกษียณ 1 ปี */
         ) return 'ป.ม.';
 
         /**พ.อ.(พ) เกษียณอายุ ขอได้ตั้งแต่ก่อนเกษียณ 1 ปี */
@@ -397,7 +398,7 @@ class Person_data
         else $cseq = null;
 
         $update = $this->CI->lib_model->update_medal_bdec($array['biogID'], $array['medal'], $array['nextMedal'], $cseq);
-        return $update;        
+        return $update;
     }
 
     public function search_person($array)
@@ -405,5 +406,46 @@ class Person_data
         $result = $this->CI->lib_model->search_person($array);
         return $result;
     }
-}
 
+    public function add_person_bdec($array)
+    {
+        $checkBdec = $this->CI->lib_model->check_person_in_bdec($array['biogID'])->num_rows();
+        if ($checkBdec > 0) {
+            $result = 'ERR-DUPLICATE';
+        } else {
+            $person = $this->CI->lib_model->search_person_by_id($array['biogID'])->row_array();
+            if ($array['nextMedal'] == 'ม.ป.ช.')  $cseq = '1';
+            else if ($array['nextMedal'] == 'ม.ว.ม.') $cseq = '2';
+            else if ($array['nextMedal'] == 'ป.ช.') $cseq = '3';
+            else if ($array['nextMedal'] == 'ป.ม.') $cseq = '4';
+            else if ($array['nextMedal'] == 'ท.ช.') $cseq = '5';
+            else if ($array['nextMedal'] == 'ท.ม.') $cseq = '6';
+            else if ($array['nextMedal'] == 'ต.ช.') $cseq = '7';
+            else if ($array['nextMedal'] == 'ต.ม.') $cseq = '8';
+            else if ($array['nextMedal'] == 'จ.ช.') $cseq = '9';
+            else if ($array['nextMedal'] == 'จ.ม.') $cseq = '10';
+            else if ($array['nextMedal'] == 'บ.ช.') $cseq = '11';
+            else if ($array['nextMedal'] == 'บ.ม.') $cseq = '12';
+            else if ($array['nextMedal'] == 'ร.ท.ช.') $cseq = '13';
+            else $cseq = null;
+    
+            $data['BDEC_ROUND'] = 'P0';
+            $data['BDEC_ID']    = $person['BIOG_ID'];
+            $data['BDEC_NAME']  = $person['BIOG_NAME'];
+            $data['BDEC_RANK']  = $person['BIOG_RANK'];
+            $data['BDEC_UNIT']  = $person['BIOG_UNIT'];
+            $data['BDEC_COIN']  = $array['nextMedal'];
+            $data['BDEC_CSEQ']  = $cseq;
+            $data['BDEC_REM']   = '';
+    
+            $insert = $this->CI->lib_model->insert_person_bdec($data);
+            if ($insert) {
+                $result = 'SUCCESS';
+            } else {
+                $result = 'ERR-INSERT-FAIL';
+            }            
+        }
+        return $result;
+        
+    }
+}
