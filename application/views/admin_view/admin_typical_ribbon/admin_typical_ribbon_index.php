@@ -9,12 +9,12 @@
                     <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
 
                     <div class="container content">
-                        <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>                        
-                        <div class="is-size-5">พิมพ์บัญชีแสดงคุณสมบัติ</div>                        
+                        <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>
+                        <div class="is-size-5">พิมพ์บัญชีแสดงคุณสมบัติ</div>
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_ribbon/action_get_ribbon_person_prop') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon/action_get_ribbon_person_prop') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
@@ -83,6 +83,7 @@
                                             <div class="select">
                                                 <select name="condition">
                                                     <option value="normal">ปกติ</option>
+                                                    <option value="retire">เกษียณ</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -91,7 +92,7 @@
                             </div>
 
                             <hr />
-                            
+
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal"></div>
 

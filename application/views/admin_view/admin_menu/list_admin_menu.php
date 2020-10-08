@@ -40,8 +40,8 @@
             <ul class="is-hidden" id="typical-ribbon">
                 <li><a id="admin-typical-ribbon-fundation" href="<?= site_url('admin_typical_ribbon/fundation') ?>">รอบปกติ ชั้นสายสะพาย ข้อมูลพื้นฐาน</a></li>
                 <li><a id="admin-typical-ribbon-property" href="<?= site_url('admin_typical_ribbon/property') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
-                <li><a id="" >รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
-                <li><a id="" >รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
+                <li><a id="admin-typical-ribbon-summarize-name" href="<?= site_url('admin_typical_ribbon/summarize_name') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
+                <li><a id="admin-typical-ribbon-amount-person" href="<?= site_url('admin_typical_ribbon/ribbon_amount') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
             </ul>
         </li>
 
