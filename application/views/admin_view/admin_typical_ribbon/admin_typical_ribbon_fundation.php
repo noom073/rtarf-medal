@@ -147,6 +147,33 @@
                                     </div>
                                     <button class="modal-close is-large" aria-label="close"></button>
                                 </div>
+
+                                <div class="modal" id="delete-bdec-person-modal">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-content has-background-light py-5 px-5">
+                                        <div class="container">
+                                            <form id="delete-bdec-person-form">
+                                                <div class="field">
+                                                    <div class="is-size-5">ยืนยันการลบรายชื่อ</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <div class="input" id="delete-bdec-person-name">xxxx</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <input id="delete-bdec-person-biog-id" type="hidden" name="bdec_id">
+                                                    <button class="button is-danger" type="submit">Delete</button>
+                                                </div>
+                                            </form>
+
+                                            <div class="mt-3">
+                                                <div id="delete-bdec-person-result"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="modal-close is-large" aria-label="close"></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,15 +239,12 @@
         });
 
         function drawDataTable(dataObj) {
-
             let num = 1;
             let dt = dataObj.map(r => {
                 r['NUMBER'] = num++;
                 return r;
             });
-            console.log(dt);
             $("#search-result").text('Success');
-
             $("#bdec-data").DataTable({
                 destroy: true,
                 data: dataObj,
@@ -233,7 +257,8 @@
                         className: 'has-text-centered biog-id'
                     },
                     {
-                        data: 'BDEC_NAME'
+                        data: 'BDEC_NAME',
+                        className: 'bdec-name'
                     },
                     {
                         data: 'BDEC_COIN',
@@ -249,7 +274,7 @@
                                     <option value="ป.ช." ${row.BDEC_COIN == 'ป.ช.' ? 'selected':''}>ป.ช.</option>
                                     <option value="ป.ม." ${row.BDEC_COIN == 'ป.ม.' ? 'selected':''}>ป.ม.</option>
                                 </select>`;
-                            let delButton = `<button class="del-bdec-person">ลบ</button>`;
+                            let delButton = `<button class="del-bdec-person" data-biog-id="${row.BDEC_ID}">ลบ</button>`;
                             return `${select} ${delButton}`;
                         }
                     }
@@ -288,11 +313,9 @@
                 data: formData,
                 dataType: 'json'
             }).done(res => {
-                console.log(res);
                 if (res.status) {
                     $("#data-result").prop('class', 'has-text-success');
                     $("#data-result").text(res.text);
-
                 } else {
                     $("#data-result").prop('class', 'has-text-warning');
                     $("#data-result").text(res.text);
@@ -368,7 +391,6 @@
             $("#prepare-person-modal").addClass("is-active");
             $("#prepare-person-name").html(personName);
             $("#prepare-person-biog-id").val(biogID);
-            console.log(personName);
         });
 
         $("#prepare-person-form").submit(function(event) {
@@ -386,7 +408,42 @@
                     $("#prepare-person-form-result").html(`Success: ${res.text}`);
                 } else {
                     $("#prepare-person-form-result").html(`Error: ${res.text}`);
+                }
 
+                setTimeout(() => $("#prepare-person-form-result").html(''), 3000);
+            }).fail((jhr, status, error) => console.error(jhr, status, error));
+        });
+
+        $(document).on('click', ".del-bdec-person", function() {
+            /** click to popup delete-cdec-person modal */
+            $("#delete-bdec-person-modal").addClass("is-active");
+            let biogID = $(this).data("biog-id");
+            let name = $(this).parent("td").siblings(".bdec-name").html();
+            $("#delete-bdec-person-name").addClass('has-text-danger');
+            $("#delete-bdec-person-name").html(name);
+            $("#delete-bdec-person-biog-id").val(biogID);
+        });
+
+        $("#delete-bdec-person-form").submit(function(event) {
+            event.preventDefault();
+            let formData = $(this).serialize();
+            console.log(formData);
+            $.post({
+                url: '<?= site_url('admin_typical_ribbon/ajax_delete_bdec_person') ?>',
+                data: formData,
+                dataType: 'json'
+            }).done(res => {
+                if (res.status) {
+                    $("#delete-bdec-person-result").html(`Success: ${res.text}`);
+                    let searchFormData = $("#search-form").serialize();
+                    generateDataTable(searchFormData);
+
+                    setTimeout(() => {
+                        $("#delete-bdec-person-modal").removeClass('is-active');
+                        $("#delete-bdec-person-result").html('');
+                    }, 3000);
+                } else {
+                    $("#delete-bdec-person-result").html(`Error: ${res.text}`);
                 }
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });

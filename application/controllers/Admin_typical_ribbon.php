@@ -62,10 +62,9 @@ class Admin_typical_ribbon extends CI_Controller
 			$result['text'] 	= 'บันทึกไม่สำเร็จ';
 		}
 
-		$response = json_encode($result);
 		$this->output
 			->set_content_type('application/json')
-			->set_output($response);
+			->set_output(json_encode($result));
 	}
 
 	public function ajax_search_person()
@@ -87,7 +86,10 @@ class Admin_typical_ribbon extends CI_Controller
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";
 		}
-		echo json_encode($result);
+
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
 	}
 
 	public function ajax_add_person_to_bdec()
@@ -110,6 +112,26 @@ class Admin_typical_ribbon extends CI_Controller
 			$result['text'] = 'NOT IN CASE';
 		}
 
-		echo json_encode($result);
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
+	}
+
+	public function ajax_delete_bdec_person()
+	{
+		$biogID = $this->input->post('bdec_id', true);
+		$delete = $this->atr_model->delete_bdec_person($biogID);
+
+		if ($delete) {
+			$result['status'] = true;
+			$result['text'] = 'ลบข้อมูลสำเร็จ';
+		} else {
+			$result['status'] = false;
+			$result['text'] = 'ไม่สามารถลบข้อมูลได้';
+		}
+
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
 	}
 }

@@ -20,4 +20,12 @@ class Admin_typical_ribbon_model extends CI_Model
         
         return $result;
     }
+
+    public function delete_bdec_person($id)
+    {
+        $this->oracle->where('BDEC_ID', $id);
+        $query = $this->oracle->delete('PER_BDEC_TAB');
+
+        return $query;
+    }
 }
