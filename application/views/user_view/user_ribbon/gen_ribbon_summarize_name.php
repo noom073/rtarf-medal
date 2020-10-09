@@ -34,7 +34,7 @@ foreach ($persons_mpc as $r) {
     $mpcNum++;
 }
 $pdf->SetMargins(45, 10, 5, true);
-$pdf->setEqualColumns(2); 
+$pdf->setEqualColumns(2);
 $pdf->writeHTML($html);
 $pdf->resetColumns();
 
@@ -57,7 +57,7 @@ foreach ($persons_mvm as $r) {
     $mvmNum++;
 }
 $pdf->SetMargins(45, 10, 5, true);
-$pdf->setEqualColumns(2); 
+$pdf->setEqualColumns(2);
 $pdf->writeHTML($html);
 $pdf->resetColumns();
 
@@ -79,7 +79,7 @@ foreach ($persons_pc as $r) {
     $pcNum++;
 }
 $pdf->SetMargins(45, 10, 5, true);
-$pdf->setEqualColumns(2); 
+$pdf->setEqualColumns(2);
 $pdf->writeHTML($html);
 $pdf->resetColumns();
 
@@ -101,10 +101,9 @@ foreach ($persons_pm as $r) {
     $pmNum++;
 }
 $pdf->SetMargins(45, 10, 5, true);
-$pdf->setEqualColumns(2); 
+$pdf->setEqualColumns(2);
 $pdf->writeHTML($html);
 $pdf->resetColumns();
 
 
 $pdf->Output('A.pdf', 'I');
-?>

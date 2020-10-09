@@ -193,7 +193,7 @@ class Admin_typical_ribbon extends CI_Controller
         $data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
         $this->load->view('foundation_view/header');
         $this->load->view('admin_view/admin_menu/navbar_admin');
-        $this->load->view('admin_view/admin_typical_ribbon/admin_ribbon_amount_form', $data);
+        $this->load->view('admin_view/admin_typical_ribbon/admin_typical_ribbon_amount_form', $data);
         $this->load->view('main_view/container_footer');
         $this->load->view('foundation_view/footer');
     }
@@ -238,7 +238,7 @@ class Admin_typical_ribbon extends CI_Controller
         $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
-        $this->load->view('admin_view/admin_ribbon/gen_ribbon_amount', $data);
+        $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_amount', $data);
 
     }
 }

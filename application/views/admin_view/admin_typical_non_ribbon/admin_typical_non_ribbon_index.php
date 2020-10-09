@@ -7,11 +7,13 @@
             <div class="container">
                 <div id="profile" class="container form-detail">
                     <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
-                    <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>
-                    <div class="container content is-size-5">พิมพ์สรุปรายชื่อ</div>
+                    <div class="container content">
+                        <div class="is-size-4">รอบปกติ ชั้นต่ำกว่าสายสะพาย</div>
+                        <div class="is-size-5">พิมพ์บัญชีแสดงคุณสมบัติ</div>
+                    </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon/action_summarize_name') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_typical_non_ribbon/action_get_non_ribbon_person_prop') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
@@ -26,6 +28,34 @@
                                 </div>
                             </div>
 
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">ชั้น</label>
+                                </div>
+
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <div class="select">
+                                                <select name="ribbon_type">
+                                                    <option value="ท.ช.">ท.ช.</option>
+                                                    <option value="ท.ม.">ท.ม.</option>
+                                                    <option value="ต.ช.">ต.ช.</option>
+                                                    <option value="ต.ม.">ต.ม.</option>
+                                                    <option value="จ.ช.">จ.ช.</option>
+                                                    <option value="จ.ม.">จ.ม.</option>
+                                                    <option value="บ.ช.">บ.ช.</option>
+                                                    <option value="บ.ม.">บ.ม.</option>
+                                                    <option value="ร.ท.ช.">ร.ท.ช.</option>
+                                                    <option value="ร.ท.ม.">ร.ท.ม.</option>
+                                                    <option value="ร.ง.ช.">ร.ง.ช.</option>
+                                                    <option value="ร.ง.ม.">ร.ง.ม.</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
@@ -36,25 +66,6 @@
                                     <div class="field">
                                         <div class="control">
                                             <input class="input" type="text" name="year" value="<?= date('Y') + 543 ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">เงื่อนไข</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <div class="select">
-                                                <select name="condition">
-                                                    <option value="normal">ปกติ</option>
-                                                    <option value="retire">เกษียณ</option>
-                                                </select>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,10 +110,9 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">ตำแหน่ง</label>
+                                    <label class="label">ตำแหน่ง <br /> ผู้เสนอขอพระราชทาน</label>
                                 </div>
 
                                 <div class="field-body">
@@ -114,6 +124,46 @@
                                 </div>
                             </div>
 
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">ยศ</label>
+                                </div>
+
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="input" type="text" name="p2_rank" placeholder="Text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">ชื่อ - สกุล</label>
+                                </div>
+
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="input" type="text" name="p2_name" placeholder="Text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                    <label class="label">ตำแหน่ง</label>
+                                </div>
+
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="input" type="text" name="p2_position" placeholder="Text input">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="field is-horizontal">
                                 <div class="field-label"></div>
@@ -140,8 +190,8 @@
         console.log('ok');
 
         const init_func = function() {
-            $("ul#typical-ribbon").removeClass('is-hidden');
-            $("a#admin-typical-ribbon-summarize-name").addClass('is-active');
+            $("ul#typical-non-ribbon").removeClass('is-hidden');
+            $("a#admin-typical-non-ribbon-property").addClass('is-active');
         };
         init_func();
 

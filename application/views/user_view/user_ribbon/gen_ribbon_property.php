@@ -20,7 +20,6 @@ class MYPDF extends PDF
         $this->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(0, '', '', '', $this->headerUnitName, 0, 1, 0, true, 'C', true);
     }
-
 }
 
 $dm = date('dm') . strval(date('Y') + 543);

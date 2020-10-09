@@ -7,11 +7,13 @@
             <div class="container">
                 <div id="profile" class="container form-detail">
                     <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
-                    <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>
-                    <div class="container content is-size-5">พิมพ์สรุปรายชื่อ</div>
+                    <div class="container content">
+                        <div class="is-size-4">รอบปกติ ชั้นต่ำกว่าสายสะพาย</div>
+                        <div class="is-size-5">พิมพ์สรุปรายชื่อ</div>
+                    </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon/action_summarize_name') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_typical_non_ribbon/action_summarize_name') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
@@ -36,25 +38,6 @@
                                     <div class="field">
                                         <div class="control">
                                             <input class="input" type="text" name="year" value="<?= date('Y') + 543 ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">เงื่อนไข</label>
-                                </div>
-
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <div class="select">
-                                                <select name="condition">
-                                                    <option value="normal">ปกติ</option>
-                                                    <option value="retire">เกษียณ</option>
-                                                </select>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -140,8 +123,8 @@
         console.log('ok');
 
         const init_func = function() {
-            $("ul#typical-ribbon").removeClass('is-hidden');
-            $("a#admin-typical-ribbon-summarize-name").addClass('is-active');
+            $("ul#typical-non-ribbon").removeClass('is-hidden');
+            $("a#admin-typical-non-ribbon-summarize-name").addClass('is-active');
         };
         init_func();
 
