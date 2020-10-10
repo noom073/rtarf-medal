@@ -18,7 +18,7 @@ class User_ribbon extends CI_Controller
     public function property_form()
     {
         $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']     = $unit['NPRT_NAME'];
+        $data['unitname']   = $unit['NPRT_NAME'];
         $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
         $this->load->view('foundation_view/header');

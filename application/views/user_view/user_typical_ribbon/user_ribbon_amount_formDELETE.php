@@ -7,8 +7,10 @@
             <div class="container">
                 <div id="profile" class="container form-detail">
                     <progress id="loading-page" class="progress is-small is-link" max="100">15%</progress>
-                    <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>
-                    <div class="container content is-size-5">พิมพ์บัญชีสรุปจำนวน</div>
+
+                    <div class="container content is-size-4">
+                        พิมพ์บัญชีสรุปจำนวน
+                    </div>
 
                     <div class="container content">
                         <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon/action_get_ribbon_amount') ?>">

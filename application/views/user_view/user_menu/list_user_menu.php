@@ -35,23 +35,23 @@
 
     <p class="menu-label">ขอเครื่องราชฯ เพิ่มเติม</p>
     <ul class="menu-list">
-        <li>
+    <li>
             <a class="has-dropdown">รอบปกติ ชั้นสายสะพาย <i class="fas fa-angle-down" aria-hidden="true"></i></a>
-            <ul class="is-hidden">
-                <li><a>รอบปกติ ชั้นสายสะพาย ข้อมูลพื้นฐาน</a></li>
-                <li><a>รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
-                <li><a>รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
-                <li><a>รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
+            <ul class="is-hidden" id="typical-ribbon">
+                <li><a id="user-typical-ribbon-fundation" href="<?= site_url('user_typical_ribbon/fundation') ?>">รอบปกติ ชั้นสายสะพาย ข้อมูลพื้นฐาน</a></li>
+                <li><a id="user-typical-ribbon-property" href="<?= site_url('user_typical_ribbon/property') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
+                <li><a id="user-typical-ribbon-summarize-name" href="<?= site_url('user_typical_ribbon/summarize_name') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
+                <li><a id="user-typical-ribbon-amount-person" href="<?= site_url('user_typical_ribbon/ribbon_amount') ?>">รอบปกติ ชั้นสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
             </ul>
         </li>
 
         <li>
             <a class="has-dropdown">รอบปกติ ชั้นต่ำกว่าสายสะพาย <i class="fas fa-angle-down" aria-hidden="true"></i></a>
-            <ul class="is-hidden">
-                <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย ข้อมูลพื้นฐาน</a></li>
-                <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
-                <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
-                <li><a>รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
+            <ul class="is-hidden" id="typical-non-ribbon">
+                <li><a id="user-typical-non-ribbon-fundation" href="<?= site_url('user_typical_non_ribbon/fundation') ?>">รอบปกติ ชั้นต่ำกว่าสายสะพาย ข้อมูลพื้นฐาน</a></li>
+                <li><a id="user-typical-non-ribbon-property" href="<?= site_url('user_typical_non_ribbon/property') ?>">รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
+                <li><a id="user-typical-non-ribbon-summarize-name" href="<?= site_url('user_typical_non_ribbon/summarize_name') ?>">รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีสรุปรายชื่อ</a></li>
+                <li><a id="user-typical-non-ribbon-amount-person" href="<?= site_url('user_typical_non_ribbon/ribbon_amount') ?>">รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
             </ul>
         </li>
 
