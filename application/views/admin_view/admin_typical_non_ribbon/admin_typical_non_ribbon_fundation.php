@@ -198,7 +198,8 @@
 
         $.get({
             url: '<?= site_url("admin/ajax_get_unit") ?>',
-            dataType: 'json'
+            dataType: 'json',
+            async: false
         }).done(res => {
             let hq = res.filter(r => r.NPRT_KEY.substring(0, 2) == '60');
             let joint = res.filter(r => r.NPRT_KEY.substring(0, 2) == '61');
@@ -242,37 +243,35 @@
             console.error(jhr, status, error);
         });
 
-        function drawDataTable(dataObj) {
-            let num = 1;
-            let dt = dataObj.map(r => {
-                r['NUMBER'] = num++;
-                return r;
-            });
-            $("#search-result").text('Success');
-            $("#bdec-data").DataTable({
-                destroy: true,
-                data: dataObj,
-                columns: [{
-                        data: 'NUMBER',
-                        className: 'has-text-centered'
-                    },
-                    {
-                        data: 'BDEC_ID',
-                        className: 'has-text-centered biog-id'
-                    },
-                    {
-                        data: 'BDEC_NAME',
-                        className: 'bdec-name'
-                    },
-                    {
-                        data: 'BDEC_COIN',
-                        className: 'has-text-centered medal'
-                    },
-                    {
-                        data: 'BDEC_ID',
-                        className: 'has-text-centered',
-                        render: (data, type, row, meta) => {
-                            let select = `<select class="medal-name">
+        let bdecDataTable = $("#bdec-data").DataTable({
+            ajax: {
+                url: '<?= site_url('admin_typical_non_ribbon/ajax_get_person_bdec') ?>',
+                data: () => $("#search-form").serialize(),
+                type: 'post',
+                dataSrc: ''
+            },
+            columns: [{
+                    data: null,
+                    className: 'has-text-centered',
+                    render: (data, type, row, meta) => meta.row + 1
+                },
+                {
+                    data: 'BDEC_ID',
+                    className: 'has-text-centered biog-id'
+                },
+                {
+                    data: 'BDEC_NAME',
+                    className: 'bdec-name'
+                },
+                {
+                    data: 'BDEC_COIN',
+                    className: 'has-text-centered medal'
+                },
+                {
+                    data: 'BDEC_ID',
+                    className: 'has-text-centered',
+                    render: (data, type, row, meta) => {
+                        let select = `<select class="medal-name">
                                     <option value="ท.ช." ${row.BDEC_COIN == 'ท.ช.' ? 'selected':''}>ท.ช.</option>
                                     <option value="ท.ม." ${row.BDEC_COIN == 'ท.ม.' ? 'selected':''}>ท.ม.</option>
                                     <option value="ต.ช." ${row.BDEC_COIN == 'ต.ช.' ? 'selected':''}>ต.ช.</option>
@@ -283,30 +282,18 @@
                                     <option value="บ.ม." ${row.BDEC_COIN == 'บ.ม.' ? 'selected':''}>บ.ม.</option>
                                     <option value="ร.ท.ช." ${row.BDEC_COIN == 'ร.ท.ช.' ? 'selected':''}>ร.ท.ช.</option>
                                 </select>`;
-                            let delButton = `<button class="del-bdec-person" data-biog-id="${row.BDEC_ID}">ลบ</button>`;
-                            return `${select} ${delButton}`;
-                        }
+                        let delButton = `<button class="del-bdec-person" data-biog-id="${row.BDEC_ID}">ลบ</button>`;
+                        return `${select} ${delButton}`;
                     }
-                ]
-            });
-        }
-
-        function generateDataTable(formData) {
-            $.post({
-                url: '<?= site_url('admin_typical_non_ribbon/ajax_get_person_bdec') ?>',
-                data: formData,
-                dataType: 'json',
-            }).done(res => {
-                drawDataTable(res);
-            }).fail((jhr, status, error) => console.error(jhr, status, error));
-        }
+                }
+            ]
+        });
 
         $("#search-form").submit(function(event) {
             /** search person in per_bdec_tab */
             event.preventDefault();
             $("#search-result").text('Loading...');
-            let formData = $(this).serialize();
-            generateDataTable(formData);
+            bdecDataTable.ajax.reload(null, false);
         });
 
         $(document).on("change", ".medal-name", function() {
@@ -325,6 +312,7 @@
                 if (res.status) {
                     $("#data-result").prop('class', 'has-text-success');
                     $("#data-result").text(res.text);
+                    bdecDataTable.ajax.reload(null, false);
                 } else {
                     $("#data-result").prop('class', 'has-text-warning');
                     $("#data-result").text(res.text);
@@ -333,9 +321,7 @@
                 setTimeout(() => {
                     $("#data-result").prop('class', '');
                     $("#data-result").text('');
-                    let searchFormData = $("#search-form").serialize();
-                    generateDataTable(searchFormData);
-                }, 3000);
+                }, 2000);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
@@ -383,13 +369,15 @@
                     });
                     person += `</tbody></table>`;
                     $("#search-person-form-data").html(person);
-                }
-                $("#search-person-form-result").html(res.text);
-                setTimeout(() => {
-                    $("#search-person-form-result").text('');
-                    $("#search-person-modal").removeClass('is-active');
+                    $("#search-person-form-result").html(res.text);
+                    setTimeout(() => {
+                        $("#search-person-form-result").text('');
+                        $("#search-person-modal").removeClass('is-active');
 
-                }, 1000);
+                    }, 1000);
+                } else {
+                    $("#search-person-form-result").html(res.text);
+                }
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
@@ -400,6 +388,7 @@
             $("#prepare-person-modal").addClass("is-active");
             $("#prepare-person-name").html(personName);
             $("#prepare-person-biog-id").val(biogID);
+            bdecDataTable.ajax.reload(null, false);
         });
 
         $("#prepare-person-form").submit(function(event) {
@@ -415,11 +404,13 @@
                 console.log(res);
                 if (res.status) {
                     $("#prepare-person-form-result").html(`Success: ${res.text}`);
+                    bdecDataTable.ajax.reload(null, false);
+                    $("#prepare-person-modal").removeClass("is-active");
                 } else {
                     $("#prepare-person-form-result").html(`Error: ${res.text}`);
                 }
 
-                setTimeout(() => $("#prepare-person-form-result").html(''), 3000);
+                setTimeout(() => $("#prepare-person-form-result").html(''), 2000);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
@@ -444,13 +435,12 @@
             }).done(res => {
                 if (res.status) {
                     $("#delete-bdec-person-result").html(`Success: ${res.text}`);
-                    let searchFormData = $("#search-form").serialize();
-                    generateDataTable(searchFormData);
+                    bdecDataTable.ajax.reload(null, false);
 
                     setTimeout(() => {
                         $("#delete-bdec-person-modal").removeClass('is-active');
                         $("#delete-bdec-person-result").html('');
-                    }, 3000);
+                    }, 2000);
                 } else {
                     $("#delete-bdec-person-result").html(`Error: ${res.text}`);
                 }

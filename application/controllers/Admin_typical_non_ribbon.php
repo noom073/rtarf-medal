@@ -25,7 +25,7 @@ class Admin_typical_non_ribbon extends CI_Controller
 
 	public function ajax_get_person_bdec()
 	{
-		$unitInput 	= $this->input->post('unitid');
+		$unitInput 	= $this->input->post('unitid', true);
 		$unitID4 	= substr($this->myfunction->decode($unitInput), 0, 4);
 		$person 	= $this->atnr_model->get_person_bdec($unitID4)->result_array();
 		$response 	= json_encode($person);
@@ -68,7 +68,9 @@ class Admin_typical_non_ribbon extends CI_Controller
 		if (count($persons) > 0) {
 			$result['status']	= true;
 			$result['text'] 	= "พบข้อมูล";
-			$result['data'] 	= $persons;
+			foreach ($persons as $r) {
+				$result['data'][] = $r;
+			}
 		} else {
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";

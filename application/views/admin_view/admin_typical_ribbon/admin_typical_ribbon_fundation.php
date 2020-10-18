@@ -194,7 +194,8 @@
 
         $.get({
             url: '<?= site_url("admin/ajax_get_unit") ?>',
-            dataType: 'json'
+            dataType: 'json',
+            async: false,
         }).done(res => {
             let hq = res.filter(r => r.NPRT_KEY.substring(0, 2) == '60');
             let joint = res.filter(r => r.NPRT_KEY.substring(0, 2) == '61');
@@ -238,66 +239,55 @@
             console.error(jhr, status, error);
         });
 
-        function drawDataTable(dataObj) {
-            let num = 1;
-            let dt = dataObj.map(r => {
-                r['NUMBER'] = num++;
-                return r;
-            });
-            $("#search-result").text('Success');
-            $("#bdec-data").DataTable({
-                destroy: true,
-                data: dataObj,
-                columns: [{
-                        data: 'NUMBER',
-                        className: 'has-text-centered'
-                    },
-                    {
-                        data: 'BDEC_ID',
-                        className: 'has-text-centered biog-id'
-                    },
-                    {
-                        data: 'BDEC_NAME',
-                        className: 'bdec-name'
-                    },
-                    {
-                        data: 'BDEC_COIN',
-                        className: 'has-text-centered medal'
-                    },
-                    {
-                        data: 'BDEC_ID',
-                        className: 'has-text-centered',
-                        render: (data, type, row, meta) => {
-                            let select = `<select class="medal-name">
+        // function drawDataTable(dataObj) {
+        let bdecDataTable = $("#bdec-data").DataTable({
+            ajax: {
+                url: '<?= site_url('admin_typical_ribbon/ajax_get_person_bdec') ?>',
+                type: 'post',
+                data: () => $("#search-form").serialize(),
+                dataSrc: ''
+            },
+            columns: [{
+                    data: null,
+                    className: 'has-text-centered',
+                    render: (data, type, row, meta) => {
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    data: 'BDEC_ID',
+                    className: 'has-text-centered biog-id'
+                },
+                {
+                    data: 'BDEC_NAME',
+                    className: 'bdec-name'
+                },
+                {
+                    data: 'BDEC_COIN',
+                    className: 'has-text-centered medal'
+                },
+                {
+                    data: 'BDEC_ID',
+                    className: 'has-text-centered',
+                    render: (data, type, row, meta) => {
+                        let select = `<select class="medal-name">
                                     <option value="ม.ป.ช." ${row.BDEC_COIN == 'ม.ป.ช.' ? 'selected':''}>ม.ป.ช.</option>
                                     <option value="ม.ว.ม." ${row.BDEC_COIN == 'ม.ว.ม.' ? 'selected':''}>ม.ว.ม.</option>
                                     <option value="ป.ช." ${row.BDEC_COIN == 'ป.ช.' ? 'selected':''}>ป.ช.</option>
                                     <option value="ป.ม." ${row.BDEC_COIN == 'ป.ม.' ? 'selected':''}>ป.ม.</option>
                                 </select>`;
-                            let delButton = `<button class="del-bdec-person" data-biog-id="${row.BDEC_ID}">ลบ</button>`;
-                            return `${select} ${delButton}`;
-                        }
+                        let delButton = `<button class="del-bdec-person" data-biog-id="${row.BDEC_ID}">ลบ</button>`;
+                        return `${select} ${delButton}`;
                     }
-                ]
-            });
-        }
-
-        function generateDataTable(formData) {
-            $.post({
-                url: '<?= site_url('admin_typical_ribbon/ajax_get_person_bdec') ?>',
-                data: formData,
-                dataType: 'json',
-            }).done(res => {
-                drawDataTable(res);
-            }).fail((jhr, status, error) => console.error(jhr, status, error));
-        }
+                }
+            ]
+        });
 
         $("#search-form").submit(function(event) {
             /** search person in per_bdec_tab */
             event.preventDefault();
             $("#search-result").text('Loading...');
-            let formData = $(this).serialize();
-            generateDataTable(formData);
+            bdecDataTable.ajax.reload(() => $("#search-result").text(''), false);
         });
 
         $(document).on("change", ".medal-name", function() {
@@ -316,6 +306,7 @@
                 if (res.status) {
                     $("#data-result").prop('class', 'has-text-success');
                     $("#data-result").text(res.text);
+                    bdecDataTable.ajax.reload(null, false);
                 } else {
                     $("#data-result").prop('class', 'has-text-warning');
                     $("#data-result").text(res.text);
@@ -324,9 +315,7 @@
                 setTimeout(() => {
                     $("#data-result").prop('class', '');
                     $("#data-result").text('');
-                    let searchFormData = $("#search-form").serialize();
-                    generateDataTable(searchFormData);
-                }, 3000);
+                }, 2000);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
@@ -352,7 +341,6 @@
                 data: formData,
                 dataType: 'json'
             }).done(res => {
-                console.log(res)
                 if (res.status) {
                     let person = `<table class="table"><thead><tr>
                                 <th>ชื่อ-นามสกุล</th>
@@ -374,13 +362,15 @@
                     });
                     person += `</tbody></table>`;
                     $("#search-person-form-data").html(person);
-                }
-                $("#search-person-form-result").html(res.text);
-                setTimeout(() => {
-                    $("#search-person-form-result").text('');
-                    $("#search-person-modal").removeClass('is-active');
+                    $("#search-person-form-result").html(res.text);
+                    setTimeout(() => {
+                        $("#search-person-form-result").text('');
+                        $("#search-person-modal").removeClass('is-active');
 
-                }, 1000);
+                    }, 1000);
+                } else {
+                    $("#search-person-form-result").html(res.text);
+                }
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
@@ -397,20 +387,20 @@
             /** submit add person to per_bdec_tab */
             event.preventDefault();
             let formData = $(this).serialize();
-            console.log(formData);
             $.post({
                 url: '<?= site_url('admin_typical_ribbon/ajax_add_person_to_bdec') ?>',
                 data: formData,
                 dataType: 'json'
             }).done(res => {
-                console.log(res);
                 if (res.status) {
                     $("#prepare-person-form-result").html(`Success: ${res.text}`);
+                    $("#prepare-person-modal").removeClass("is-active");
+                    bdecDataTable.ajax.reload(null, false);
                 } else {
                     $("#prepare-person-form-result").html(`Error: ${res.text}`);
                 }
 
-                setTimeout(() => $("#prepare-person-form-result").html(''), 3000);
+                setTimeout(() => $("#prepare-person-form-result").html(''), 2000);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
@@ -427,7 +417,6 @@
         $("#delete-bdec-person-form").submit(function(event) {
             event.preventDefault();
             let formData = $(this).serialize();
-            console.log(formData);
             $.post({
                 url: '<?= site_url('admin_typical_ribbon/ajax_delete_bdec_person') ?>',
                 data: formData,
@@ -435,13 +424,12 @@
             }).done(res => {
                 if (res.status) {
                     $("#delete-bdec-person-result").html(`Success: ${res.text}`);
-                    let searchFormData = $("#search-form").serialize();
-                    generateDataTable(searchFormData);
+                    bdecDataTable.ajax.reload(null, false);
 
                     setTimeout(() => {
                         $("#delete-bdec-person-modal").removeClass('is-active');
                         $("#delete-bdec-person-result").html('');
-                    }, 3000);
+                    }, 2000);
                 } else {
                     $("#delete-bdec-person-result").html(`Error: ${res.text}`);
                 }

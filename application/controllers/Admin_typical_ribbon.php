@@ -68,7 +68,9 @@ class Admin_typical_ribbon extends CI_Controller
 		if (count($persons) > 0) {
 			$result['status']	= true;
 			$result['text'] 	= "พบข้อมูล";
-			$result['data'] 	= $persons;
+			foreach ($persons as $r) {
+				$result['data'][] = $r;
+			}
 		} else {
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";

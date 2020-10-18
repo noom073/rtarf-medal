@@ -17,8 +17,8 @@ class User_typical_non_ribbon extends CI_Controller
 	public function fundation()
 	{
 		$unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']	= $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname']	= $unit['NPRT_NAME'];
+		$data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
 		$data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
 
 		$this->load->view('foundation_view/header');
@@ -73,12 +73,13 @@ class User_typical_non_ribbon extends CI_Controller
 		if (count($persons) > 0) {
 			$result['status']	= true;
 			$result['text'] 	= "พบข้อมูล";
-			$result['data'] 	= $persons;
+			foreach ($persons as $r) {
+				$result['data'][] = $r;
+			}
 		} else {
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";
 		}
-
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($result));
@@ -130,8 +131,8 @@ class User_typical_non_ribbon extends CI_Controller
 	public function property()
 	{
 		$unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']	= $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname']	= $unit['NPRT_NAME'];
+		$data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
 		$data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
 
 		$this->load->view('foundation_view/header');
@@ -167,8 +168,8 @@ class User_typical_non_ribbon extends CI_Controller
 	public function summarize_name()
 	{
 		$unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']	= $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname']	= $unit['NPRT_NAME'];
+		$data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
 		$data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
 
 		$this->load->view('foundation_view/header');
@@ -179,66 +180,66 @@ class User_typical_non_ribbon extends CI_Controller
 	}
 
 	public function action_summarize_name()
-    {
-        $this->load->library('pdf');
-        $unitID = $this->myfunction->decode($this->input->post('unitid'));
+	{
+		$this->load->library('pdf');
+		$unitID = $this->myfunction->decode($this->input->post('unitid'));
 
-        $data['year']           = $this->input->post('year');
-        $data['condition']      = $this->input->post('condition');
+		$data['year']           = $this->input->post('year');
+		$data['condition']      = $this->input->post('condition');
 		$data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
 		$data['ribbon_acm'] = 'ท.ช.';
 		$data['thc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ท.ม.';
-        $data['thm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['thm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ต.ช.';
-        $data['tc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['tc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ต.ม.';
-        $data['tm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['tm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ช.';
-        $data['jc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['jc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ม.';
-        $data['jm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['jm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ช.';
-        $data['bc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['bc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ม.';
-        $data['bm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['bm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ช.';
-        $data['rtc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rtc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ม.';
-        $data['rtm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rtm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ช.';
-        $data['rgc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rgc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ม.';
-        $data['rgm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-        
-        $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
+		$data['rgm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+
+		$this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
 	}
-	
+
 	public function ribbon_amount()
-    {
+	{
 		$unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']	= $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['unitname']	= $unit['NPRT_NAME'];
+		$data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
 		$data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
-		
-        $this->load->view('foundation_view/header');
-        $this->load->view('user_view/user_menu/navbar_user', $data);
-        $this->load->view('user_view/user_typical_non_ribbon/user_typical_non_ribbon_amount_form', $data);
-        $this->load->view('main_view/container_footer');
-        $this->load->view('foundation_view/footer');
-    }
 
-    public function action_get_ribbon_amount()
-    {
-        $this->load->library('pdf');
+		$this->load->view('foundation_view/header');
+		$this->load->view('user_view/user_menu/navbar_user', $data);
+		$this->load->view('user_view/user_typical_non_ribbon/user_typical_non_ribbon_amount_form', $data);
+		$this->load->view('main_view/container_footer');
+		$this->load->view('foundation_view/footer');
+	}
 
-        $unitID = $this->myfunction->decode($this->input->post('unitid'));
+	public function action_get_ribbon_amount()
+	{
+		$this->load->library('pdf');
 
-        $data['year']    	= $this->input->post('year');
-        $data['condition']  = $this->input->post('condition');
+		$unitID = $this->myfunction->decode($this->input->post('unitid'));
+
+		$data['year']    	= $this->input->post('year');
+		$data['condition']  = $this->input->post('condition');
 		$data['unit_name'] 	= $this->person_data->get_unit_name($unitID);
-		
+
 		$data['ribbon_acm'] = 'ท.ช.';
 		$dtthc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ท.ม.';
@@ -248,84 +249,131 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['ribbon_acm'] = 'ต.ม.';
 		$dttm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ช.';
-        $dtjc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtjc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ม.';
-        $dtjm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtjm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ช.';
-        $dtbc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtbc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ม.';
-        $dtbm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtbm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ช.';
-        $dtrtc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrtc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ม.';
-        $dtrtm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrtm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ช.';
-        $dtrgc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrgc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ม.';
-        $dtrgm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrgm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 
-        $persons_thc_men        = array_filter($dtthc, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_thc_women      = array_filter($dtthc, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['thc']['men']     = count($persons_thc_men);
-        $data['thc']['women']   = count($persons_thc_women);
+		$persons_thc_men        = array_filter($dtthc, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_thc_women      = array_filter($dtthc, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['thc']['men']     = count($persons_thc_men);
+		$data['thc']['women']   = count($persons_thc_women);
 
-        $persons_thm_men        = array_filter($dtthm, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_thm_women      = array_filter($dtthm, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['thm']['men']     = count($persons_thm_men);
-        $data['thm']['women']   = count($persons_thm_women);
+		$persons_thm_men        = array_filter($dtthm, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_thm_women      = array_filter($dtthm, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['thm']['men']     = count($persons_thm_men);
+		$data['thm']['women']   = count($persons_thm_women);
 
-        $persons_tc_men        = array_filter($dttc, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_tc_women      = array_filter($dttc, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['tc']['men']     = count($persons_tc_men);
-        $data['tc']['women']   = count($persons_tc_women);
+		$persons_tc_men        = array_filter($dttc, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_tc_women      = array_filter($dttc, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['tc']['men']     = count($persons_tc_men);
+		$data['tc']['women']   = count($persons_tc_women);
 
-        $persons_tm_men        = array_filter($dttm, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_tm_women      = array_filter($dttm, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['tm']['men']     = count($persons_tm_men);
-        $data['tm']['women']   = count($persons_tm_women);
-        
-        $persons_jc_men        = array_filter($dtjc, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_jc_women      = array_filter($dtjc, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['jc']['men']     = count($persons_jc_men);
-        $data['jc']['women']   = count($persons_jc_women);
+		$persons_tm_men        = array_filter($dttm, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_tm_women      = array_filter($dttm, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['tm']['men']     = count($persons_tm_men);
+		$data['tm']['women']   = count($persons_tm_women);
 
-        $persons_jm_men        = array_filter($dtjm, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_jm_women      = array_filter($dtjm, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['jm']['men']     = count($persons_jm_men);
-        $data['jm']['women']   = count($persons_jm_women);
+		$persons_jc_men        = array_filter($dtjc, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_jc_women      = array_filter($dtjc, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['jc']['men']     = count($persons_jc_men);
+		$data['jc']['women']   = count($persons_jc_women);
 
-        $persons_bc_men        = array_filter($dtbc, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_bc_women      = array_filter($dtbc, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['bc']['men']     = count($persons_bc_men);
-        $data['bc']['women']   = count($persons_bc_women);
+		$persons_jm_men        = array_filter($dtjm, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_jm_women      = array_filter($dtjm, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['jm']['men']     = count($persons_jm_men);
+		$data['jm']['women']   = count($persons_jm_women);
 
-        $persons_bm_men        = array_filter($dtbm, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_bm_women      = array_filter($dtbm, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['bm']['men']     = count($persons_bm_men);
-        $data['bm']['women']   = count($persons_bm_women);
+		$persons_bc_men        = array_filter($dtbc, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_bc_women      = array_filter($dtbc, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['bc']['men']     = count($persons_bc_men);
+		$data['bc']['women']   = count($persons_bc_women);
 
-        $persons_rtc_men        = array_filter($dtrtc, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_rtc_women      = array_filter($dtrtc, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['rtc']['men']     = count($persons_rtc_men);
-        $data['rtc']['women']   = count($persons_rtc_women);
+		$persons_bm_men        = array_filter($dtbm, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_bm_women      = array_filter($dtbm, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['bm']['men']     = count($persons_bm_men);
+		$data['bm']['women']   = count($persons_bm_women);
 
-        $persons_rtm_men        = array_filter($dtrtm, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_rtm_women      = array_filter($dtrtm, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['rtm']['men']     = count($persons_rtm_men);
-        $data['rtm']['women']   = count($persons_rtm_women);
+		$persons_rtc_men        = array_filter($dtrtc, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_rtc_women      = array_filter($dtrtc, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['rtc']['men']     = count($persons_rtc_men);
+		$data['rtc']['women']   = count($persons_rtc_women);
 
-        $persons_rgc_men        = array_filter($dtrgc, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_rgc_women      = array_filter($dtrgc, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['rgc']['men']     = count($persons_rgc_men);
-        $data['rgc']['women']   = count($persons_rgc_women);
+		$persons_rtm_men        = array_filter($dtrtm, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_rtm_women      = array_filter($dtrtm, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['rtm']['men']     = count($persons_rtm_men);
+		$data['rtm']['women']   = count($persons_rtm_women);
 
-        $persons_rgm_men        = array_filter($dtrgm, function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_rgm_women      = array_filter($dtrgm, function($r) { return $r['BIOG_SEX'] == 1; });
-        $data['rgm']['men']     = count($persons_rgm_men);
-        $data['rgm']['women']   = count($persons_rgm_women);
+		$persons_rgc_men        = array_filter($dtrgc, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_rgc_women      = array_filter($dtrgc, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['rgc']['men']     = count($persons_rgc_men);
+		$data['rgc']['women']   = count($persons_rgc_women);
 
-        // var_dump($data);
-        $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_amount', $data);
+		$persons_rgm_men        = array_filter($dtrgm, function ($r) {
+			return $r['BIOG_SEX'] == 0;
+		});
+		$persons_rgm_women      = array_filter($dtrgm, function ($r) {
+			return $r['BIOG_SEX'] == 1;
+		});
+		$data['rgm']['men']     = count($persons_rgm_men);
+		$data['rgm']['women']   = count($persons_rgm_women);
 
-    }
+		// var_dump($data);
+		$this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_amount', $data);
+	}
 }

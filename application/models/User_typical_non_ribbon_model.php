@@ -13,8 +13,8 @@ class User_typical_non_ribbon_model extends CI_Model
 
     public function get_person_bdec($unitID)
     {
-        $this->oracle->like('substr(BDEC_UNIT, 1, 4)', $unitID);
         $this->oracle->where('BDEC_CSEQ > 4');
+        $this->oracle->like('substr(BDEC_UNIT, 1, 4)', $unitID, 'none');
         $this->oracle->order_by('BDEC_RANK');
         $result = $this->oracle->get('PER_BDEC_TAB');
         
