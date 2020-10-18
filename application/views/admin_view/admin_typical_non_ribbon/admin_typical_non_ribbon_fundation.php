@@ -282,7 +282,10 @@
                                     <option value="บ.ม." ${row.BDEC_COIN == 'บ.ม.' ? 'selected':''}>บ.ม.</option>
                                     <option value="ร.ท.ช." ${row.BDEC_COIN == 'ร.ท.ช.' ? 'selected':''}>ร.ท.ช.</option>
                                 </select>`;
-                        let delButton = `<button class="del-bdec-person" data-biog-id="${row.BDEC_ID}">ลบ</button>`;
+                        let delButton = `<button
+                            class="del-bdec-person py-1 px-3" 
+                            data-biog-id="${row.BDEC_ID}" 
+                            style="color:white; background-color: #ff4b4b; border: none; cursor:pointer">- ลบ</button>`;
                         return `${select} ${delButton}`;
                     }
                 }
@@ -364,7 +367,10 @@
                             <td>${el.BIOG_DEC}</td>    
                             <td>${el.BDEC_COIN === null ? '-' : el.BDEC_COIN}</td>    
                             <td>${stat}</td>
-                            <td><button class="add-bdec-person" data-biog-id="${el.BIOG_ID}">เพิ่ม</button></td>
+                            <td><button 
+                                class="add-bdec-person py-1 px-3" 
+                                data-biog-id="${el.BIOG_ID}" 
+                                style="color:white; background-color: #3ec46d; border: none; cursor:pointer">+ เพิ่ม</button></td>
                             </tr>`;
                     });
                     person += `</tbody></table>`;
