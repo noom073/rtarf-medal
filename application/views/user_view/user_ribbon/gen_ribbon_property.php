@@ -92,7 +92,7 @@ foreach ($persons as $r) {
     $html .=        '<td width="21%">' . $r['BIOG_NAME'] . '</td>';
     $html .=        '<td width="8%">' . $r['CRAK_NAME_FULL'] . '</td>';
     $html .=        '<td width="6.5%">' . $biog_dmy_work . '</td>';
-    $html .=        '<td width="5.5%">' . $r['BIOG_SALARY'] . '</td>';
+    $html .=        '<td width="5.5%">' . number_format($r['BIOG_SALARY']) . '</td>';
     $html .=        '<td width="24%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . $r['CRAK_NAME_FULL'] . '</td>';
     $html .=        '<td width="7.5%">' . $r['BIOG_DEC'] . '</td>';
     $html .=        '<td width="6.5%">' . $biog_decy . '</td>';

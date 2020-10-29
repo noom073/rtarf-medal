@@ -63,13 +63,11 @@ class Admin_fundamental_model extends CI_Model
         $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1, 4) = ", $unitid);
         $this->oracle->where('A.BIOG_RANK >=', '01');
         $this->oracle->where('A.BIOG_RANK <=', '05');
-        $this->oracle->order_by('SUBSTR(A.BIOG_UNIT, 1, 4)');
-        $this->oracle->order_by('A.BIOG_SEX');
         $this->oracle->order_by('A.BIOG_RANK');
-        $this->oracle->order_by('A.BIOG_CDEP');
         $this->oracle->order_by('A.BIOG_CPOS');
         $this->oracle->order_by('A.BIOG_SLEVEL', 'desc');
         $this->oracle->order_by('TO_NUMBER(A.BIOG_SCLASS)', 'desc');
+        $this->oracle->order_by('A.BIOG_DMY_RANK');
 
         $result = $this->oracle->get('PER_BIOG_VIEW A');
         return $result;
@@ -89,7 +87,11 @@ class Admin_fundamental_model extends CI_Model
         
         $this->oracle->where("A.BIOG_RANK >= ", $rankStart);
         $this->oracle->where("A.BIOG_RANK <= ", $rankEnd);
-        $this->oracle->order_by("A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP, A.BIOG_CPOS");
+        $this->oracle->order_by('A.BIOG_RANK');
+        $this->oracle->order_by('A.BIOG_CPOS');
+        $this->oracle->order_by('A.BIOG_SLEVEL', 'desc');
+        $this->oracle->order_by('TO_NUMBER(A.BIOG_SCLASS)', 'desc');
+        $this->oracle->order_by('A.BIOG_DMY_RANK');
         $result = $this->oracle->get("PER_BIOG_VIEW A");
         
         // echo $this->oracle->last_query();
