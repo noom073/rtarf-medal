@@ -29,7 +29,7 @@ class Admin_ribbon extends CI_Controller
         $this->load->library('pdf');
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
-        $ribbon    = $this->input->post('ribbon_type');
+        $ribbon = $this->input->post('ribbon_type');
 
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
@@ -54,8 +54,6 @@ class Admin_ribbon extends CI_Controller
         } else {
             $data['persons'] = [];
         }
-
-        // var_dump($data);
         $this->load->view('admin_view/admin_ribbon/gen_ribbon_property', $data);
     }
 

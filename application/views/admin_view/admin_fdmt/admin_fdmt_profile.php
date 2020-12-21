@@ -18,6 +18,18 @@
                                 <form id="search-profile">
                                     <div class="field is-horizontal">
                                         <div class="field-label is-normal">
+                                            <label class="label">ค้นหาหน่วย</label>
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <input type="text" id="search-unit" class="input" placeholder="ค้นหาชื่อหน่วย">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
                                             <label class="label">หน่วย</label>
                                         </div>
 
@@ -95,53 +107,37 @@
             $("#search-data").text('');
         });
 
-        $.get({
+        const getUnit = () => {
+            return $.get({
                 url: '<?= site_url("admin/ajax_get_unit") ?>',
                 dataType: 'json'
-            })
-            .done(res => {
-                let hq = res.filter(r => r.NPRT_KEY.substring(0, 2) == '60');
-                let joint = res.filter(r => r.NPRT_KEY.substring(0, 2) == '61');
-                let operation = res.filter(r => r.NPRT_KEY.substring(0, 2) == '62');
-                let special = res.filter(r => r.NPRT_KEY.substring(0, 2) == '63');
-                let education = res.filter(r => r.NPRT_KEY.substring(0, 2) == '64');
+            }).done(res => {}).fail((jhr, status, error) => console.error(jhr, status, error));
+        };
 
-                let hqOpt = '<optgroup label="ส่วนบังคับบัญชา">';
-                hq.forEach(r => {
-                    hqOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                hqOpt += `</optgroup>`;
 
-                let jointOpt = '<optgroup label="ส่วนเสนาธิการร่วม">';
-                joint.forEach(r => {
-                    jointOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                jointOpt += `</optgroup>`;
-
-                let operationOpt = '<optgroup label="ส่วนปฏิบัติการ">';
-                operation.forEach(r => {
-                    operationOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                operationOpt += `</optgroup>`;
-
-                let specialOpt = '<optgroup label="ส่วนกิจการพิเศษ">';
-                special.forEach(r => {
-                    specialOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                specialOpt += `</optgroup>`;
-
-                let educationOpt = '<optgroup label="ส่วนการศึกษา">';
-                education.forEach(r => {
-                    educationOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-                });
-                educationOpt += `</optgroup>`;
-
-                $("#unitid").html(hqOpt + jointOpt + operationOpt + specialOpt + educationOpt);
-                $("#loading-page").addClass('is-invisible');
-            })
-            .fail((jhr, status, error) => {
-                console.error(jhr, status, error);
+        let units = new Array();
+        const setUnitSelect = async () => {
+            units = await getUnit();
+            $("#loading-page").addClass('is-invisible');
+            let option = '';
+            units.forEach(r => {
+                option += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`;
             });
+            $("#unitid").html(option);
+        };
+        setUnitSelect();
+
+
+        $("#search-unit").keyup(async function() {
+            let searchText = $(this).val();
+            let result = units.filter(r => r.NPRT_ACM.includes(searchText));
+            let option = '';
+            result.forEach(r => {
+                option += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`;
+            });
+            $("#unitid").html(option);
+        });
+        
 
         $("#search-profile").submit(function(event) {
             $("#search-data").html('Loading...');
