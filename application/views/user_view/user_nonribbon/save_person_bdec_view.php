@@ -18,7 +18,7 @@
 
                             <div class="field-body">
                                 <div class="field">
-                                    <div class="select is-fullwidth">
+                                    <div class="select">
                                         <select id="unitid" name="unitid">
                                             <option value="<?= $unitID ?>"><?= $unitname ?></option>
                                         </select>

@@ -20,7 +20,7 @@
 
                                 <div class="field-body">
                                     <div class="field">
-                                        <div class="select is-fullwidth">
+                                        <div class="select">
                                             <select id="unitid" name="unitid">
                                                 <option value="<?= $unitID ?>"><?= $unitname ?></option>
                                             </select>
@@ -37,7 +37,13 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="year" value="<?= date('Y') + 543 ?>">
+                                            <div class="select">
+                                                <select name="year">
+                                                    <?php for ($i = 0; $i < 10; $i++) { ?>
+                                                        <option value="<?= (date("Y") + 544) - $i ?>"><?= (date("Y") + 544) - $i ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

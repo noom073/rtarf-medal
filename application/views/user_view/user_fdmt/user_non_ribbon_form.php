@@ -41,7 +41,13 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input type="text" name="year" class="input" value="<?= date("Y") + 543 ?>">
+                                    <div class="select">
+                                        <select name="year">
+                                            <?php for ($i = 0; $i < 10; $i++) { ?>
+                                                <option value="<?= (date("Y") + 544) - $i ?>"><?= (date("Y") + 544) - $i ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
