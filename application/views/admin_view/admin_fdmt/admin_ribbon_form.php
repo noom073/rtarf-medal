@@ -11,7 +11,7 @@
                     <div class="content">
                         <div class="is-size-5 content">เครื่องราชฯ ชั้นสายสะพาย</div>
                         <div class="columns">
-                            <div class="column is-one-third">
+                            <div class="column is-half">
                                 <form id="ribbon-report-form" method="post" action="<?= site_url('admin_fundamental/ajax_ribbon_generate_report') ?>">
                                     <div class="field is-horizontal">
                                         <div class="field-label is-normal">

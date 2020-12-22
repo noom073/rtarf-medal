@@ -21,7 +21,11 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input type="text" id="search-unit" class="input" placeholder="ค้นหาชื่อหน่วย">
+                                            <div class="columns">
+                                                <div class="column is-one-third">
+                                                    <input type="text" id="search-unit" class="input" placeholder="ค้นหาชื่อหน่วย">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

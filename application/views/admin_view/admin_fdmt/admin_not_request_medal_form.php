@@ -36,12 +36,18 @@
                 <form id="not-req-medal-report-form" method="post" action="<?= site_url('admin_fundamental/not_request_medal_generate_report') ?>">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">เลือกปีที่ขอ :</label>
+                            <label class="label">เลือกปีที่ขอ</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <input type="text" name="year" class="input" value="<?= date("Y") + 543 ?>">
+                                    <div class="select">
+                                        <select name="year">
+                                            <?php for ($i = 0; $i < 10; $i++) { ?>
+                                                <option value="<?= (date("Y") + 544) - $i ?>"><?= (date("Y") + 544) - $i ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +144,6 @@
             });
             $("#unitid").html(option);
         });
-        // getUnitList();
 
 
         $(".btn-rank").click(function() {

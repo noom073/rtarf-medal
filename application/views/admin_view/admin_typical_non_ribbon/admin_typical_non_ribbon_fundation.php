@@ -16,12 +16,28 @@
                         <form id="search-form">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
+                                    <label class="label">ค้นหาหน่วย</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <div class="columns">
+                                                <div class="column is-one-third">
+                                                    <input type="text" id="search-unit" class="input" placeholder="ค้นหาชื่อหน่วย">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
                                 </div>
 
                                 <div class="field-body">
                                     <div class="field">
-                                        <div class="select is-fullwidth">
+                                        <div class="select">
                                             <select id="unitid" name="unitid"></select>
                                         </div>
                                     </div>
@@ -191,56 +207,39 @@
 
 <script>
     $(document).ready(function() {
-        (function() {
-            $("ul#typical-non-ribbon").removeClass('is-hidden');
-            $("a#admin-typical-non-ribbon-fundation").addClass('is-active');
-        })();
+        $("ul#typical-non-ribbon").removeClass('is-hidden');
+        $("a#admin-typical-non-ribbon-fundation").addClass('is-active');
 
-        $.get({
-            url: '<?= site_url("admin/ajax_get_unit") ?>',
-            dataType: 'json',
-            async: false
-        }).done(res => {
-            let hq = res.filter(r => r.NPRT_KEY.substring(0, 2) == '60');
-            let joint = res.filter(r => r.NPRT_KEY.substring(0, 2) == '61');
-            let operation = res.filter(r => r.NPRT_KEY.substring(0, 2) == '62');
-            let special = res.filter(r => r.NPRT_KEY.substring(0, 2) == '63');
-            let education = res.filter(r => r.NPRT_KEY.substring(0, 2) == '64');
 
-            let hqOpt = '<optgroup label="ส่วนบังคับบัญชา">';
-            hq.forEach(r => {
-                hqOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-            });
-            hqOpt += `</optgroup>`;
+        const getUnit = () => {
+            return $.get({
+                url: '<?= site_url("admin/ajax_get_unit") ?>',
+                dataType: 'json'
+            }).done(res => {}).fail((jhr, status, error) => console.error(jhr, status, error));
+        };
 
-            let jointOpt = '<optgroup label="ส่วนเสนาธิการร่วม">';
-            joint.forEach(r => {
-                jointOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-            });
-            jointOpt += `</optgroup>`;
 
-            let operationOpt = '<optgroup label="ส่วนปฏิบัติการ">';
-            operation.forEach(r => {
-                operationOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-            });
-            operationOpt += `</optgroup>`;
-
-            let specialOpt = '<optgroup label="ส่วนกิจการพิเศษ">';
-            special.forEach(r => {
-                specialOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-            });
-            specialOpt += `</optgroup>`;
-
-            let educationOpt = '<optgroup label="ส่วนการศึกษา">';
-            education.forEach(r => {
-                educationOpt += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`
-            });
-            educationOpt += `</optgroup>`;
-
-            $("#unitid").html(hqOpt + jointOpt + operationOpt + specialOpt + educationOpt);
+        let units = new Array();
+        const setUnitSelect = async () => {
+            units = await getUnit();
             $("#loading-page").addClass('is-invisible');
-        }).fail((jhr, status, error) => {
-            console.error(jhr, status, error);
+            let option = '';
+            units.forEach(r => {
+                option += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`;
+            });
+            $("#unitid").html(option);
+        };
+        setUnitSelect();
+
+
+        $("#search-unit").keyup(async function() {
+            let searchText = $(this).val();
+            let result = units.filter(r => r.NPRT_ACM.includes(searchText));
+            let option = '';
+            result.forEach(r => {
+                option += `<option value="${r.NPRT_UNIT}">${r.NPRT_ACM}</option>`;
+            });
+            $("#unitid").html(option);
         });
 
         let bdecDataTable = $("#bdec-data").DataTable({
@@ -292,12 +291,14 @@
             ]
         });
 
+
         $("#search-form").submit(function(event) {
             /** search person in per_bdec_tab */
             event.preventDefault();
             $("#search-result").text('Loading...');
             bdecDataTable.ajax.reload(null, false);
         });
+
 
         $(document).on("change", ".medal-name", function() {
             /** change person's medal */
@@ -328,13 +329,16 @@
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
+
         $(".modal-close").click(function() {
             $(this).parent(".modal").removeClass("is-active");
         });
 
+
         $("#search-person-btn").click(function() {
             $("#search-person-modal").addClass("is-active");
         });
+
 
         $("#search-person-form").submit(function(event) {
             /** search person for insert to per_bdec_tab */
@@ -387,6 +391,7 @@
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
+
         $(document).on("click", ".add-bdec-person", function() {
             /** on click "เพิ่ม" button to active prepare person form modal */
             let biogID = $(this).data("biog-id");
@@ -396,6 +401,7 @@
             $("#prepare-person-biog-id").val(biogID);
             bdecDataTable.ajax.reload(null, false);
         });
+
 
         $("#prepare-person-form").submit(function(event) {
             /** submit add person to per_bdec_tab */
@@ -420,6 +426,7 @@
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
+
         $(document).on('click', ".del-bdec-person", function() {
             /** click to popup delete-cdec-person modal */
             $("#delete-bdec-person-modal").addClass("is-active");
@@ -429,6 +436,7 @@
             $("#delete-bdec-person-name").html(name);
             $("#delete-bdec-person-biog-id").val(biogID);
         });
+
 
         $("#delete-bdec-person-form").submit(function(event) {
             event.preventDefault();
