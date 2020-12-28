@@ -155,6 +155,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="field">
+                                                    <label class="label">หมายเหตุ</label>
+                                                    <div class="control">
+                                                        <input class="input" type="text" name="remark">
+                                                    </div>
+                                                </div>
+                                                <div class="field">
                                                     <input id="prepare-person-biog-id" type="hidden" name="biog_id">
                                                     <button class="button is-primary" type="submit">Save</button>
                                                 </div>

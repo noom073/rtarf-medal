@@ -84,7 +84,8 @@ class Admin_typical_ribbon extends CI_Controller
 	public function ajax_add_person_to_bdec()
 	{
 		$data['nextMedal'] 	= $this->input->post('medal', true);
-		$data['biogID']	= $this->input->post('biog_id', true);
+		$data['biogID']	 = $this->input->post('biog_id', true);
+		$data['remark']	 = $this->input->post('remark', true);
 
 		$insert = $this->person_data->add_person_bdec($data);
 		if ($insert == 'SUCCESS') {

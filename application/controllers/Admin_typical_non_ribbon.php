@@ -85,6 +85,7 @@ class Admin_typical_non_ribbon extends CI_Controller
 	{
 		$data['nextMedal'] 	= $this->input->post('medal', true);
 		$data['biogID']	= $this->input->post('biog_id', true);
+		$data['remark']	 = $this->input->post('remark', true);
 
 		$insert = $this->person_data->add_person_bdec($data);
 		if ($insert == 'SUCCESS') {

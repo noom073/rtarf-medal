@@ -436,7 +436,7 @@ class Person_data
             $data['BDEC_UNIT']  = $person['BIOG_UNIT'];
             $data['BDEC_COIN']  = $array['nextMedal'];
             $data['BDEC_CSEQ']  = $cseq;
-            $data['BDEC_REM']   = '';
+            $data['BDEC_REM']   = $array['remark'];
     
             $insert = $this->CI->lib_model->insert_person_bdec($data);
             if ($insert) {
