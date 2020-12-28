@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_non_ribbon/action_get_person_prop') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('user_non_ribbon/action_get_person_prop') ?>">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>
