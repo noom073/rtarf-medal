@@ -7,7 +7,7 @@ class MYPDF extends PDF
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
 
-        $this->SetFont($fontname, '', 14);
+        // $this->SetFont($fontname, '', 14);
         // $this->MultiCell(245, 5, 'พิมพ์เมื่อ' . $this->PageNo(), 0, 'L', 0, 0, '', '', true);
         // $this->MultiCell(245, 5, 'พิมพ์เมื่อ ' . $this->curDate, 0, 'L', 0, 0, '', '', true);
         // $this->MultiCell(55, 5, 'แผ่นที่ ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 'R', 0, 1, '', '', true);

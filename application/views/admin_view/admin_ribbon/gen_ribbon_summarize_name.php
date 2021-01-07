@@ -1,16 +1,31 @@
 <?php
+class MYPDF extends PDF
+{
+    //Page Footer
+    public $footText;
+    public function Footer()
+    {
+        $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+        $this->SetFont($fontname, '', 16);
+
+        $this->writeHTMLCell(0, '', 200, '', $this->footText, 0, 1, 0, true, 'L', true);
+        // $this->writeHTMLCell(0, '', 200, '', 'ลงชื่อ', 0, 1, 0, true, 'L', true);
+        // $this->SetX(210);
+        // $this->Cell(0, 0, '(                                                )', 0, 1, 'L', 0, '', 0);
+    }
+}
 
 // create new PDF document
-$pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 $pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
+// $pdf->setPrintFooter(false);
 // $pdf->SetHeaderMargin(15);
-// $pdf->SetFooterMargin(1);
+$pdf->SetFooterMargin(40);
 
 // set auto page breaks
 
-$pdf->SetAutoPageBreak(TRUE, 10);
+$pdf->SetAutoPageBreak(TRUE, 50);
 
 // set font
 $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -34,6 +49,13 @@ if (count($persons_mpc)) {
         $html .= "{$mpcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $mpcNum++;
     }
+    $men = array_filter($persons_mpc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($persons_mpc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'มหาปรมาภรณ์ช้างเผือก จำนวน ' . count($persons_mpc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
     $pdf->SetMargins(45, 10, 5, true);
     $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
@@ -57,6 +79,13 @@ if (count($persons_mvm)) {
         $html .= "{$mvmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $mvmNum++;
     }
+    $men = array_filter($persons_mvm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($persons_mvm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'มหาวชิรมงกุฎ จำนวน ' . count($persons_mvm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
     $pdf->SetMargins(45, 10, 5, true);
     $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
@@ -80,6 +109,13 @@ if (count($persons_pc)) {
         $html .= "{$pcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $pcNum++;
     }
+    $men = array_filter($persons_pc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($persons_pc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'ประถมาภรณ์ช้างเผือก จำนวน ' . count($persons_pc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
     $pdf->SetMargins(45, 10, 5, true);
     $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
@@ -103,6 +139,13 @@ if (count($persons_pm)) {
         $html .= "{$pmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $pmNum++;
     }
+    $men = array_filter($persons_pm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($persons_pm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'ประถมาภรณ์มงกุฎไทย จำนวน ' . count($persons_pm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
     $pdf->SetMargins(45, 10, 5, true);
     $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);

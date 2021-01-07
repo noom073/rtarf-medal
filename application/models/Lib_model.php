@@ -78,7 +78,7 @@ class Lib_model extends CI_Model
         $this->oracle->select("NPRT_ACM, NPRT_NAME");
         $this->oracle->like("NPRT_UNIT", $unitID, 'none');
         $result = $this->oracle->get('PER_NPRT_TAB');
-        echo $this->oracle->last_query();
+        // echo $this->oracle->last_query();
 
         return $result;
     }

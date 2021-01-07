@@ -1,16 +1,31 @@
 <?php
+class MYPDF extends PDF
+{
+    //Page Footer
+    public $footText;
+    public function Footer()
+    {
+        $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+        $this->SetFont($fontname, '', 16);
+
+        $this->writeHTMLCell(0, '', 200, '', $this->footText, 0, 1, 0, true, 'L', true);
+        // $this->writeHTMLCell(0, '', 200, '', 'ลงชื่อ', 0, 1, 0, true, 'L', true);
+        // $this->SetX(210);
+        // $this->Cell(0, 0, '(                                                )', 0, 1, 'L', 0, '', 0);
+    }
+}
 
 // create new PDF document
-$pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 $pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
+// $pdf->setPrintFooter(false);
 // $pdf->SetHeaderMargin(15);
-// $pdf->SetFooterMargin(1);
+$pdf->SetFooterMargin(40);
 
 // set auto page breaks
 
-$pdf->SetAutoPageBreak(TRUE, 10);
+$pdf->SetAutoPageBreak(TRUE, 50);
 
 // set font
 $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -33,8 +48,16 @@ if (count($thc)) {
         $html .= "{$thcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $thcNum++;
     }
+    $men = array_filter($thc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($thc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'ทวีติยาภรณ์ช้างเผือก จำนวน ' . count($thc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -55,8 +78,16 @@ if (count($thm)) {
         $html .= "{$thmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $thmNum++;
     }
+    $men = array_filter($thm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($thm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'ทวีติยาภรณ์มงกุฎไทย จำนวน ' . count($thm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -77,8 +108,16 @@ if (count($tc)) {
         $html .= "{$tcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $tcNum++;
     }
+    $men = array_filter($tc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($tc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'ตริตาภรณ์ช้างเผือก จำนวน ' . count($tc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -100,8 +139,16 @@ if (count($tm)) {
         $html .= "{$tmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $tmNum++;
     }
+    $men = array_filter($tm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($tm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'ตริตาภรณ์มงกุฏไทย จำนวน ' . count($tm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -123,8 +170,16 @@ if (count($jc)) {
         $html .= "{$jcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $jcNum++;
     }
+    $men = array_filter($jc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($jc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'จัตุรถาภรณ์ช้างเผือก จำนวน ' . count($jc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -146,8 +201,16 @@ if (count($jm)) {
         $html .= "{$jmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $jmNum++;
     }
+    $men = array_filter($jm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($jm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'จัตุรถาภรณ์มงกุฏไทย จำนวน ' . count($jm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -169,8 +232,16 @@ if (count($bc)) {
         $html .= "{$bcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $bcNum++;
     }
+    $men = array_filter($bc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($bc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'เบญจมาภรณ์ช้างเผือก จำนวน ' . count($bc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -192,8 +263,16 @@ if (count($bm)) {
         $html .= "{$bmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $bmNum++;
     }
+    $men = array_filter($bm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($bm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'เบญจมาภรณ์มงกุฎไทย จำนวน ' . count($bm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -215,8 +294,16 @@ if (count($rtc)) {
         $html .= "{$rtcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $rtcNum++;
     }
+    $men = array_filter($rtc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($rtc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'เหรียญทองช้างเผือก จำนวน ' . count($rtc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -238,8 +325,16 @@ if (count($rtm)) {
         $html .= "{$rtmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $rtmNum++;
     }
+    $men = array_filter($rtm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($rtm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'เหรียญทองมงกุฎไทย จำนวน ' . count($rtm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -261,8 +356,16 @@ if (count($rgc)) {
         $html .= "{$rgcNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $rgcNum++;
     }
+    $men = array_filter($rgc, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($rgc, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'เหรียญเงินช้างเผือก จำนวน ' . count($rgc) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -284,8 +387,16 @@ if (count($rgm)) {
         $html .= "{$rgmNum}&nbsp;{$r['BIOG_NAME']} <br />";
         $rgmNum++;
     }
+    $men = array_filter($rgm, function ($r) {
+        return $r['BIOG_SEX'] == '0';
+    });
+    $women = array_filter($rgm, function ($r) {
+        return $r['BIOG_SEX'] == '1';
+    });
+    $pdf->footText = 'เหรียญเงินมงกุฎไทย จำนวน ' . count($rgm) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+    // $pdf->writeHTMLCell(0, '', 200, 170, $footText, 0, 1, 0, true, 'L', true);
     $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
+    $pdf->setEqualColumns(2);
     $pdf->writeHTML($html);
     $pdf->resetColumns();
 }
@@ -293,4 +404,3 @@ if (count($rgm)) {
 /******************************************************* */
 
 $pdf->Output('A.pdf', 'I');
-?>
