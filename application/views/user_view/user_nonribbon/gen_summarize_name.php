@@ -1,4 +1,54 @@
 <?php
+// SETTING COLUMNS
+// $maxRows = 15;
+// $columns = 2;
+
+// GENERATE FUNCTION
+function drawData($pdf, $person, $medalName, $year, $unit_name, $maxRows = 15, $columns = 2)
+{
+    $pdf->AddPage('L');
+    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
+    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
+    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
+    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
+    $pdf->writeHTMLCell(0, '', '', '', $medalName, 0, 1, 0, true, 'C', true);
+    $pdf->Ln(5);
+
+    $totalLen = count($person);
+    $totalPage = ceil($totalLen / ($maxRows * $columns));
+    $lastIndex = 0;
+    for ($p = 0; $p < $totalPage; $p++) {
+        for ($i = 0; $i < $maxRows; $i++) {
+            $index = $p * $maxRows * $columns + $i;
+            if (isset($person[$index])) {
+                $data = $index + 1 . ". {$person[$index]['BIOG_NAME']}";
+                $pdf->writeHTMLCell(100, '', 70, '', $data, 0, 0, 0, true, 'L', true);
+                $lastIndex = $lastIndex > $index ? $lastIndex : $index;
+            }
+            if (isset($person[$index + $maxRows])) {
+                $data = $index + $maxRows + 1 . ". {$person[$index +$maxRows]['BIOG_NAME']}";
+                $pdf->writeHTMLCell(100, '', '', '', $data, 0, 0, 0, true, 'L', true);
+                $lastIndex = $lastIndex > $index + $maxRows ? $lastIndex : $index + $maxRows;
+            }
+            $pdf->Ln();
+        }
+        $indexStart = $index - $maxRows + 2;
+        $indexEnd = $lastIndex + 1;
+        $footText1 = "ลำดับที่ {$indexStart} - {$indexEnd}";
+        $pdf->writeHTMLCell(0, '', 150, 160, $footText1, 0, 1, 0, true, 'C', true);
+        $men = array_filter($person, function ($r) {
+            return $r['BIOG_SEX'] == '0';
+        });
+        $women = array_filter($person, function ($r) {
+            return $r['BIOG_SEX'] == '1';
+        });
+        $footText2 = $medalName . ' ทั้งหมดจำนวน ' . count($person) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+        $pdf->writeHTMLCell(0, '', 150, '', $footText2, 0, 1, 0, true, 'C', true);
+        if ($p <= $totalPage - 2) {
+            $pdf->AddPage('L');
+        }
+    }
+}
 
 // create new PDF document
 $pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -6,12 +56,12 @@ $pdf = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', f
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 // $pdf->SetHeaderMargin(15);
-// $pdf->SetFooterMargin(1);
+// $pdf->SetFooterMargin(40);
 
 // set auto page breaks
 
 $pdf->SetAutoPageBreak(TRUE, 10);
-
+$pdf->SetMargins(10, 15, 5, true);
 // set font
 $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
 $pdf->SetFont($fontname, '', 15, '', true);
@@ -19,267 +69,73 @@ $pdf->SetFont($fontname, '', 15, '', true);
 /******************************************************* */
 // add a page ทวีติยาภรณ์ช้างเผือก
 if (count($thc)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'ทวีติยาภรณ์ช้างเผือก', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $thcNum = 1;
-    $html = '';
-    foreach ($thc as $r) {
-        $html .= "{$thcNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $thcNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $thc, 'ทวีติยาภรณ์ช้างเผือก', $year, $unit_name);
 }
 /******************************************************* */
 // add a page ทวีติยาภรณ์มงกุฎไทย
 if (count($thm)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'ทวีติยาภรณ์มงกุฎไทย', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $thmNum = 1;
-    $html = '';
-    foreach ($thm as $r) {
-        $html .= "{$thmNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $thmNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $thm, 'ทวีติยาภรณ์มงกุฎไทย', $year, $unit_name);
 }
 /******************************************************* */
 // add a page ตริตาภรณ์ช้างเผือก
 if (count($tc)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'ตริตาภรณ์ช้างเผือก', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $tcNum = 1;
-    $html = '';
-    foreach ($tc as $r) {
-        $html .= "{$tcNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $tcNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $tc, 'ตริตาภรณ์ช้างเผือก', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page ตริตาภรณ์มงกุฏไทย
 if (count($tm)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'ตริตาภรณ์มงกุฏไทย', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $tmNum = 1;
-    $html = '';
-    foreach ($tm as $r) {
-        $html .= "{$tmNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $tmNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $tm, 'ตริตาภรณ์มงกุฏไทย', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page จัตุรถาภรณ์ช้างเผือก
 if (count($jc)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'จัตุรถาภรณ์ช้างเผือก', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $jcNum = 1;
-    $html = '';
-    foreach ($jc as $r) {
-        $html .= "{$jcNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $jcNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $jc, 'จัตุรถาภรณ์ช้างเผือก', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page จัตุรถาภรณ์มงกุฏไทย
 if (count($jm)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'จัตุรถาภรณ์มงกุฏไทย', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $jmNum = 1;
-    $html = '';
-    foreach ($jm as $r) {
-        $html .= "{$jmNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $jmNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $jm, 'จัตุรถาภรณ์มงกุฏไทย', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page เบญจมาภรณ์ช้างเผือก
 if (count($bc)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'เบญจมาภรณ์ช้างเผือก', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $bcNum = 1;
-    $html = '';
-    foreach ($bc as $r) {
-        $html .= "{$bcNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $bcNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $bc, 'เบญจมาภรณ์ช้างเผือก', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page เบญจมาภรณ์มงกุฎไทย
 if (count($bm)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'เบญจมาภรณ์มงกุฎไทย', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $bmNum = 1;
-    $html = '';
-    foreach ($bm as $r) {
-        $html .= "{$bmNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $bmNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $bm, 'เบญจมาภรณ์มงกุฎไทย', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page เหรียญทองช้างเผือก
 if (count($rtc)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'เหรียญทองช้างเผือก', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $rtcNum = 1;
-    $html = '';
-    foreach ($rtc as $r) {
-        $html .= "{$rtcNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $rtcNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $rtc, 'เหรียญทองช้างเผือก', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page เหรียญทองมงกุฎไทย
 if (count($rtm)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'เหรียญทองมงกุฎไทย', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $rtmNum = 1;
-    $html = '';
-    foreach ($rtm as $r) {
-        $html .= "{$rtmNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $rtmNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $rtm, 'เหรียญทองมงกุฎไทย', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page เหรียญเงินช้างเผือก
 if (count($rgc)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'เหรียญเงินช้างเผือก', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $rgcNum = 1;
-    $html = '';
-    foreach ($rgc as $r) {
-        $html .= "{$rgcNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $rgcNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $rgc, 'เหรียญเงินช้างเผือก', $year, $unit_name);
 }
+
 /******************************************************* */
 // add a page เหรียญเงินมงกุฎไทย
 if (count($rgm)) {
-    $pdf->SetMargins(10, 10, 5, true);
-    $pdf->AddPage('L');
-    $pdf->writeHTMLCell(0, '', '', '', 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', 'เหรียญเงินมงกุฎไทย', 0, 1, 0, true, 'C', true);
-    $pdf->Ln(5);
-    $rgmNum = 1;
-    $html = '';
-    foreach ($rgm as $r) {
-        $html .= "{$rgmNum}&nbsp;{$r['BIOG_NAME']} <br />";
-        $rgmNum++;
-    }
-    $pdf->SetMargins(45, 10, 5, true);
-    $pdf->setEqualColumns(2); 
-    $pdf->writeHTML($html);
-    $pdf->resetColumns();
+    drawData($pdf, $rgm, 'เหรียญเงินมงกุฎไทย', $year, $unit_name);
 }
+
 /******************************************************* */
 
 $pdf->Output('A.pdf', 'I');
