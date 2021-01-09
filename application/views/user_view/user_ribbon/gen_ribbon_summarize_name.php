@@ -19,21 +19,27 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $maxRows = 15, $
     $totalPage = ceil($totalLen / ($maxRows * $columns));
     $lastIndex = 0;
     for ($p = 0; $p < $totalPage; $p++) {
+        $lastIndex = 0;
         for ($i = 0; $i < $maxRows; $i++) {
-            $index = $p * $maxRows * $columns + $i;
-            if (isset($person[$index])) {
-                $data = $index + 1 . ". {$person[$index]['BIOG_NAME']}";
-                $pdf->writeHTMLCell(100, '', 70, '', $data, 0, 0, 0, true, 'L', true);
-                $lastIndex = $lastIndex > $index ? $lastIndex : $index;
-            }
-            if (isset($person[$index + $maxRows])) {
-                $data = $index + $maxRows + 1 . ". {$person[$index +$maxRows]['BIOG_NAME']}";
-                $pdf->writeHTMLCell(100, '', '', '', $data, 0, 0, 0, true, 'L', true);
-                $lastIndex = $lastIndex > $index + $maxRows ? $lastIndex : $index + $maxRows;
+            for ($e = 0; $e < $columns; $e++) {
+                $index = $p * $maxRows * $columns + $i;
+                if ($e == 0) {
+                    if (isset($person[$index])) {
+                        $data = $index + 1 . ". {$person[$index]['BIOG_NAME']}";
+                        $pdf->writeHTMLCell(100, '', 70, '', $data, 0, 0, 0, true, 'L', true);
+                        $lastIndex = $lastIndex > $index ? $lastIndex : $index;
+                    }
+                } else {
+                    if (isset($person[$index + $e * $maxRows])) {
+                        $data = $index + $maxRows * $e + 1 . ". {$person[$index +$e *$maxRows]['BIOG_NAME']}";
+                        $pdf->writeHTMLCell(100, '', '', '', $data, 0, 0, 0, true, 'L', true);
+                        $lastIndex = $lastIndex > $index + $e * $maxRows ? $lastIndex : $index + $e * $maxRows;
+                    }
+                }
             }
             $pdf->Ln();
         }
-        $indexStart = $index - $maxRows + 2;
+        $indexStart = $p * $columns * $maxRows + 1;
         $indexEnd = $lastIndex + 1;
         $footText1 = "ลำดับที่ {$indexStart} - {$indexEnd}";
         $pdf->writeHTMLCell(0, '', 150, 160, $footText1, 0, 1, 0, true, 'C', true);
@@ -43,7 +49,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $maxRows = 15, $
         $women = array_filter($person, function ($r) {
             return $r['BIOG_SEX'] == '1';
         });
-        $footText2 =  $medalName . ' ทั้งหมดจำนวน ' . count($person) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+        $footText2 = $medalName . ' ทั้งหมดจำนวน ' . count($person) . ' นาย <br>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
         $pdf->writeHTMLCell(0, '', 150, '', $footText2, 0, 1, 0, true, 'C', true);
         if ($p <= $totalPage - 2) {
             $pdf->AddPage('L');
