@@ -28,7 +28,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $maxRows = 15, $
                         $data = $index + 1 . ". {$person[$index]['BIOG_NAME']}";
                         $pdf->writeHTMLCell(100, '', 70, '', $data, 0, 0, 0, true, 'L', true);
                         $lastIndex = $lastIndex > $index ? $lastIndex : $index;
-                    }
+                    } else break 2;
                 } else {
                     if (isset($person[$index + $e * $maxRows])) {
                         $data = $index + $maxRows * $e + 1 . ". {$person[$index +$e *$maxRows]['BIOG_NAME']}";
