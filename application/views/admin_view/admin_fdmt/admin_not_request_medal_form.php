@@ -8,7 +8,7 @@
                 <h1 class="container content is-size-4">บัญชีผู้ยังไม่ได้รับเครื่องราชฯ</h1>
                 <div class="container content">
                     <p>
-                        <div class="is-size-5 has-text-centere">กรุณาเลือกชั้นยศ</div>
+                    <div class="is-size-5 has-text-centere">กรุณาเลือกชั้นยศ</div>
                     </p>
                     <div class="field is-grouped">
                         <div class="control">
@@ -43,8 +43,8 @@
                                 <div class="control">
                                     <div class="select">
                                         <select name="year">
-                                            <?php for ($i = 0; $i < 10; $i++) { ?>
-                                                <option value="<?= (date("Y") + 544) - $i ?>"><?= (date("Y") + 544) - $i ?></option>
+                                            <?php for ($i = 0; $i < 6; $i++) { ?>
+                                                <option value="<?= (date("Y") + 543) + $i ?>"><?= (date("Y") + 543) + $i ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

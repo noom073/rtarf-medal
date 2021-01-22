@@ -83,8 +83,8 @@
                                         <div class="control">
                                             <div class="select">
                                                 <select name="year">
-                                                    <?php for ($i = 0; $i < 10; $i++) { ?>
-                                                        <option value="<?= (date("Y") + 544) - $i ?>"><?= (date("Y") + 544) - $i ?></option>
+                                                    <?php for ($i = 0; $i < 6; $i++) { ?>
+                                                        <option value="<?= (date("Y") + 543) + $i ?>"><?= (date("Y") + 543) + $i ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
