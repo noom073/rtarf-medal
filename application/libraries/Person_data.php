@@ -18,17 +18,30 @@ class Person_data
         return $result;
     }
 
-    public function this_retire($dmy_born)
+    // OLD public function this_retire($dmy_born)
+    public function retireYear($dmy_born)
     {
-        // $yearRetire = $this->CI->lib_model->retire60($dmy_born)->row_array()['YEAR_RETIRE'];
+        // $yearRetire = $this->CI->lib_model->retire60($dmy_born);
+        // $thisYear = date("Y") + 543;
+        // if ($yearRetire == $thisYear) {
+        //     $status = true;
+        // } else {
+        //     $status = false;
+        // }
+        // return $status;
+
         $yearRetire = $this->CI->lib_model->retire60($dmy_born);
-        $thisYear = date("Y") + 543;
-        if ($yearRetire == $thisYear) {
+        return $yearRetire;
+    }
+
+    public function isThisYearRetire($dmy_born, $year)
+    {
+        $yearRetire = $this->CI->lib_model->retire60($dmy_born);
+        if ($yearRetire <= $year) {
             $status = true;
         } else {
             $status = false;
         }
-
         return $status;
     }
 
@@ -61,7 +74,7 @@ class Person_data
             $medal = 'Not in rank';
         }
 
-        $this->check_col5_5($person['BIOG_ID']);
+        // $this->check_col5_5($person['BIOG_ID']);
 
         return $medal;
     }
@@ -69,7 +82,7 @@ class Person_data
     protected function next_medal_0102($person, $curYear)
     {
         $countYear  = $curYear - $person['BIOG_DECY'];
-        $retire60   = $this->this_retire($person['BIOG_DMY_BORN']);
+        $retire60   = $this->retireYear($person['BIOG_DMY_BORN'], $curYear);
 
         $allMedal_0102 = array(
             'ปม.', 'ปม', 'ป.ม.', 'ปช.', 'ปช', 'ป.ช.', 'มวม.', 'มวม',
@@ -124,7 +137,7 @@ class Person_data
     protected function next_medal_03($person, $curYear)
     {
         $countYear  = $curYear - $person['BIOG_DECY'];
-        $retire60   = $this->this_retire($person['BIOG_DMY_BORN']);
+        $retire60   = $this->retireYear($person['BIOG_DMY_BORN'], $curYear);
 
         $allMedal_03 = array(
             'ปม.', 'ปม', 'ป.ม.', 'ปช.', 'ปช', 'ป.ช.', 'มวม.', 'มวม',
@@ -178,7 +191,7 @@ class Person_data
     protected function next_medal_04($person, $curYear)
     {
         $countYear  = $curYear - $person['BIOG_DECY'];
-        $retire60   = $this->this_retire($person['BIOG_DMY_BORN']);
+        $retire60   = $this->retireYear($person['BIOG_DMY_BORN'], $curYear);
 
         $all_medal_04 = array(
             'ทช.', 'ทช', 'ท.ช.', 'ปม.', 'ปม', 'ป.ม.', 'ปช.', 'ปช',
@@ -230,7 +243,7 @@ class Person_data
     protected function next_medal_05($person, $curYear)
     {
         $countYear  = $curYear - $person['BIOG_DECY'];
-        $retire60   = $this->this_retire($person['BIOG_DMY_BORN']);
+        $retire60   = $this->retireYear($person['BIOG_DMY_BORN'], $curYear);
 
         $rank05_position = array(
             '01165', '01107', '01109', '01092', '01093', '01131',

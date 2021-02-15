@@ -1,5 +1,4 @@
 <?php
-set_time_limit(300);
 
 class MYPDF extends PDF
 {
@@ -9,12 +8,13 @@ class MYPDF extends PDF
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
 
         $this->SetFont($fontname, '', 14);
+
         $this->MultiCell(245, 5, 'พิมพ์เมื่อ ' . $this->curDate, 0, 'L', 0, 0, '', '', true);
         $this->MultiCell(55, 5, 'แผ่นที่ ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, 'R', 0, 1, '', '', true);
 
         $this->SetFont($fontname, '', 16);
 
-        $html1 = '<span style="font-weight:bold;">บัญชีรายชื่อผู้ได้รับพระราชทานเครื่องราชอิสริยาภรณ์ชั้นต่ำกว่าสายสะพาย พ.ศ.' . $this->myYear . '</span>';
+        $html1 = '<span style="font-weight:bold;">บัญชีผู้ยังไม่ได้รับพระราชทานเครื่องราชอิสริยาภรณ์ชั้นต่ำกว่าสายสะพาย พ.ศ.' . $this->myYear . '</span>';
         $this->writeHTMLCell(0, '', '', '', $html1, 0, 1, 0, true, 'C', true);
         // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
@@ -38,9 +38,9 @@ class MYPDF extends PDF
     // }
 }
 
+// create new PDF document
 $dm = date('dm') . strval( date('Y') + 543);
 
-// create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->headerUnitName = $unit_name['NPRT_NAME'];
 $pdf->myYear = $year;
@@ -91,42 +91,31 @@ $html .= '</tr>';
 
 $html .= '<tr>';
 $html .= '<th colspan="5"></th>';
-$html .= '<th width="5%">เหรียญ</th>';
-$html .= '<th width="5%">ร.ท.ช.</th>';
-$html .= '<th width="4%">บ.ม.</th>';
-$html .= '<th width="4%">บ.ช.</th>';
-$html .= '<th width="4%">จ.ม.</th>';
+$html .= '<th width="5%">บ.ม.</th>';
+$html .= '<th width="5%">บ.ช.</th>';
+$html .= '<th width="5%">จ.ม.</th>';
+$html .= '<th width="5%">จ.ช.</th>';
 $html .= '<th width="12%"></th>';
 $html .= '</tr>';
 $html .= '</thead>';
 $html .= '<tbody>';
 foreach ($persons as $person) {
-    // echo "{$num} {$person['BIOG_NAME']} {$person['BIOG_POSNAME']} - $txtLength : {$rowHeight} <br />";
-
-    // $rank           = $this->person_data->army_rank($person['BIOG_RANK'])['CRAK_NAME_ACM'];
-    // $biog_dmy_rank  = $this->myfunction->dmy_to_thai($person['BIOG_DMY_RANK'], 1);
-    // $nearRetire     = $this->person_data->this_retire($person['BIOG_DMY_BORN']) === true ? '***' : '';
-    // $cdecDate       = $this->person_data->set_cdec_date($person['BIOG_DECY']);
-    // $this_medal     = $this->person_data->next_medal($person, $year);
     $n5 = $person['BIOG_RANK'] == '05' ? '*' : '';
-    $rjm_result = $this->person_data->cdec_year2($person['BIOG_ID'], array('รจม.', 'ร.จ.ม.'));
-    $rjm = $rjm_result != '-' ? 'ร.จ.ม.' : '-';
-    $rtc = $this->person_data->cdec_year2($person['BIOG_ID'], array('รทช.', 'ร.ท.ช.'));
     $bm = $this->person_data->cdec_year2($person['BIOG_ID'], array('บม.', 'บ.ม.'));
     $bc = $this->person_data->cdec_year2($person['BIOG_ID'], array('บช.', 'บ.ช.'));
     $jm = $this->person_data->cdec_year2($person['BIOG_ID'], array('จม.', 'จ.ม.'));
+    $jc = $this->person_data->cdec_year2($person['BIOG_ID'], array('จช.', 'จ.ช.'));
 
-    $html .= '<tr nobr="true">';
+    $html .= '<tr nobr="false">';
     $html .= '<td width="3%">' . $num . '</td>';
     $html .= '<td width="1%">' . $n5 . '</td>';
     $html .= '<td width="18%">' . $person['BIOG_NAME'] . '</td>';
     $html .= '<td width="11%">' . $person['BIOG_ID'] . '</td>';
     $html .= '<td width="35%">' . $person['BIOG_POSNAME'] . '</td>';
-    $html .= '<td width="5%">' . $rjm . '</td>';
-    $html .= '<td width="5%">' . $rtc . '</td>';
-    $html .= '<td width="4%">' . $bm . '</td>';
-    $html .= '<td width="4%">' . $bc . '</td>';
-    $html .= '<td width="4%">' . $jm . '</td>';
+    $html .= '<td width="5%">' . $bm . '</td>';
+    $html .= '<td width="5%">' . $bc . '</td>';
+    $html .= '<td width="5%">' . $jm . '</td>';
+    $html .= '<td width="5%">' . $jc . '</td>';
     $html .= '<td width="12%">' . '&nbsp;' . '</td>';
     $html .= '</tr>';
 

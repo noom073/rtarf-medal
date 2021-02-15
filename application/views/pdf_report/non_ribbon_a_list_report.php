@@ -20,6 +20,22 @@ class MYPDF extends PDF
         $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
     }
 
+    // Page footer
+    // public function Footer()
+    // {
+    //     // Position at 15 mm from bottom
+    //     $this->SetY(-15);
+    //     // Set font
+    //     $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+    //     $this->SetFont($fontname, '', 14, '', true);
+    //     $footer1 = '<span style="text-decoration: underline; font-weight:bold;">หมายเหตุ</span>';
+    //     $this->writeHTMLCell(50, '', 30, '', $footer1, 0, 0, 0, true, 'C', true);
+    //     $this->writeHTMLCell(30, '', '', '', '*** เกษียณปีปัจจุบัน', 0, 0, 0, true, 'C', true);
+    //     $this->writeHTMLCell(30, '', '', '', 'xxx วดป.ผิด', 0, 0, 0, true, 'C', true);
+    //     $this->writeHTMLCell(30, '', '', '', '-*- ไม่ครบขอฯ', 0, 0, 0, true, 'C', true);
+    //     $this->writeHTMLCell(30, '', '', '', '-- ชั้นสูงสุด', 0, 0, 0, true, 'C', true);
+    //     $this->writeHTMLCell(30, '', '', '', '??? เครื่องราชฯ เดิมผิด', 0, 0, 0, true, 'C', true);
+    // }
 }
 
 $dm = date('dm') . strval( date('Y') + 543);

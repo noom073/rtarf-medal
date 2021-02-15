@@ -156,7 +156,8 @@ class Admin_typical_ribbon extends CI_Controller
 
 		$data['persons'] = $this->atr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 
-		$this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_property', $data);
+		// $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_property', $data);
+        $this->load->view('pdf_report/ordinary_ribbon/property_list_report', $data);
 	}
 
 	public function summarize_name()
@@ -188,7 +189,8 @@ class Admin_typical_ribbon extends CI_Controller
 		$data['ribbon_acm'] = 'ป.ม.';
 		$data['persons_pm']     = $this->atr_model->get_person_prop_by_medal($unitID, $data)->result_array();
         
-        $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_summarize_name', $data);
+        // $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_summarize_name', $data);
+        $this->load->view('pdf_report/ordinary_ribbon/name_list_report', $data);
 	}
 	
 	public function ribbon_amount()
@@ -241,7 +243,7 @@ class Admin_typical_ribbon extends CI_Controller
         $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
-        $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_amount', $data);
-
+        // $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_amount', $data);
+        $this->load->view('pdf_report/ordinary_ribbon/total_group_report', $data);
     }
 }

@@ -54,7 +54,8 @@ class Admin_ribbon extends CI_Controller
         } else {
             $data['persons'] = [];
         }
-        $this->load->view('admin_view/admin_ribbon/gen_ribbon_property', $data);
+        // $this->load->view('admin_view/admin_ribbon/gen_ribbon_property', $data);
+        $this->load->view('pdf_report/ribbon/property_list_report', $data);
     }
 
     public function summarize_name_form()
@@ -80,10 +81,11 @@ class Admin_ribbon extends CI_Controller
         $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data);
-        
+
         // var_dump($data);
         // echo json_encode($data);
-        $this->load->view('admin_view/admin_ribbon/gen_ribbon_summarize_name', $data);
+        // $this->load->view('admin_view/admin_ribbon/gen_ribbon_summarize_name', $data);
+        $this->load->view('pdf_report/ribbon/name_list_report', $data);
     }
 
     public function ribbon_amount()
@@ -109,29 +111,45 @@ class Admin_ribbon extends CI_Controller
         $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
         $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data);
-        
-        $persons_mpc_men        = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_mpc_women      = array_filter($data['persons_mpc'], function($r) { return $r['BIOG_SEX'] == 1; });
+
+        $persons_mpc_men        = array_filter($data['persons_mpc'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_mpc_women      = array_filter($data['persons_mpc'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['mpc']['men']     = count($persons_mpc_men);
         $data['mpc']['women']   = count($persons_mpc_women);
 
-        $persons_mvm_men        = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_mvm_women      = array_filter($data['persons_mvm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $persons_mvm_men        = array_filter($data['persons_mvm'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_mvm_women      = array_filter($data['persons_mvm'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['mvm']['men']     = count($persons_mvm_men);
         $data['mvm']['women']   = count($persons_mvm_women);
 
-        $persons_pc_men        = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_pc_women      = array_filter($data['persons_pc'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $persons_pc_men        = array_filter($data['persons_pc'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_pc_women      = array_filter($data['persons_pc'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['pc']['men']     = count($persons_pc_men);
         $data['pc']['women']   = count($persons_pc_women);
 
-        $persons_pm_men        = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 0; });
-        $persons_pm_women      = array_filter($data['persons_pm'], function($r) { return $r['BIOG_SEX'] == 1; });
+        $persons_pm_men        = array_filter($data['persons_pm'], function ($r) {
+            return $r['BIOG_SEX'] == 0;
+        });
+        $persons_pm_women      = array_filter($data['persons_pm'], function ($r) {
+            return $r['BIOG_SEX'] == 1;
+        });
         $data['pm']['men']     = count($persons_pm_men);
         $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
-        $this->load->view('admin_view/admin_ribbon/gen_ribbon_amount', $data);
-
+        // $this->load->view('admin_view/admin_ribbon/gen_ribbon_amount', $data);
+        $this->load->view('pdf_report/ribbon/total_group_report', $data);
     }
 }

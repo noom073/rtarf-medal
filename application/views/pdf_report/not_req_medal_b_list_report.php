@@ -101,13 +101,6 @@ $html .= '</tr>';
 $html .= '</thead>';
 $html .= '<tbody>';
 foreach ($persons as $person) {
-    // echo "{$num} {$person['BIOG_NAME']} {$person['BIOG_POSNAME']} - $txtLength : {$rowHeight} <br />";
-
-    // $rank           = $this->person_data->army_rank($person['BIOG_RANK'])['CRAK_NAME_ACM'];
-    // $biog_dmy_rank  = $this->myfunction->dmy_to_thai($person['BIOG_DMY_RANK'], 1);
-    // $nearRetire     = $this->person_data->this_retire($person['BIOG_DMY_BORN']) === true ? '***' : '';
-    // $cdecDate       = $this->person_data->set_cdec_date($person['BIOG_DECY']);
-    // $this_medal     = $this->person_data->next_medal($person, $year);
     $n5 = $person['BIOG_RANK'] == '05' ? '*' : '';
     $rjm_result = $this->person_data->cdec_year2($person['BIOG_ID'], array('รจม.', 'ร.จ.ม.'));
     $rjm = $rjm_result != '-' ? 'ร.จ.ม.' : '-';

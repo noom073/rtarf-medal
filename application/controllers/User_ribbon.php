@@ -60,7 +60,8 @@ class User_ribbon extends CI_Controller
         }
 
         // var_dump($data);
-        $this->load->view('user_view/user_ribbon/gen_ribbon_property', $data);
+        // $this->load->view('user_view/user_ribbon/gen_ribbon_property', $data);
+        $this->load->view('pdf_report/ribbon/property_list_report', $data);
     }
 
     public function summarize_name_form()
@@ -92,7 +93,8 @@ class User_ribbon extends CI_Controller
 
         // var_dump($data);
         // echo json_encode($data);
-        $this->load->view('user_view/user_ribbon/gen_ribbon_summarize_name', $data);
+        // $this->load->view('user_view/user_ribbon/gen_ribbon_summarize_name', $data);
+        $this->load->view('pdf_report/ribbon/name_list_report', $data);
     }
 
     public function ribbon_amount()
@@ -159,7 +161,8 @@ class User_ribbon extends CI_Controller
         $data['pm']['women']   = count($persons_pm_women);
 
         // var_dump($data);
-        $this->load->view('user_view/user_ribbon/gen_ribbon_amount', $data);
+        // $this->load->view('user_view/user_ribbon/gen_ribbon_amount', $data);
+        $this->load->view('pdf_report/ribbon/total_group_report', $data);
     }
 
     public function prepare_save_bdec()

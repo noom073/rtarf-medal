@@ -163,7 +163,8 @@ class User_typical_non_ribbon extends CI_Controller
 
 		$data['persons'] = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 
-		$this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_property', $data);
+		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_property', $data);
+		$this->load->view('pdf_report/ordinary_non_ribbon/property_list_report', $data);
 	}
 
 	public function summarize_name()
@@ -214,7 +215,8 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['ribbon_acm'] = 'ร.ง.ม.';
 		$data['rgm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
 
-		$this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
+		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
+		$this->load->view('pdf_report/ordinary_non_ribbon/name_list_report', $data);
 	}
 
 	public function ribbon_amount()
@@ -375,6 +377,7 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['rgm']['women']   = count($persons_rgm_women);
 
 		// var_dump($data);
-		$this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_amount', $data);
+		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_amount', $data);
+		$this->load->view('pdf_report/ordinary_non_ribbon/total_group_report', $data);
 	}
 }

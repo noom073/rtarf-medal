@@ -89,7 +89,8 @@ class User_fundamental extends CI_Controller
 		$data['unit_name'] 	= $this->user_fundamental_model->get_unit_name($unitid)->row_array();
 		$data['persons'] 	= $this->user_fundamental_model->get_ribbon_person($unitcode4)->result_array();
 		// var_dump($data);
-		$this->load->view('user_view/user_fdmt/gen_ribbon_report', $data);
+		// $this->load->view('user_view/user_fdmt/gen_ribbon_report', $data);
+		$this->load->view('pdf_report/ribbon_list_report', $data);
 	}
 
 	public function non_ribbon_report()
@@ -126,19 +127,22 @@ class User_fundamental extends CI_Controller
 			$data['persons'] 	= $this->user_fundamental_model
 				->get_non_ribbon_person($unitcode4, $data['rankid'], $data['rankid'])
 				->result_array();
-			$this->load->view('user_view/user_fdmt/gen_non_ribbon_a_report', $data);
+			// $this->load->view('user_view/user_fdmt/gen_non_ribbon_a_report', $data);
+			$this->load->view('pdf_report/non_ribbon_a_list_report', $data);
 		} else if ($data['rankid'] >= '21' && $data['rankid'] <= '27') {
 			$data['rankType'] 	= 'non-commission';
 			$data['persons'] 	= $this->user_fundamental_model
 				->get_non_ribbon_person($unitcode4, $data['rankid'], $data['rankid'])
 				->result_array();
-			$this->load->view('user_view/user_fdmt/gen_non_ribbon_b_report', $data);
+			// $this->load->view('user_view/user_fdmt/gen_non_ribbon_b_report', $data);
+			$this->load->view('pdf_report/non_ribbon_b_list_report', $data);
 		} else if ($data['rankid'] >= '50' && $data['rankid'] <= '61') {
 			$data['rankType'] 	= 'employee';
 			$data['persons'] 	= $this->user_fundamental_model
 				->get_non_ribbon_person($unitcode4, $data['rankid'], $data['rankid'])
 				->result_array();
-			$this->load->view('user_view/user_fdmt/gen_non_ribbon_c_report', $data);
+			// $this->load->view('user_view/user_fdmt/gen_non_ribbon_c_report', $data);
+			$this->load->view('pdf_report/non_ribbon_c_list_report', $data);
 		} else {
 			$data['rankType'] = 'not in rank';
 			redirect('user_fundamental/non_ribbon_report');
@@ -179,19 +183,22 @@ class User_fundamental extends CI_Controller
 			$data['persons'] 	= $this->user_fundamental_model
 				->get_non_ribbon_person($unitcode4, $data['rankid'], $data['rankid'])
 				->result_array();
-			$this->load->view('user_view/user_fdmt/gen_not_req_medal_a_report', $data);
+			// $this->load->view('user_view/user_fdmt/gen_not_req_medal_a_report', $data);
+			$this->load->view('pdf_report/not_req_medal_a_list_report', $data);			
 		} else if ($data['rankid'] >= '21' && $data['rankid'] <= '27') {
 			$data['rankType'] 	= 'non-commission';
 			$data['persons'] 	= $this->user_fundamental_model
 				->get_non_ribbon_person($unitcode4, $data['rankid'], $data['rankid'])
 				->result_array();
-			$this->load->view('user_view/user_fdmt/gen_not_req_medal_b_report', $data);
+			// $this->load->view('user_view/user_fdmt/gen_not_req_medal_b_report', $data);
+			$this->load->view('pdf_report/not_req_medal_b_list_report', $data);
 		} else if ($data['rankid'] >= '50' && $data['rankid'] <= '61') {
 			$data['rankType'] 	= 'employee';
 			$data['persons'] 	= $this->user_fundamental_model
 				->get_non_ribbon_person($unitcode4, $data['rankid'], $data['rankid'])
 				->result_array();
-			$this->load->view('user_view/user_fdmt/gen_not_req_medal_c_report', $data);
+			// $this->load->view('user_view/user_fdmt/gen_not_req_medal_c_report', $data);
+			$this->load->view('pdf_report/not_req_medal_c_list_report', $data);
 		} else {
 			$data['rankType'] = 'not in rank';
 			redirect('user_fundamental/non_ribbon_report');

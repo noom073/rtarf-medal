@@ -96,7 +96,8 @@ class Admin_non_ribbon extends CI_Controller
         }
 
         // var_dump($result);
-        $this->load->view('admin_view/admin_nonribbon/gen_property', $data);
+        // $this->load->view('admin_view/admin_nonribbon/gen_property', $data);
+        $this->load->view('pdf_report/non_ribbon/property_list_report', $data);
     }
 
     public function summarize_name()
@@ -146,7 +147,8 @@ class Admin_non_ribbon extends CI_Controller
         $data['rgm'] = $this->admin_nonribbon_model->rgm_person_filter($rsRgm);
 
         // var_dump($data);
-        $this->load->view('admin_view/admin_nonribbon/gen_summarize_name', $data);
+        // $this->load->view('admin_view/admin_nonribbon/gen_summarize_name', $data);
+        $this->load->view('pdf_report/non_ribbon/name_list_report', $data);
     }
 
     public function nonribbon_amount()
@@ -255,6 +257,7 @@ class Admin_non_ribbon extends CI_Controller
         $data['rgm']['men']     = count($persons_rgm_men);
         $data['rgm']['women']   = count($persons_rgm_women);
 
-        $this->load->view('admin_view/admin_nonribbon/gen_person_amount', $data);
+        // $this->load->view('admin_view/admin_nonribbon/gen_person_amount', $data);
+        $this->load->view('pdf_report/non_ribbon/total_group_report', $data);
     }
 }

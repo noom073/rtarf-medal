@@ -24,8 +24,6 @@ class Lib_model extends CI_Model
 
     public function retire60($dmy_born)
     {
-        // $result = $this->oracle->query("SELECT retire60('{$dmy_born}') as YEAR_RETIRE FROM dual");
-        // return $result;
         $d = substr($dmy_born, 0, 2);
         $m = substr($dmy_born, 2, 2);
         $y = substr($dmy_born, 4, 4);
@@ -35,7 +33,6 @@ class Lib_model extends CI_Model
         } else {
             $retireYear = $y + 60;
         }
-
         return $retireYear;
     }
 

@@ -14,7 +14,7 @@ class MYPDF extends PDF
 
         $this->SetFont($fontname, '', 16);
 
-        $html1 = '<span style="font-weight:bold;">บัญชีขอพระราชทานเครื่องราชอิสริยาภรณ์ (ชั้นสายสะพาย) พ.ศ.2563</span>';
+        $html1 = '<span style="font-weight:bold;">บัญชีขอพระราชทานเครื่องราชอิสริยาภรณ์ (ชั้นสายสะพาย) พ.ศ.' . $this->myYear . '</span>';
         $this->writeHTMLCell(0, '', '', '', $html1, 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
@@ -41,27 +41,13 @@ class MYPDF extends PDF
     }
 }
 
-$dm = date('dm') . strval( date('Y') + 543);
+$dm = date('dm') . strval(date('Y') + 543);
 
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf->myYear = $year;
 $pdf->headerUnitName = $unit_name['NPRT_NAME'];
 $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
-// set document information
-// $pdf->SetCreator(PDF_CREATOR);
-// $pdf->SetAuthor('Nicola Asuni');
-// $pdf->SetTitle('TCPDF Example 003');
-// $pdf->SetSubject('TCPDF Tutorial');
-// $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-// $pdf->setPrintHeader(false);
-// $pdf->setPrintFooter(false);
-// echo PDF_HEADER_STRING;
-
-// set margins
-// $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-// $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-// $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetMargins(5, 50, 0);
 $pdf->SetHeaderMargin(15);
 $pdf->SetFooterMargin(1);
@@ -98,17 +84,16 @@ $html .= '</thead>';
 
 $html .= '<tbody>';
 foreach ($persons as $person) {
-    // echo "{$person['BIOG_POSNAME']} - $txtLength : {$rowHeight} <br />";
-
     $rank           = $this->person_data->army_rank($person['BIOG_RANK'])['CRAK_NAME_ACM'];
     $biog_dmy_rank  = $this->myfunction->dmy_to_thai($person['BIOG_DMY_RANK'], 1);
-    $nearRetire     = $this->person_data->this_retire($person['BIOG_DMY_BORN']) === true ? '***' : '';
+    $isRetire       = $this->person_data
+        ->isThisYearRetire($person['BIOG_DMY_BORN'], $year) == TRUE  ? '***' : '';
     $cdecDate       = $this->person_data->set_cdec_date($person['BIOG_DECY']);
     $this_medal     = $this->person_data->next_medal($person, $year);
 
     $html .= '<tr nobr="true">';
     $html .= '<td width="3%">' . $num . '</td>';
-    $html .= '<td width="2%">' . $nearRetire . '</td>';
+    $html .= '<td width="2%">' . $isRetire . '</td>';
     $html .= '<td width="22%">' . $person['BIOG_NAME'] . '</td>';
     $html .= '<td width="6%">' . $rank . '</td>';
     $html .= '<td width="8%">' . $biog_dmy_rank . '</td>';
@@ -119,14 +104,12 @@ foreach ($persons as $person) {
     $html .= '<td width="5%">' . $this_medal . '</td>';
     $html .= '<td width="8%">' . '&nbsp;' . '</td>';
     $html .= '</tr>';
-    
+
     $num++;
 }
 
 $html .= '</tbody>';
 $html .= '</table>';
 
-// echo $html;
 $pdf->writeHTML($html, true, 0, true, 0);
 $pdf->Output('A.pdf', 'I');
-?>

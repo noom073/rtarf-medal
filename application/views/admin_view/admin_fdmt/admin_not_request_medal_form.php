@@ -151,7 +151,7 @@
             const ranks = <?= json_encode($ranks) ?>;
             let rankList = new Array();
             if (rankType == 'commission') {
-                rankList = ranks.filter(r => r.CRAK_CODE >= '06' && r.CRAK_CODE <= '11' &&
+                rankList = ranks.filter(r => r.CRAK_CODE >= '05' && r.CRAK_CODE <= '11' &&
                     (r.CRAK_CDEP_CODE == '1' || r.CRAK_CDEP_CODE == '0'));
             } else if (rankType == 'non-commission') {
                 rankList = ranks.filter(r => r.CRAK_CODE >= '21' && r.CRAK_CODE <= '27' &&
