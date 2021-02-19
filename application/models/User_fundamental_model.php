@@ -78,13 +78,15 @@ class User_fundamental_model extends CI_Model
         $this->oracle->select("B.UNIT_CODE, B.UNIT_ACM, B.UNIT_NAME, 
         A.BIOG_ID, A.BIOG_STAPOS, A.BIOG_UNIT, A.BIOG_ID, A.BIOG_CPOS, A.BIOG_POSNAME,
          A.BIOG_NAME, A.BIOG_DMY_BORN,A.BIOG_RANK,A.BIOG_DEC, A.BIOG_DECY,A.BIOG_SALARY,A.BIOG_SLEVEL,A.BIOG_SCLASS");
-        $this->oracle->join("PER_UNIT_TAB B", 
-            "CONCAT(SUBSTR(A.BIOG_UNIT, 1, 4), '000000') = CONCAT(SUBSTR(B.UNIT_CODE, 1, 4), '000000')");
+        $this->oracle->join(
+            "PER_UNIT_TAB B",
+            "CONCAT(SUBSTR(A.BIOG_UNIT, 1, 4), '000000') = CONCAT(SUBSTR(B.UNIT_CODE, 1, 4), '000000')"
+        );
 
         if ($unitSub4 != '6000') {
             $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1, 4) LIKE ", $unitSub4);
         }
-        
+
         $this->oracle->where("A.BIOG_RANK >= ", $rankStart);
         $this->oracle->where("A.BIOG_RANK <= ", $rankEnd);
         $this->oracle->order_by('A.BIOG_RANK');
@@ -93,7 +95,7 @@ class User_fundamental_model extends CI_Model
         $this->oracle->order_by('TO_NUMBER(A.BIOG_SCLASS)', 'desc');
         $this->oracle->order_by('A.BIOG_DMY_RANK');
         $result = $this->oracle->get("PER_BIOG_VIEW A");
-        
+
         // echo $this->oracle->last_query();
         return $result;
     }
@@ -101,10 +103,54 @@ class User_fundamental_model extends CI_Model
     public function get_unitname($unitID4)
     {
         $this->oracle->select('NPRT_NAME, NPRT_ACM, NPRT_UNIT');
-        $this->oracle->where('NPRT_UNIT', $unitID4.'000000');
+        $this->oracle->where('NPRT_UNIT', $unitID4 . '000000');
         $result = $this->oracle->get('PER_NPRT_TAB');
         // echo $this->oracle->last_query();
         return $result;
     }
-    
+
+    public function filter_has_get_medal($biogID, $rankID)
+    {
+        $medal = $this->define_medal_to_check_filter($rankID);
+        $this->oracle->where('CDEC_ID', $biogID);
+        $this->oracle->like('CDEC_COIN', $medal);
+        $query = $this->oracle->get('PER_CDEC_TAB');
+        return $query;
+    }
+
+    private function define_medal_to_check_filter($rankID)
+    {
+        if ($rankID == '05') $medal = 'ท.ช.';
+        else if ($rankID == '06') $medal = 'ท.ม.';
+        else if ($rankID == '07') $medal = 'ต.ช.';
+        else if ($rankID == '08') $medal = 'ต.ม.';
+        else if ($rankID == '09') $medal = 'จ.ช.';
+        else if ($rankID == '10') $medal = 'จ.ม.';
+        else if ($rankID == '11') $medal = 'บ.ม.';
+        else if ($rankID == '21') $medal = 'ร.ท.ช.';
+        else if ($rankID == '22') $medal = 'ร.ท.ช.';
+        else if ($rankID == '23') $medal = 'ร.ท.ช.';
+        else if ($rankID == '24') $medal = 'ร.ท.ช.';
+        else if ($rankID == '25') $medal = 'ร.ท.ม.';
+        else if ($rankID == '26') $medal = 'ร.ง.ช.';
+        else if ($rankID == '27') $medal = 'ร.ง.ม.';
+        else $medal = 'Not in rank';
+        return $medal;
+    }
+
+    public function get_person_has_not_medal($persons)
+    {
+        $personHasMedal = array_map(function ($r) {
+            $person = $this->filter_has_get_medal($r['BIOG_ID'], $r['BIOG_RANK'])
+                ->row_array();
+            return $person['CDEC_ID'];
+        }, $persons);
+
+        $personHasNotMedal = array_filter($persons, function ($r) use ($personHasMedal) {
+            return !in_array($r['BIOG_ID'], $personHasMedal);
+        });
+
+        $result = array_merge($personHasNotMedal);
+        return $result;
+    }
 }

@@ -135,7 +135,7 @@
         setUnitSelect();
 
 
-        $("#search-unit").keyup(async function() {
+        $("#search-unit").blur(async function() {
             let searchText = $(this).val();
             let result = units.filter(r => r.NPRT_ACM.includes(searchText));
             let option = '';
