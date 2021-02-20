@@ -41,7 +41,7 @@ class User_typical_non_ribbon_model extends CI_Model
         }  
 
         $result = $this->oracle->query("SELECT A.BDEC_NAME,B.BIOG_NAME, B.BIOG_DMY_WORK,
-        B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX,
+        B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SCLASS, B.BIOG_SLEVEL,
         C.CRAK_NAME_FULL
         FROM PER_BDEC_TAB A
         INNER JOIN PER_BIOG_VIEW B

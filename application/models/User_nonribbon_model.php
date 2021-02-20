@@ -22,7 +22,7 @@ class User_nonribbon_model extends CI_Model
     {
 
         $sql = "SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
-            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_UNIT,
+            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_UNIT, A.BIOG_SCLASS, A.BIOG_SLEVEL,
             B.CRAK_NAME_FULL
             FROM PER_BIOG_VIEW A
             INNER JOIN PER_CRAK_TAB B 
@@ -46,7 +46,7 @@ class User_nonribbon_model extends CI_Model
     {
 
         $sql = "SELECT  A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
-            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_UNIT,
+            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_UNIT, A.BIOG_SCLASS, A.BIOG_SLEVEL,
             B.CRAK_NAME_FULL
             FROM PER_BIOG_VIEW A
             INNER JOIN PER_CRAK_TAB B 

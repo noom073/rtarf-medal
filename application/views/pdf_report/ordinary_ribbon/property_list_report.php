@@ -52,14 +52,14 @@ $html .= '<table border=".5" cellpadding="3" cellspacing="0">';
 $html .=    '<thead>';
 $html .=        '<tr>';
 $html .=            '<th rowspan="2" width="4%" style="text-align: center">ลำดับ</th>';
-$html .=            '<th rowspan="2" width="21%" style="text-align: center">ชื่อตัว - ชื่อสกุล</th>';
-$html .=            '<th colspan="3" width="20%" style="text-align: center">เป็นข้าราชการ</th>';
+$html .=            '<th rowspan="2" width="19%" style="text-align: center">ชื่อตัว - ชื่อสกุล</th>';
+$html .=            '<th colspan="3" width="21%" style="text-align: center">เป็นข้าราชการ</th>';
 $html .=            '<th rowspan="2" width="24%" style="text-align: center">ตำแหน่ง <br /> ปัจจุบันและอดีตเฉพาะปีที่ได้รับ <br /> พระราชทานเครื่องราชอิสริยาภรณ์</th>';
 $html .=            '<th colspan="3" width="19%" style="text-align: center">เครื่องราชอิสริยาภรณ์</th>';
-$html .=            '<th rowspan="2" width="12%" style="text-align: center">หมายเหตุ <br /> (เริ่มบรรจุกรณีขอครั้งแรก, โอนมาจาก , ชื่อตัว - ชื่อสกุลเดิม ชื่อตำแหน่งตามบัญชีอื่น, ปีเกษียณ)</th>';
+$html .=            '<th rowspan="2" width="13%" style="text-align: center">หมายเหตุ <br /> (เริ่มบรรจุกรณีขอครั้งแรก, โอนมาจาก, ชื่อตัว - ชื่อสกุลเดิม ชื่อตำแหน่งตามบัญชีอื่น, ปีเกษียณ)</th>';
 $html .=        '</tr>';
 $html .=        '<tr>';
-$html .=            '<th style="text-align: center" width="8%">ระดับ/ขั้น (ปัจจุบัน)</th>';
+$html .=            '<th style="text-align: center" width="9%">ระดับ/ขั้น (ปัจจุบัน)</th>';
 $html .=            '<th style="text-align: center" width="6.5%">ตั้งแต่ วัน เดือน ปี</th>';
 $html .=            '<th style="text-align: center" width="5.5%">เงินเดือน (ปัจจุบัน)</th>';
 
@@ -72,15 +72,15 @@ $html .=    '</thead>';
 $html .=    '<tbody>';
 $html .=        '<tr nobr="true">';
 $html .=            '<td width="4%" style="text-align: center"></td>';
-$html .=            '<td width="21%">' . $ribbon_name . '</td>';
-$html .=            '<td width="8%"></td>';
+$html .=            '<td width="19%">' . $ribbon_name . '</td>';
+$html .=            '<td width="9%"></td>';
 $html .=            '<td width="6.5%"></td>';
 $html .=            '<td width="5.5%"></td>';
 $html .=            '<td width="24%"></td>';
 $html .=            '<td width="7.5%"></td>';
 $html .=            '<td width="6.5%"></td>';
 $html .=            '<td width="5%"></td>';
-$html .=            '<td width="12%"></td>';
+$html .=            '<td width="13%"></td>';
 $html .=        '</tr>';
 
 $num = 1;
@@ -90,15 +90,15 @@ foreach ($persons as $r) {
 
     $html .=    '<tr nobr="true">';
     $html .=        '<td width="4%" style="text-align: center">' . $num . '</td>';
-    $html .=        '<td width="21%">' . $r['BIOG_NAME'] . '</td>';
-    $html .=        '<td width="8%">' . $r['CRAK_NAME_FULL'] . '</td>';
+    $html .=        '<td width="19%">' . $r['BIOG_NAME'] . '</td>';
+    $html .=        '<td width="9%">' . "{$r['BIOG_SLEVEL']}/{$r['BIOG_SCLASS']}" . '</td>';
     $html .=        '<td width="6.5%">' . $biog_dmy_work . '</td>';
     $html .=        '<td width="5.5%">' . number_format($r['BIOG_SALARY']) . '</td>';
     $html .=        '<td width="24%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . $r['CRAK_NAME_FULL'] . '</td>';
     $html .=        '<td width="7.5%">' . $r['BIOG_DEC'] . '</td>';
     $html .=        '<td width="6.5%">' . $biog_decy . '</td>';
     $html .=        '<td width="5%">' . $ribbon_acm . '</td>';
-    $html .=        '<td width="12%"></td>';
+    $html .=        '<td width="13%"></td>';
     $html .=    '</tr>';
 
     $num++;
