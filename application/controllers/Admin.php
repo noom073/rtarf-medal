@@ -42,4 +42,86 @@ class Admin extends CI_Controller
 
 		echo json_encode($data);
 	}
+
+	public function set_system_status()
+	{
+		$data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
+		$this->load->view('foundation_view/header');
+		$this->load->view('admin_view/admin_menu/navbar_admin');
+		$this->load->view('admin_view/admin_setting_status', $data);
+		$this->load->view('main_view/container_footer');
+		$this->load->view('foundation_view/footer');
+	}
+
+	public function ajax_get_system_status()
+	{
+		$file = 'assets/status/status.conf';
+		if (is_readable($file)) {
+			$fp = fopen($file, 'r');
+			if ($fp) {
+				$result['status'] = true;
+				$result['text'] = fread($fp, filesize($file));
+				fclose($fp);
+			} else {
+				$result['status'] = false;
+				$result['text'] = '';
+			}
+		} else {
+			$result['status'] = false;
+			$result['text'] = 'File not found.';
+		}
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
+	}
+
+	public function ajax_on_system_status()
+	{
+		$file = 'assets/status/status.conf';
+		if (is_readable($file)) {
+			$fp = fopen($file, 'w+');
+			if ($fp) {
+				fwrite($fp, '1');
+				rewind($fp);
+				$data = fread($fp, filesize($file));
+				fclose($fp);
+				$result['status'] = true;
+				$result['text'] = $data;
+			} else {
+				$result['status'] = false;
+				$result['text'] = '';
+			}
+		} else {
+			$result['status'] = false;
+			$result['text'] = 'Unwriteable';
+		}
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
+	}
+
+	public function ajax_off_system_status()
+	{
+		$file = 'assets/status/status.conf';
+		if (is_readable($file)) {
+			$fp = fopen($file, 'w+');
+			if ($fp) {
+				fwrite($fp, '0');
+				rewind($fp);
+				$data = fread($fp, filesize($file));
+				fclose($fp);
+				$result['status'] = true;
+				$result['text'] = $data;
+			} else {
+				$result['status'] = false;
+				$result['text'] = '';
+			}
+		} else {
+			$result['status'] = false;
+			$result['text'] = 'Unwriteable';
+		}
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
+	}
 }
