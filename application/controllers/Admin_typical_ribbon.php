@@ -155,8 +155,6 @@ class Admin_typical_ribbon extends CI_Controller
 		$data['condition']      = $this->input->post('condition');
 
 		$data['persons'] = $this->atr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-
-		// $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_property', $data);
         $this->load->view('pdf_report/ordinary_ribbon/property_list_report', $data);
 	}
 
