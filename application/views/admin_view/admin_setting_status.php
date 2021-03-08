@@ -11,7 +11,7 @@
                 </div>
                 <div class="container">
                     <div class="block">
-                        สถานะ ระบบ:
+                        สถานะระบบฯ ปัจจุบัน:
                         <span id="system-status"></span>
                     </div>
                     <div class="block">
