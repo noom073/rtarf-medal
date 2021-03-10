@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Admin_typical_non_ribbon extends CI_Controller
+class Admin_typical_non_ribbon_status_off extends CI_Controller
 {
 	function __construct()
 	{
@@ -16,14 +16,14 @@ class Admin_typical_non_ribbon extends CI_Controller
 	public function fundation()
 	{
 		$system = $this->set_env->get_system_status();
-		if ($system == 0) {
-			redirect('admin_typical_non_ribbon_status_off/fundation');
+		if ($system == 1) {
+			redirect('admin_typical_non_ribbon/fundation');
 		} else {
 			$data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
-
+	
 			$this->load->view('foundation_view/header');
 			$this->load->view('admin_view/admin_menu/navbar_admin');
-			$this->load->view('admin_view/admin_typical_non_ribbon/admin_typical_non_ribbon_fundation', $data);
+			$this->load->view('admin_view/admin_typical_non_ribbon_status_off/admin_typical_non_ribbon_fundation', $data);
 			$this->load->view('main_view/container_footer');
 			$this->load->view('foundation_view/footer');
 		}
@@ -66,7 +66,7 @@ class Admin_typical_non_ribbon extends CI_Controller
 		$data['text']	= $this->input->post('text_search', true);
 		$unitInput 		= $this->input->post('unitID', true);
 		$data['unitID4'] = substr($this->myfunction->decode($unitInput), 0, 4);
-		$personData		= $this->person_data->search_person($data)->result_array();
+		$personData		= $this->atnr_model->search_person_in_biog_back($data)->result_array();
 		$persons 		= array_filter($personData, function ($x) {
 			/** filter person's rank <= 06 only */
 			return $x['BIOG_RANK'] >= '06';
@@ -134,14 +134,14 @@ class Admin_typical_non_ribbon extends CI_Controller
 	public function property()
 	{
 		$system = $this->set_env->get_system_status();
-		if ($system == 0) {
-			redirect('admin_typical_non_ribbon_status_off/property');
+		if ($system == 1) {
+			redirect('admin_typical_non_ribbon/property');
 		} else {
 			$data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
-
+	
 			$this->load->view('foundation_view/header');
 			$this->load->view('admin_view/admin_menu/navbar_admin');
-			$this->load->view('admin_view/admin_typical_non_ribbon/admin_typical_non_ribbon_index', $data);
+			$this->load->view('admin_view/admin_typical_non_ribbon_status_off/admin_typical_non_ribbon_index', $data);
 			$this->load->view('main_view/container_footer');
 			$this->load->view('foundation_view/footer');
 		}
@@ -165,7 +165,7 @@ class Admin_typical_non_ribbon extends CI_Controller
 		$data['p2_position']    = $this->input->post('p2_position');
 		$data['condition']      = $this->input->post('condition');
 
-		$data['persons'] = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['persons'] = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 
 		// $this->load->view('admin_view/admin_typical_non_ribbon/gen_non_ribbon_property', $data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/property_list_report', $data);
@@ -174,14 +174,14 @@ class Admin_typical_non_ribbon extends CI_Controller
 	public function summarize_name()
 	{
 		$system = $this->set_env->get_system_status();
-		if ($system == 0) {
-			redirect('admin_typical_non_ribbon_status_off/summarize_name');
+		if ($system == 1) {
+			redirect('admin_typical_non_ribbon/summarize_name');
 		} else {
 			$data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
-
+	
 			$this->load->view('foundation_view/header');
 			$this->load->view('admin_view/admin_menu/navbar_admin');
-			$this->load->view('admin_view/admin_typical_non_ribbon/admin_typical_non_ribbon_summarize_name_form', $data);
+			$this->load->view('admin_view/admin_typical_non_ribbon_status_off/admin_typical_non_ribbon_summarize_name_form', $data);
 			$this->load->view('main_view/container_footer');
 			$this->load->view('foundation_view/footer');
 		}
@@ -197,29 +197,29 @@ class Admin_typical_non_ribbon extends CI_Controller
 		$data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
 		$data['ribbon_acm'] = 'ท.ช.';
-		$data['thc']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['thc']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ท.ม.';
-		$data['thm']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['thm']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ต.ช.';
-		$data['tc']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['tc']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ต.ม.';
-		$data['tm']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['tm']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ช.';
-		$data['jc']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['jc']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ม.';
-		$data['jm']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['jm']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ช.';
-		$data['bc']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['bc']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ม.';
-		$data['bm']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['bm']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ช.';
-		$data['rtc']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rtc']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ม.';
-		$data['rtm']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rtm']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ช.';
-		$data['rgc']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rgc']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ม.';
-		$data['rgm']    = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$data['rgm']    = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 
 		// $this->load->view('admin_view/admin_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/name_list_report', $data);
@@ -228,13 +228,13 @@ class Admin_typical_non_ribbon extends CI_Controller
 	public function ribbon_amount()
 	{
 		$system = $this->set_env->get_system_status();
-		if ($system == 0) {
-			redirect('admin_typical_non_ribbon_status_off/ribbon_amount');
+		if ($system == 1) {
+			redirect('admin_typical_non_ribbon/ribbon_amount');
 		} else {
 			$data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
 			$this->load->view('foundation_view/header');
 			$this->load->view('admin_view/admin_menu/navbar_admin');
-			$this->load->view('admin_view/admin_typical_non_ribbon/admin_typical_non_ribbon_amount_form', $data);
+			$this->load->view('admin_view/admin_typical_non_ribbon_status_off/admin_typical_non_ribbon_amount_form', $data);
 			$this->load->view('main_view/container_footer');
 			$this->load->view('foundation_view/footer');
 		}
@@ -251,29 +251,29 @@ class Admin_typical_non_ribbon extends CI_Controller
 		$data['unit_name'] 	= $this->person_data->get_unit_name($unitID);
 
 		$data['ribbon_acm'] = 'ท.ช.';
-		$dtthc = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtthc = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ท.ม.';
-		$dtthm = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtthm = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ต.ช.';
-		$dttc = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dttc = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ต.ม.';
-		$dttm = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dttm = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ช.';
-		$dtjc = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtjc = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'จ.ม.';
-		$dtjm = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtjm = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ช.';
-		$dtbc = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtbc = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'บ.ม.';
-		$dtbm = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtbm = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ช.';
-		$dtrtc = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrtc = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ท.ม.';
-		$dtrtm = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrtm = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ช.';
-		$dtrgc = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrgc = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 		$data['ribbon_acm'] = 'ร.ง.ม.';
-		$dtrgm = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		$dtrgm = $this->atnr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 
 		$persons_thc_men        = array_filter($dtthc, function ($r) {
 			return $r['BIOG_SEX'] == 0;
