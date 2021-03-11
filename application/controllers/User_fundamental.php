@@ -190,4 +190,17 @@ class User_fundamental extends CI_Controller
 			redirect('user_fundamental/non_ribbon_report');
 		}
 	}
+
+	public function system_off()
+	{
+		$unit = $this->user_fundamental_model->get_unitname($this->session->unit)->row_array();
+		$data['unitname'] 	= $unit['NPRT_NAME'];
+		$data['unitID'] 	= $this->myfunction->encode($unit['NPRT_UNIT']);
+		$data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
+		$this->load->view('foundation_view/header');
+		$this->load->view('user_view/user_menu/navbar_user', $data);
+		$this->load->view('user_view/user_fdmt/system_off', $data);
+		$this->load->view('main_view/container_footer');
+		$this->load->view('foundation_view/footer');
+	}
 }

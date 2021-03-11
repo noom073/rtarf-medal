@@ -12,6 +12,12 @@ class User_typical_ribbon extends CI_Controller
 		$this->load->library('person_data');
 		$this->load->model('user_typical_ribbon_model', 'utr_model');
 		$this->load->model('user_ribbon_prop_model');
+		$this->load->library('set_env');
+
+		$system = $this->set_env->get_system_status();
+		if ($system == 0) {
+			redirect('user_fundamental/system_off');
+		} 
 	}
 
 	public function fundation()
