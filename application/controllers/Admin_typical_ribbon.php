@@ -68,15 +68,12 @@ class Admin_typical_ribbon extends CI_Controller
 		$data['unitID4'] = substr($this->myfunction->decode($unitInput), 0, 4);
 		$personData		= $this->person_data->search_person($data)->result_array();
 		$persons 		= array_filter($personData, function ($x) {
-			/** filter person's rank <= 06 only */
-			return $x['BIOG_RANK'] <= '06';
+			return $x['BIOG_RANK'] <= '06'; // filter person's rank <= 06 only
 		});
 		if (count($persons) > 0) {
 			$result['status']	= true;
 			$result['text'] 	= "พบข้อมูล";
-			foreach ($persons as $r) {
-				$result['data'][] = $r;
-			}
+			$result['data'] 	= $persons;
 		} else {
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";
@@ -225,9 +222,7 @@ class Admin_typical_ribbon extends CI_Controller
 	public function action_get_ribbon_amount()
 	{
 		$this->load->library('pdf');
-
 		$unitID = $this->myfunction->decode($this->input->post('unitid'));
-
 		$data['year']    	= $this->input->post('year');
 		$data['condition']  = $this->input->post('condition');
 		$data['unit_name'] 	= $this->person_data->get_unit_name($unitID);

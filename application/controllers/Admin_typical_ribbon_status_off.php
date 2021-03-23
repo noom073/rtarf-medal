@@ -68,15 +68,12 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         $data['unitID4'] = substr($this->myfunction->decode($unitInput), 0, 4);
         $personData        = $this->atr_model->search_person_in_biog_back($data)->result_array();
         $persons         = array_filter($personData, function ($x) {
-            /** filter person's rank <= 06 only */
-            return $x['BIOG_RANK'] <= '06';
+            return $x['BIOG_RANK'] <= '06'; // filter person's rank <= 06 only
         });
         if (count($persons) > 0) {
             $result['status']    = true;
             $result['text']     = "พบข้อมูล";
-            foreach ($persons as $r) {
-                $result['data'][] = $r;
-            }
+            $result['data']		= $persons;
         } else {
             $result['status']     = false;
             $result['text']     = "ไม่พบข้อมูล";
