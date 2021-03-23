@@ -10,6 +10,7 @@ class User_ribbon extends CI_Controller
         $this->load->library('session');
         $this->load->library('myfunction');
         $this->load->library('person_data');
+        $this->load->library('set_env');
 
         // $this->load->model('admin_ribbon_model');
         $this->load->model('user_ribbon_prop_model');
@@ -167,49 +168,54 @@ class User_ribbon extends CI_Controller
 
     public function prepare_save_bdec()
     {
-        $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']   = $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
-        $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);
-        $this->load->view('foundation_view/header');
-        $this->load->view('user_view/user_menu/navbar_user', $data);
-        $this->load->view('user_view/user_ribbon/save_person_bdec_view', $data);
-        $this->load->view('main_view/container_footer');
-        $this->load->view('foundation_view/footer');
+        if ($this->set_env->get_system_status() == 0) {
+            redirect('user_fundamental/system_off');
+        } else {
+            $unit = $this->user_ribbon_prop_model->get_unitname($this->session->unit)->row_array();
+            $data['unitname']   = $unit['NPRT_NAME'];
+            $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+            $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);
+            $this->load->view('foundation_view/header');
+            $this->load->view('user_view/user_menu/navbar_user', $data);
+            $this->load->view('user_view/user_ribbon/save_person_bdec_view', $data);
+            $this->load->view('main_view/container_footer');
+            $this->load->view('foundation_view/footer');
+        }
     }
 
     public function ajax_save_person_to_bdec()
     {
-        $unitIDEnc  = $this->input->post('unitid');
-        $unitID     = $this->myfunction->decode($unitIDEnc);
-        $data['year'] = (int) date("Y") + 543;
-
-        $personsMpc = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
-        $personsMvm = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
-        $personsPc  = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
-        $personsPm  = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
-
         $result = array();
-        foreach ($personsMpc as $r) {
-            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ป.ช.');
-            array_push($result, $insertBdec);
-        }
+        if ($this->set_env->get_system_status() == 1) {
+            $unitIDEnc  = $this->input->post('unitid');
+            $unitID     = $this->myfunction->decode($unitIDEnc);
+            $data['year'] = (int) date("Y") + 543;
 
-        foreach ($personsMvm as $r) {
-            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ว.ม.');           
-            array_push($result, $insertBdec);
-        }
+            $personsMpc = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
+            $personsMvm = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
+            $personsPc  = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
+            $personsPm  = $this->user_ribbon_prop_model->get_person_prop_pm($unitID, $data);
 
-        foreach ($personsPc as $r) {
-            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ป.ช.');           
-            array_push($result, $insertBdec);
-        }
+            foreach ($personsMpc as $r) {
+                $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ป.ช.');
+                array_push($result, $insertBdec);
+            }
 
-        foreach ($personsPm as $r) {
-            $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ป.ม.');           
-            array_push($result, $insertBdec);
+            foreach ($personsMvm as $r) {
+                $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ม.ว.ม.');
+                array_push($result, $insertBdec);
+            }
+
+            foreach ($personsPc as $r) {
+                $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ป.ช.');
+                array_push($result, $insertBdec);
+            }
+
+            foreach ($personsPm as $r) {
+                $insertBdec = $this->user_ribbon_prop_model->process_insert_to_bdec($r, 'ป.ม.');
+                array_push($result, $insertBdec);
+            }
         }
-        
         $response = json_encode($result);
         $this->output
             ->set_content_type('application/json')

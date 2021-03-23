@@ -10,6 +10,7 @@ class User_non_ribbon extends CI_Controller
         $this->load->library('session');
         $this->load->library('myfunction');
         $this->load->library('person_data');
+        $this->load->library('set_env');
 
         $this->load->model('user_nonribbon_model');
     }
@@ -326,89 +327,84 @@ class User_non_ribbon extends CI_Controller
 
     public function prepare_save_bdec()
     {
-        $unit = $this->user_nonribbon_model->get_unitname($this->session->unit)->row_array();
-        $data['unitname']   = $unit['NPRT_NAME'];
-        $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
-        $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);
-        $this->load->view('foundation_view/header');
-        $this->load->view('user_view/user_menu/navbar_user', $data);
-        $this->load->view('user_view/user_nonribbon/save_person_bdec_view', $data);
-        $this->load->view('main_view/container_footer');
-        $this->load->view('foundation_view/footer');
+        if ($this->set_env->get_system_status() == 0) {
+            redirect('user_fundamental/system_off');
+        } else {
+            $unit = $this->user_nonribbon_model->get_unitname($this->session->unit)->row_array();
+            $data['unitname']   = $unit['NPRT_NAME'];
+            $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
+            $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);
+            $this->load->view('foundation_view/header');
+            $this->load->view('user_view/user_menu/navbar_user', $data);
+            $this->load->view('user_view/user_nonribbon/save_person_bdec_view', $data);
+            $this->load->view('main_view/container_footer');
+            $this->load->view('foundation_view/footer');
+        }
     }
 
     public function ajax_save_person_to_bdec()
     {
-        $unitIDEnc  = $this->input->post('unitid');
-        $unitID     = $this->myfunction->decode($unitIDEnc);
-        $data['year']   = (int) date("Y") + 543;
-
-        $personThc = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
-        $personThm = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
-        $personTc = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
-        $personTm = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
-        $personJc = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
-
-        $rsJm = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
-        $personJm = $this->user_nonribbon_model->jm_person_filter($rsJm);
-
-        $rsBc = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
-        $personBc = $this->user_nonribbon_model->bc_person_filter($rsBc);
-
-        $rsBm = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
-        $personBm = $this->user_nonribbon_model->bm_person_filter($rsBm);
-
-        $rsRtc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
-        $personRtc = $this->user_nonribbon_model->rtc_person_filter($rsRtc);
-
-        // $rsRtm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('25'))->result_array();
-        // $personRtm = $this->user_nonribbon_model->rtm_person_filter($rsRtm);
-
-        // $rsRgc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('26'))->result_array();
-        // $personRgc = $this->user_nonribbon_model->rgc_person_filter($rsRgc);
-
-        // $rsRgm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
-        // $personRgm = $this->user_nonribbon_model->rgm_person_filter($rsRgm);
-        
-        // $result = array_merge($personThc, $personThm, $personTc, $personTm, $personJc, $personJm, $personBc, $personBm, $personRtc);
         $result = array();
-        foreach ($personThc as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ช.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personThm as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ม.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personTc as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ช.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personTm as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ม.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personJc as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ช.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personJm as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ม.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personBc as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ช.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personBm as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ม.');
-            array_push($result, $insertBdec);
-        }
-        foreach ($personRtc as $r) {
-            $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ร.ท.ช.');
-            array_push($result, $insertBdec);
-        }
+        if ($this->set_env->get_system_status() == 1) {
+            $unitIDEnc  = $this->input->post('unitid');
+            $unitID     = $this->myfunction->decode($unitIDEnc);
+            $data['year']   = (int) date("Y") + 543;
 
+            $personThc = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
+            $personThm = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
+            $personTc = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
+            $personTm = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
+            $personJc = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
+
+            $rsJm = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
+            $personJm = $this->user_nonribbon_model->jm_person_filter($rsJm);
+
+            $rsBc = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
+            $personBc = $this->user_nonribbon_model->bc_person_filter($rsBc);
+
+            $rsBm = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
+            $personBm = $this->user_nonribbon_model->bm_person_filter($rsBm);
+
+            $rsRtc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
+            $personRtc = $this->user_nonribbon_model->rtc_person_filter($rsRtc);
+
+            foreach ($personThc as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ช.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personThm as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ม.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personTc as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ช.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personTm as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ม.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personJc as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ช.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personJm as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ม.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personBc as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ช.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personBm as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ม.');
+                array_push($result, $insertBdec);
+            }
+            foreach ($personRtc as $r) {
+                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ร.ท.ช.');
+                array_push($result, $insertBdec);
+            }
+        }
         $response = json_encode($result);
         $this->output
             ->set_content_type('application/json')
