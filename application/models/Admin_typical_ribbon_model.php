@@ -98,7 +98,7 @@ class Admin_typical_ribbon_model extends CI_Model
         $this->oracle->select('A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_UNIT, A.BIOG_DEC, B.BDEC_ID, B.BDEC_COIN');
         $this->oracle->join('PER_BDEC_TAB B', 'A.BIOG_ID = B.BDEC_ID ', 'left');
         $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1,4) = '{$array['unitID4']}'");
-        $this->oracle->order_by("A.BIOG_RANK");
+        $this->oracle->order_by("A.BIOG_RANK, A.BIOG_CDEP");
         $query = $this->oracle->get('PER_BIOG_BACK_DEC_TAB A');
         return $query;
     }

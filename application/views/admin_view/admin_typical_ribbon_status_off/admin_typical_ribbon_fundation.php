@@ -12,61 +12,62 @@
                         <div class="is-size-4">รอบปกติ ชั้นสายสะพาย</div>
                         <div class="is-size-5">ข้อมูลพื้นฐาน</div>
                         <div class="is-size-6">
-                            สถานะ 
-                             <span class="has-text-danger" title="นขต.บก.ทท. ไม่สามารถแก้ไขได้">ปิดระบบแล้ว</span>
+                            สถานะ
+                            <span class="has-text-danger" title="นขต.บก.ทท. ไม่สามารถแก้ไขได้">ปิดระบบแล้ว</span>
                         </div>
                     </div>
 
                     <div class="container content">
-                        <form id="search-form">
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">ค้นหาหน่วย</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <div class="columns">
-                                                <div class="column is-one-third">
-                                                    <input type="text" id="search-unit" class="input" placeholder="ค้นหาชื่อหน่วย">
+                        <div class="box">
+                            <form id="search-form">
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">ค้นหาหน่วย</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="control">
+                                                <div class="columns">
+                                                    <div class="column is-one-third">
+                                                        <input type="text" id="search-unit" class="input" placeholder="ค้นหาชื่อหน่วย">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">หน่วย</label>
-                                </div>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">หน่วย</label>
+                                    </div>
 
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="select">
-                                            <select id="unitid" name="unitid"></select>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <div class="select">
+                                                <select id="unitid" name="unitid"></select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label"></div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <button class="button is-primary">Submit</button>
-                                        <button id="search-reset" type="reset" class="button">Reset</button>
+                                <div class="field is-horizontal">
+                                    <div class="field-label"></div>
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <button class="button is-primary">Submit</button>
+                                            <button id="search-reset" type="reset" class="button">Reset</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
 
-                        <div class="mt-5">
-                            <div class="">
+                            <div class="block">
                                 <span>ผลการค้นหา:</span>
                                 <span id="search-result"></span>
                                 <div id="data-result"></div>
                             </div>
-                            <div class="mt-3">
+
+                            <div class="block">
                                 <table id="bdec-data" class="table is-striped">
                                     <thead>
                                         <tr>
@@ -81,11 +82,14 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
 
-                            <div class="mt-5">
-                                <div class="is-size-5">เพิ่มรายชื่อกำลังพล</div>
-                                <button class="button is-success mt-3" id="search-person-btn">Search</button>
-                                <div class="mt-3">
+                        <div class="box">
+                            <div class="block">
+                                <div class="is-size-5">ค้นหารายชื่อกำลังพล</div>
+                                <button class="button is-success" id="search-person-btn">Search</button>
+                                <button class="button is-danger" id="clear-person-btn">Reset</button>
+                                <div class="block">
                                     <div id="search-person-form-data"></div>
                                 </div>
                             </div>
@@ -355,7 +359,7 @@
             formData += "&unitID=" + unitID;
 
             $.post({
-                url: '<?= site_url('admin_typical_ribbon/ajax_search_person') ?>',
+                url: '<?= site_url('admin_typical_ribbon_status_off/ajax_search_person') ?>',
                 data: formData,
                 dataType: 'json'
             }).done(res => {
@@ -460,6 +464,11 @@
                     $("#delete-bdec-person-result").html(`Error: ${res.text}`);
                 }
             }).fail((jhr, status, error) => console.error(jhr, status, error));
+        });
+
+
+        $("#clear-person-btn").click(function(){
+            $("#search-person-form-data").html('');
         });
 
     });

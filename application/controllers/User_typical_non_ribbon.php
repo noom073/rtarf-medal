@@ -79,9 +79,7 @@ class User_typical_non_ribbon extends CI_Controller
 		if (count($persons) > 0) {
 			$result['status']	= true;
 			$result['text'] 	= "พบข้อมูล";
-			foreach ($persons as $r) {
-				$result['data'][] = $r;
-			}
+			$result['data']   = array_merge($persons);
 		} else {
 			$result['status'] 	= false;
 			$result['text'] 	= "ไม่พบข้อมูล";
