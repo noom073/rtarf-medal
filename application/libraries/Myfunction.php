@@ -15,8 +15,14 @@ class Myfunction
     {
         $number = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
         $thaiNumber = array('๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙');
-
         return str_replace($number, $thaiNumber, $num);
+    }
+
+    public function numThaiToArabic($str)
+    {
+        $number = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $thaiNumber = array('๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙');
+        return str_replace($thaiNumber, $number, $str);
     }
 
     public function encode($data)

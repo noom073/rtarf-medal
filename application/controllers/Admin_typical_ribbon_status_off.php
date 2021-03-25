@@ -8,6 +8,7 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         parent::__construct();
         $this->load->helper('url');
         $this->load->model('admin_typical_ribbon_model', 'atr_model');
+        $this->load->model('lib_model');
         $this->load->library('myfunction');
         $this->load->library('person_data');
         $this->load->library('set_env');
@@ -73,7 +74,7 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         if (count($persons) > 0) {
             $result['status']    = true;
             $result['text']     = "พบข้อมูล";
-            $result['data']		= array_merge($persons);;
+            $result['data']        = array_merge($persons);;
         } else {
             $result['status']     = false;
             $result['text']     = "ไม่พบข้อมูล";
@@ -277,5 +278,41 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         // var_dump($data);
         // $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_amount', $data);
         $this->load->view('pdf_report/ordinary_ribbon/total_group_report', $data);
+    }
+
+    public function person_detail_back()
+    {
+        $biogID = $this->input->get('id');
+        $data['person'] = $this->atr_model->get_person_detail_back($biogID)->row_array();
+        $data['ranks'] = $this->lib_model->get_all_rank()->result_array();
+        $data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
+        $this->load->view('foundation_view/header');
+        $this->load->view('admin_view/admin_menu/navbar_admin');
+        $this->load->view('admin_view/admin_typical_ribbon_status_off/admin_person_detail_back', $data);
+        $this->load->view('main_view/container_footer');
+        $this->load->view('foundation_view/footer');
+    }
+
+    public function ajax_update_person_detail_back()
+    {
+        $input['biogName']      = $this->input->post('name', true);
+        $input['rank']          = $this->input->post('rank', true);
+        $input['posnameFull']   = $this->input->post('posnameFull', true);
+        $input['salary']        = str_replace(' ', '', $this->input->post('salary', true));
+        $input['slevel']        = str_replace(' ', '', $this->input->post('slevel', true));
+        $input['sclass']        = str_replace(' ', '', $this->input->post('sclass', true));
+        $input['idp']           = $this->input->post('idp', true);
+        $update = $this->atr_model->update_person_detail_back($input);
+        if ($update) {
+            $result['status'] = true;
+            $result['text'] = 'บันทึกสำเร็จ';
+        } else {
+            $result['status'] = false;
+            $result['text'] = 'บันทึกไม่สำเร็จ';
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($result));
     }
 }

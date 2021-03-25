@@ -375,7 +375,11 @@
                     res.data.forEach(el => {
                         let stat = (el.BDEC_ID !== null) ? 'มีรายชื่อแล้ว' : 'ยังไม่มีรายชื่อ';
                         person += `<tr>
-                            <td class="biog-name">${el.BIOG_NAME}</td>    
+                            <td class="biog-name">
+                                <a href="<?= site_url('admin_typical_ribbon_status_off/person_detail_back') ?>?id=${el.BIOG_ID}">
+                                    ${el.BIOG_NAME}
+                                </a>                                
+                            </td>    
                             <td>${el.BIOG_DEC}</td>    
                             <td>${el.BDEC_COIN === null ? '-' : el.BDEC_COIN}</td>    
                             <td>${stat}</td>
@@ -467,7 +471,7 @@
         });
 
 
-        $("#clear-person-btn").click(function(){
+        $("#clear-person-btn").click(function() {
             $("#search-person-form-data").html('');
         });
 

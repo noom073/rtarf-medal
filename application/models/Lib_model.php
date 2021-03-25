@@ -54,7 +54,7 @@ class Lib_model extends CI_Model
 
     public function get_all_rank()
     {
-        $this->oracle->select('CRAK_CODE, CRAK_NAME_ACM, CRAK_CDEP_CODE');
+        $this->oracle->select('CRAK_CODE, CRAK_NAME_ACM, CRAK_NAME_FULL, CRAK_CDEP_CODE');
         $result = $this->oracle->get('PER_CRAK_TAB');
 
         return $result;

@@ -102,4 +102,24 @@ class Admin_typical_ribbon_model extends CI_Model
         $query = $this->oracle->get('PER_BIOG_BACK_DEC_TAB A');
         return $query;
     }
+
+    public function get_person_detail_back($biogID)
+    {
+        $this->oracle->where('BIOG_ID', $biogID);
+        $query = $this->oracle->get('PER_BIOG_BACK_DEC_TAB');
+        return $query;
+    }
+
+    public function update_person_detail_back($array)
+    {
+        $this->oracle->set('BIOG_NAME', $array['biogName']);
+        $this->oracle->set('BIOG_RANK', $array['rank']);
+        $this->oracle->set('BIOG_POSNAME_FULL', $array['posnameFull']);
+        $this->oracle->set('BIOG_SALARY', $array['salary']);
+        $this->oracle->set('BIOG_SLEVEL', $array['slevel']);
+        $this->oracle->set('BIOG_SCLASS', $array['sclass']);
+        $this->oracle->where('BIOG_IDP', $array['idp']);
+        $query = $this->oracle->update('PER_BIOG_BACK_DEC_TAB');
+        return $query;
+    }
 }
