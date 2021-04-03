@@ -47,11 +47,12 @@ class Person_data
 
     public function set_cdec_date($yyyy)
     {
-        $y = substr($yyyy, 2, 2);
+        // $y = substr($yyyy, 2, 2);
+        $y = $yyyy;
         if ($yyyy >= 2560) {
-            $result = "28 ก.ค.{$y}";
+            $result = "28 ก.ค. {$y}";
         } else {
-            $result = "5 ธ.ค.{$y}";
+            $result = "5 ธ.ค. {$y}";
         }
 
         return $result;

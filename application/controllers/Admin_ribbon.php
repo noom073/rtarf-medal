@@ -54,7 +54,7 @@ class Admin_ribbon extends CI_Controller
         } else {
             $data['persons'] = [];
         }
-        // $this->load->view('admin_view/admin_ribbon/gen_ribbon_property', $data);
+        // var_dump($data);
         $this->load->view('pdf_report/ribbon/property_list_report', $data);
     }
 

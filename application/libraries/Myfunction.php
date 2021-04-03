@@ -38,12 +38,18 @@ class Myfunction
 
     public function dmy_to_thai($ddmmyyyy, $type = 0)
     {
-        $d = substr($ddmmyyyy, 0, 2);
+        $d = (int) substr($ddmmyyyy, 0, 2);
         $m = $this->mm_to_thai(substr($ddmmyyyy, 2, 2));
 
         if ($type == 0) {
             $y = substr($ddmmyyyy, 4, 4);
             return "{$d} {$m[0]} {$y}";
+        } elseif($type == 1){
+            $y = substr($ddmmyyyy, 6, 2);
+            return "{$d} {$m[1]}{$y}";
+        } elseif($type == 2){
+            $y = substr($ddmmyyyy, 4, 4);
+            return "{$d} {$m[1]} {$y}";
         } else {
             $y = substr($ddmmyyyy, 6, 2);
             return "{$d} {$m[1]}{$y}";
