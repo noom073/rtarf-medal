@@ -7,9 +7,11 @@ class MYPDF extends PDF
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
 
-        $this->SetFont($fontname, '', 16);
+        $this->SetFont($fontname, '', 15);
 
-        $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+        if($this->condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';        
+        else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+        
         $this->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
         // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
@@ -21,7 +23,7 @@ class MYPDF extends PDF
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
 
-        $this->SetFont($fontname, '', 16);        
+        $this->SetFont($fontname, '', 15);
 
         $this->writeHTMLCell(95, 0, 200, '', 'รับรองถูกต้อง', 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(95, 0, 200, '', "(ลงชื่อ) {$this->p2_rank}", 0, 1, 0, true, 'L', true);
@@ -38,6 +40,7 @@ $pdf->headerUnitName = $unit_name['NPRT_NAME'];
 $pdf->p2_rank = $p2_rank;
 $pdf->p2_name = $p2_name;
 $pdf->p2_position = $p2_position;
+$pdf->condition = $condition;
 // $pdf->myYear = strval(date('Y') + 543);
 $pdf->myYear = $year;
 $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
@@ -101,15 +104,18 @@ foreach ($persons as $r) {
         $specialRank = '';
         $gender = '';
         $rankOrSalary = "{$r['BIOG_SLEVEL']}/{$r['BIOG_SCLASS']}";
+        $biogName = $r['BIOG_NAME'];
     } else {
         $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
-        $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง': '';
+        $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง' : '';
         $rankOrSalary = "{$r['CRAK_NAME_FULL']}<br/> {$specialRank}";
+        $name = substr($r['BIOG_NAME'],strpos($r['BIOG_NAME'], ' '));
+        $biogName = "{$r['CRAK_NAME_FULL']}{$gender} $name";
     }
 
     $html .=    '<tr nobr="true">';
     $html .=        '<td width="4%" style="text-align: center">' . $num . '</td>';
-    $html .=        '<td width="18%">' . $r['BIOG_NAME'] . '<br>' . $r['BIOG_IDP'] . '</td>';
+    $html .=        '<td width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
     $html .=        '<td width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
     $html .=        '<td width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
     $html .=        '<td width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
@@ -127,10 +133,7 @@ $html .=    '</tbody>';
 $html .= '</table>';
 $pdf->writeHTML($html, 0, 0, true, 0);
 
-$y = $pdf->GetY();
-$cur = $pdf->getBreakMargin();
-// echo $y-$cur;
-if (($y - $cur) > 90) $pdf->AddPage('L');
+if (($pdf->GetY() - $pdf->getBreakMargin()) > 90) $pdf->AddPage('L'); // Add page เทื่อระยยกระดาษมีไม่พอสำหรับลงนาม
 
 $message = 'ขอรับรองว่ารายละเอียดข้างต้นถูกต้องและเป็นผู้มีคุณสมบัติตามระเบียบ 
     ว่าด้วยการขอพระราชทานเครื่องราชอิสริยาภรณ์ พ.ศ. 2536 ข้อ 8,10,19(3),21

@@ -74,6 +74,9 @@ class Admin_ribbon extends CI_Controller
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
@@ -83,8 +86,6 @@ class Admin_ribbon extends CI_Controller
         $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data);
 
         // var_dump($data);
-        // echo json_encode($data);
-        // $this->load->view('admin_view/admin_ribbon/gen_ribbon_summarize_name', $data);
         $this->load->view('pdf_report/ribbon/name_list_report', $data);
     }
 
