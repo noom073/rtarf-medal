@@ -177,4 +177,8 @@ $html .= '</table>';
 
 // echo $html;
 $pdf->writeHTML($html, true, 0, true, 0);
+$pdf->writeHTMLCell(95, 0, 200, '', 'รับรองถูกต้อง', 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(95, 0, 200, '', "(ลงชื่อ) {$p1_rank}", 0, 1, 0, true, 'L', true);
+$pdf->writeHTMLCell(95, 0, 200, '', "( {$p1_name} )", 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(95, 0, 200, '', "ตำแหน่ง {$p1_position}", 0, 1, 0, true, 'L', true);
 $pdf->Output('A.pdf', 'I');

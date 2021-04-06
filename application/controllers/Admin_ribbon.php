@@ -105,6 +105,9 @@ class Admin_ribbon extends CI_Controller
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);

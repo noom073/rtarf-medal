@@ -40,6 +40,8 @@ class Admin_non_ribbon extends CI_Controller
         $data['p2_rank']        = $this->input->post('p2_rank');
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
+        $data['condition']      = $this->input->post('condition');
+        $data['type']           = $this->input->post('type');
 
         if ($ribbon == 'ท.ช.') {
             $decArray = array('ท.ช.');
@@ -94,9 +96,7 @@ class Admin_non_ribbon extends CI_Controller
         } else {
             $data['persons'] = [];
         }
-
-        // var_dump($result);
-        // $this->load->view('admin_view/admin_nonribbon/gen_property', $data);
+        // var_dump($data);
         $this->load->view('pdf_report/non_ribbon/property_list_report', $data);
     }
 
@@ -116,6 +116,10 @@ class Admin_non_ribbon extends CI_Controller
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
+        $data['condition']      = $this->input->post('condition');
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
@@ -166,7 +170,10 @@ class Admin_non_ribbon extends CI_Controller
         $this->load->library('pdf');
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
-
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
+        $data['condition']      = $this->input->post('condition');
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 

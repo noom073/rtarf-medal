@@ -42,8 +42,9 @@ class Admin_typical_ribbon_model extends CI_Model
         else $retireCondition = '';
 
         $sql = "SELECT A.BDEC_NAME,B.BIOG_NAME, B.BIOG_DMY_WORK,
-            B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
-            C.CRAK_NAME_FULL
+            B.BIOG_IDP, B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, 
+            B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
+            C.CRAK_NAME_FULL_PRINT
             FROM PER_BDEC_TAB A
             INNER JOIN {$biogTable} B
                 ON A.BDEC_ID = B.BIOG_ID
@@ -68,8 +69,9 @@ class Admin_typical_ribbon_model extends CI_Model
         else $retireCondition = '';
 
         $sql = "SELECT A.BDEC_NAME,B.BIOG_NAME, B.BIOG_DMY_WORK,
-            B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
-            C.CRAK_NAME_FULL
+            B.BIOG_IDP, ฺB.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, 
+            B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
+            C.CRAK_NAME_FULL_PRINT
             FROM PER_BDEC_TAB A
             INNER JOIN PER_BIOG_BACK_DEC_TAB B
                 ON A.BDEC_ID = B.BIOG_ID

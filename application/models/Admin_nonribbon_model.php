@@ -21,9 +21,9 @@ class Admin_nonribbon_model extends CI_Model
     public function get_person_prop($unit, $decArray, $rankArray)
     {
 
-        $sql = "SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
+        $sql = "SELECT A.BIOG_IDP, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS,
-            B.CRAK_NAME_FULL
+            B.CRAK_NAME_FULL_PRINT
             FROM PER_BIOG_VIEW A
             INNER JOIN PER_CRAK_TAB B 
                 ON A.BIOG_RANK = B.CRAK_CODE 
@@ -37,7 +37,6 @@ class Admin_nonribbon_model extends CI_Model
             ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP";
 
         $unitID4Esc = substr($unit, 0, 4);
-
         $result = $this->oracle->query($sql, array($unitID4Esc, $rankArray, $decArray));
         return $result;
     }
@@ -45,9 +44,9 @@ class Admin_nonribbon_model extends CI_Model
     public function get_person_coin_prop($unit, $rankArray)
     {
 
-        $sql = "SELECT A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
+        $sql = "SELECT A.BIOG_IDP, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS,
-            B.CRAK_NAME_FULL
+            B.CRAK_NAME_FULL_PRINT
             FROM PER_BIOG_VIEW A
             INNER JOIN PER_CRAK_TAB B 
                 ON A.BIOG_RANK = B.CRAK_CODE 

@@ -1,11 +1,10 @@
 <?php
-
 // SETTING COLUMNS
 // $maxRows = 15;
 // $columns = 2;
 
 // GENERATE FUNCTION
-function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows = 30, $columns = 2)
+function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows = 25, $columns = 2)
 {
     $pdf->AddPage('P');
     if($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
@@ -70,7 +69,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows 
             return $r['BIOG_SEX'] == '1';
         });
         $footText2 = $medalName[1] . "{$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
-        $pdf->writeHTMLCell(0, '', 120, 240, $footText2, 0, 1, 0, true, 'C', true);
+        $pdf->writeHTMLCell(0, '', 120, 245, $footText2, 0, 1, 0, true, 'C', true);
         if ($p <= $totalPage - 2) {
             $pdf->AddPage('L');
         }
@@ -103,7 +102,7 @@ $pdf->setPrintHeader(false);
 // $pdf->setPrintFooter(false);
 
 // set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, 35);
+$pdf->SetAutoPageBreak(TRUE, 30);
 $pdf->SetMargins(10, 15, 5, true);
 $pdf->SetFooterMargin(35);
 

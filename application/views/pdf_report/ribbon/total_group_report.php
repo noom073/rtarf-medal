@@ -31,8 +31,9 @@ $pdf->SetFont($fontname, '', 15, '', true);
 // add a page มหาปรมาภรณ์ช้างเผือก
 $pdf->SetMargins(10, 10, 5, true);
 $pdf->AddPage('L');
+$type = ($condition == 'retire') ? 'เกษียณ' : '';
 $pdf->writeHTMLCell(0, '', '', '', 'บัญชีแสดงจำนวนชั้นตราเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', "ซึ่งขอพระราชทานให้แก่ข้าราชการทหาร", 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(0, '', '', '', "ซึ่งขอพระราชทานให้แก่ข้าราชการทหาร{$type}", 0, 1, 0, true, 'C', true);
 $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
 $pdf->writeHTMLCell(0, '', '', '', "ชั้นสายสะพาย ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
 $pdf->Ln(5);
@@ -103,4 +104,8 @@ $html .= '</table>';
 
 // echo $html;
 $pdf->writeHTML($html, true, 0, true, 0);
+$pdf->writeHTMLCell(95, 0, 200, '', 'รับรองถูกต้อง', 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(95, 0, 200, '', "(ลงชื่อ) {$p1_rank}", 0, 1, 0, true, 'L', true);
+$pdf->writeHTMLCell(95, 0, 200, '', "( {$p1_name} )", 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(95, 0, 200, '', "ตำแหน่ง {$p1_position}", 0, 1, 0, true, 'L', true);
 $pdf->Output('A.pdf', 'I');

@@ -6,7 +6,6 @@ class MYPDF extends PDF
     public function Header()
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
-
         $this->SetFont($fontname, '', 15);
 
         if($this->condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';        
@@ -49,7 +48,6 @@ $pdf->SetHeaderMargin(15);
 $pdf->SetFooterMargin(30);
 
 // set auto page breaks
-
 $pdf->SetAutoPageBreak(TRUE, 37);
 
 // set font
@@ -108,9 +106,9 @@ foreach ($persons as $r) {
     } else {
         $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
         $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง' : '';
-        $rankOrSalary = "{$r['CRAK_NAME_FULL']}<br/> {$specialRank}";
+        $rankOrSalary = "{$r['CRAK_NAME_FULL_PRINT']}<br/> {$specialRank}";
         $name = substr($r['BIOG_NAME'],strpos($r['BIOG_NAME'], ' '));
-        $biogName = "{$r['CRAK_NAME_FULL']}{$gender} $name";
+        $biogName = "{$r['CRAK_NAME_FULL_PRINT']}{$gender} $name";
     }
 
     $html .=    '<tr nobr="true">';
@@ -119,7 +117,7 @@ foreach ($persons as $r) {
     $html .=        '<td width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
     $html .=        '<td width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
     $html .=        '<td width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
-    $html .=        '<td width="22%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . "{$r['CRAK_NAME_FULL']}{$gender} {$specialRank}" . '</td>';
+    $html .=        '<td width="22%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . "{$r['CRAK_NAME_FULL_PRINT']}{$gender} {$specialRank}" . '</td>';
     $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
     $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
     $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
@@ -132,9 +130,7 @@ foreach ($persons as $r) {
 $html .=    '</tbody>';
 $html .= '</table>';
 $pdf->writeHTML($html, 0, 0, true, 0);
-
 if (($pdf->GetY() - $pdf->getBreakMargin()) > 90) $pdf->AddPage('L'); // Add page เทื่อระยยกระดาษมีไม่พอสำหรับลงนาม
-
 $message = 'ขอรับรองว่ารายละเอียดข้างต้นถูกต้องและเป็นผู้มีคุณสมบัติตามระเบียบ 
     ว่าด้วยการขอพระราชทานเครื่องราชอิสริยาภรณ์ พ.ศ. 2536 ข้อ 8,10,19(3),21
     (เฉพาะกลาโหมพลเรือน),22';

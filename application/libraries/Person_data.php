@@ -442,7 +442,7 @@ class Person_data
             else if ($array['nextMedal'] == 'บ.ม.') $cseq = '12';
             else if ($array['nextMedal'] == 'ร.ท.ช.') $cseq = '13';
             else $cseq = null;
-    
+
             $data['BDEC_ROUND'] = 'P0';
             $data['BDEC_ID']    = $person['BIOG_ID'];
             $data['BDEC_NAME']  = $person['BIOG_NAME'];
@@ -451,15 +451,14 @@ class Person_data
             $data['BDEC_COIN']  = $array['nextMedal'];
             $data['BDEC_CSEQ']  = $cseq;
             $data['BDEC_REM']   = $array['remark'];
-    
+
             $insert = $this->CI->lib_model->insert_person_bdec($data);
             if ($insert) {
                 $result = 'SUCCESS';
             } else {
                 $result = 'ERR-INSERT-FAIL';
-            }            
+            }
         }
         return $result;
-        
     }
 }
