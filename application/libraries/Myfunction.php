@@ -44,10 +44,10 @@ class Myfunction
         if ($type == 0) {
             $y = substr($ddmmyyyy, 4, 4);
             return "{$d} {$m[0]} {$y}";
-        } elseif($type == 1){
+        } elseif ($type == 1) {
             $y = substr($ddmmyyyy, 6, 2);
             return "{$d} {$m[1]}{$y}";
-        } elseif($type == 2){
+        } elseif ($type == 2) {
             $y = substr($ddmmyyyy, 4, 4);
             return "{$d} {$m[1]} {$y}";
         } else {
@@ -126,5 +126,18 @@ class Myfunction
                 return $month;
                 break;
         }
+    }
+
+    public function convertDateToDateTime($dmyBhudha)
+    {
+        if ($dmyBhudha == '' or $dmyBhudha == null ) {
+            $date = new DateTime(date('Y-m-d'));
+        } else {
+            $yWork = (int) substr($dmyBhudha, 4, 4) - 543;
+            $mWork = substr($dmyBhudha, 2, 2);
+            $dWork = substr($dmyBhudha, 0, 2);
+            $date = new DateTime("{$yWork}-{$mWork}-{$dWork}");
+        }
+        return $date;
     }
 }
