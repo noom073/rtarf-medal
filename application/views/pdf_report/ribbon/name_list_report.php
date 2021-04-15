@@ -7,8 +7,8 @@
 function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows = 25, $columns = 2)
 {
     $pdf->AddPage('P');
-    if($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
-    else $head = 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+    if($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+    else $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
     $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);

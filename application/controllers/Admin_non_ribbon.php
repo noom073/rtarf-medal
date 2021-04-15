@@ -41,15 +41,16 @@ class Admin_non_ribbon extends CI_Controller
         $data['p2_rank']        = $this->input->post('p2_rank');
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
-        $data['condition']      = $this->input->post('condition');
+        // $data['condition']      = $this->input->post('condition');
         $data['type']           = $this->input->post('type');
 
         if ($data['type'] == 'officer') {
             $data['persons'] = $this->anrf_model->get_officer_prop($unitID, $medal, $data['year']);
+        } elseif ($data['type'] == 'employee') {
+            $data['persons'] = $this->anrf_model->get_employee_prop($unitID, $medal, $data['year']);
         } else {
-            # code...
+            $data['persons'] = [];
         }
-        
         // var_dump($data);
         $this->load->view('pdf_report/non_ribbon/property_list_report', $data);
     }
@@ -67,45 +68,41 @@ class Admin_non_ribbon extends CI_Controller
     public function action_summarize_name()
     {
         $this->load->library('pdf');
-
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
         $data['p1_rank']        = $this->input->post('p1_rank');
         $data['p1_name']        = $this->input->post('p1_name');
         $data['p1_position']    = $this->input->post('p1_position');
-        $data['condition']      = $this->input->post('condition');
+        $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
-        $data['thc'] = $this->admin_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
-        $data['thm'] = $this->admin_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
-        $data['tc'] = $this->admin_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
-        $data['tm'] = $this->admin_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
-        $data['jc'] = $this->admin_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
-
-        $rsJm = $this->admin_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
-        $data['jm'] = $this->admin_nonribbon_model->jm_person_filter($rsJm);
-
-        $rsBc = $this->admin_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
-        $data['bc'] = $this->admin_nonribbon_model->bc_person_filter($rsBc);
-
-        $rsBm = $this->admin_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
-        $data['bm'] = $this->admin_nonribbon_model->bm_person_filter($rsBm);
-
-        $rsRtc = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
-        $data['rtc'] = $this->admin_nonribbon_model->rtc_person_filter($rsRtc);
-
-        $rsRtm = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('25'))->result_array();
-        $data['rtm'] = $this->admin_nonribbon_model->rtm_person_filter($rsRtm);
-
-        $rsRgc = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('26'))->result_array();
-        $data['rgc'] = $this->admin_nonribbon_model->rgc_person_filter($rsRgc);
-
-        $rsRgm = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
-        $data['rgm'] = $this->admin_nonribbon_model->rgm_person_filter($rsRgm);
-
+        if ($data['type'] == 'officer') {
+            $data['validType'] = true;
+            $data['thc'] = $this->anrf_model->get_officer_prop($unitID, 'ท.ช.', $data['year']);
+            $data['thm'] = $this->anrf_model->get_officer_prop($unitID, 'ท.ม.', $data['year']);
+            $data['tc'] = $this->anrf_model->get_officer_prop($unitID, 'ต.ช.', $data['year']);
+            $data['tm'] = $this->anrf_model->get_officer_prop($unitID, 'ต.ม.', $data['year']);
+            $data['jc'] = $this->anrf_model->get_officer_prop($unitID, 'จ.ช.', $data['year']);
+            $data['jm'] = $this->anrf_model->get_officer_prop($unitID, 'จ.ม.', $data['year']);
+            $data['bc'] = $this->anrf_model->get_officer_prop($unitID, 'บ.ช.', $data['year']);
+            $data['bm'] = $this->anrf_model->get_officer_prop($unitID, 'บ.ม.', $data['year']);
+            $data['rtc'] = $this->anrf_model->get_officer_prop($unitID, 'ร.ท.ช.', $data['year']);
+        } elseif ($data['type'] == 'employee') {
+            $data['validType'] = true;
+            $data['thc'] = $this->anrf_model->get_employee_prop($unitID, 'ท.ช.', $data['year']);
+            $data['thm'] = $this->anrf_model->get_employee_prop($unitID, 'ท.ม.', $data['year']);
+            $data['tc'] = $this->anrf_model->get_employee_prop($unitID, 'ต.ช.', $data['year']);
+            $data['tm'] = $this->anrf_model->get_employee_prop($unitID, 'ต.ม.', $data['year']);
+            $data['jc'] = $this->anrf_model->get_employee_prop($unitID, 'จ.ช.', $data['year']);
+            $data['jm'] = $this->anrf_model->get_employee_prop($unitID, 'จ.ม.', $data['year']);
+            $data['bc'] = $this->anrf_model->get_employee_prop($unitID, 'บ.ช.', $data['year']);
+            $data['bm'] = $this->anrf_model->get_employee_prop($unitID, 'บ.ม.', $data['year']);
+            $data['rtc'] = $this->anrf_model->get_employee_prop($unitID, 'ร.ท.ช.', $data['year']);
+        } else {
+            $data['validType'] = false;
+        }
         // var_dump($data);
-        // $this->load->view('admin_view/admin_nonribbon/gen_summarize_name', $data);
         $this->load->view('pdf_report/non_ribbon/name_list_report', $data);
     }
 
@@ -127,36 +124,34 @@ class Admin_non_ribbon extends CI_Controller
         $data['p1_rank']        = $this->input->post('p1_rank');
         $data['p1_name']        = $this->input->post('p1_name');
         $data['p1_position']    = $this->input->post('p1_position');
-        $data['condition']      = $this->input->post('condition');
+        // $data['condition']      = $this->input->post('condition');
+        $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
-        $dtthc = $this->admin_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
-        $dtthm = $this->admin_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
-        $dttc = $this->admin_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
-        $dttm = $this->admin_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
-        $dtjc = $this->admin_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
-
-        $rsJm = $this->admin_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
-        $dtjm = $this->admin_nonribbon_model->jm_person_filter($rsJm);
-
-        $rsBc = $this->admin_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
-        $dtbc = $this->admin_nonribbon_model->bc_person_filter($rsBc);
-
-        $rsBm = $this->admin_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
-        $dtbm = $this->admin_nonribbon_model->bm_person_filter($rsBm);
-
-        $rsRtc = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
-        $dtrtc = $this->admin_nonribbon_model->rtc_person_filter($rsRtc);
-
-        $rsRtm = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('25'))->result_array();
-        $dtrtm = $this->admin_nonribbon_model->rtm_person_filter($rsRtm);
-
-        $rsRgc = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('26'))->result_array();
-        $dtrgc = $this->admin_nonribbon_model->rgc_person_filter($rsRgc);
-
-        $rsRgm = $this->admin_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
-        $dtrgm = $this->admin_nonribbon_model->rgm_person_filter($rsRgm);
+        if ($data['type'] == 'officer') {
+            $data['validType'] = true;
+            $dtthc = $this->anrf_model->get_officer_prop($unitID, 'ท.ช.', $data['year']);
+            $dtthm = $this->anrf_model->get_officer_prop($unitID, 'ท.ม.', $data['year']);
+            $dttc = $this->anrf_model->get_officer_prop($unitID, 'ต.ช.', $data['year']);
+            $dttm = $this->anrf_model->get_officer_prop($unitID, 'ต.ม.', $data['year']);
+            $dtjc = $this->anrf_model->get_officer_prop($unitID, 'จ.ช.', $data['year']);
+            $dtjm = $this->anrf_model->get_officer_prop($unitID, 'จ.ม.', $data['year']);
+            $dtbc = $this->anrf_model->get_officer_prop($unitID, 'บ.ช.', $data['year']);
+            $dtbm = $this->anrf_model->get_officer_prop($unitID, 'บ.ม.', $data['year']);
+            $dtrtc = $this->anrf_model->get_officer_prop($unitID, 'ร.ท.ช.', $data['year']);
+        } elseif ($data['type'] == 'employee') {
+            $data['validType'] = true;
+            $dtthc = $this->anrf_model->get_employee_prop($unitID, 'ท.ช.', $data['year']);
+            $dtthm = $this->anrf_model->get_employee_prop($unitID, 'ท.ม.', $data['year']);
+            $dttc = $this->anrf_model->get_employee_prop($unitID, 'ต.ช.', $data['year']);
+            $dttm = $this->anrf_model->get_employee_prop($unitID, 'ต.ม.', $data['year']);
+            $dtjc = $this->anrf_model->get_employee_prop($unitID, 'จ.ช.', $data['year']);
+            $dtjm = $this->anrf_model->get_employee_prop($unitID, 'จ.ม.', $data['year']);
+            $dtbc = $this->anrf_model->get_employee_prop($unitID, 'บ.ช.', $data['year']);
+            $dtbm = $this->anrf_model->get_employee_prop($unitID, 'บ.ม.', $data['year']);
+            $dtrtc = $this->anrf_model->get_employee_prop($unitID, 'ร.ท.ช.', $data['year']);
+        }         
 
         $persons_thc_men        = array_filter($dtthc, function ($r) {
             return $r['BIOG_SEX'] == 0;
@@ -239,33 +234,7 @@ class Admin_non_ribbon extends CI_Controller
         $data['rtc']['men']     = count($persons_rtc_men);
         $data['rtc']['women']   = count($persons_rtc_women);
 
-        $persons_rtm_men        = array_filter($dtrtm, function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        });
-        $persons_rtm_women      = array_filter($dtrtm, function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        });
-        $data['rtm']['men']     = count($persons_rtm_men);
-        $data['rtm']['women']   = count($persons_rtm_women);
-
-        $persons_rgc_men        = array_filter($dtrgc, function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        });
-        $persons_rgc_women      = array_filter($dtrgc, function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        });
-        $data['rgc']['men']     = count($persons_rgc_men);
-        $data['rgc']['women']   = count($persons_rgc_women);
-
-        $persons_rgm_men        = array_filter($dtrgm, function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        });
-        $persons_rgm_women      = array_filter($dtrgm, function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        });
-        $data['rgm']['men']     = count($persons_rgm_men);
-        $data['rgm']['women']   = count($persons_rgm_women);
-
+        // var_dump($data);
         $this->load->view('pdf_report/non_ribbon/total_group_report', $data);
     }
 }

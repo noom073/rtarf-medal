@@ -7,8 +7,8 @@
 function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows = 25, $columns = 2)
 {
     $pdf->AddPage('P');
-    if($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
-    else $head = 'บัญชีรายชื่อข้าราชการทหารผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+    if($type == 'officer') $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+    else $head = 'บัญชีรายชื่อลูกจ้างประจำ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
     $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
@@ -68,7 +68,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows 
         $women = array_filter($person, function ($r) {
             return $r['BIOG_SEX'] == '1';
         });
-        $footText2 = $medalName[1] . "{$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+        $footText2 = $medalName[1] . "  {$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
         $pdf->writeHTMLCell(0, '', 120, 245, $footText2, 0, 1, 0, true, 'C', true);
         if ($p <= $totalPage - 2) {
             $pdf->AddPage('P');
@@ -115,82 +115,61 @@ $pdf->SetFont($fontname, '', 15, '', true);
 // add a page ทวีติยาภรณ์ช้างเผือก
 if (count($thc)) {
     $medal = array('ทวีติยาภรณ์ช้างเผือก', 'ท.ช.');
-    drawData($pdf, $thc, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $thc, $medal, $year, $unit_name, $type);
 }
 /******************************************************* */
 // add a page ทวีติยาภรณ์มงกุฎไทย
 if (count($thm)) {
     $medal = array('ทวีติยาภรณ์มงกุฎไทย', 'ท.ม.');
-    drawData($pdf, $thm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $thm, $medal, $year, $unit_name, $type);
 }
 /******************************************************* */
 // add a page ตริตาภรณ์ช้างเผือก
 if (count($tc)) {
     $medal = array('ตริตาภรณ์ช้างเผือก', 'ต.ช.');
-    drawData($pdf, $tc, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $tc, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page ตริตาภรณ์มงกุฏไทย
 if (count($tm)) {
     $medal = array('ตริตาภรณ์มงกุฏไทย', 'ต.ม.');
-    drawData($pdf, $tm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $tm, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page จัตุรถาภรณ์ช้างเผือก
 if (count($jc)) {
     $medal = array('จัตุรถาภรณ์ช้างเผือก', 'จ.ช.');
-    drawData($pdf, $jc, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $jc, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page จัตุรถาภรณ์มงกุฏไทย
 if (count($jm)) {
     $medal = array('จัตุรถาภรณ์มงกุฏไทย', 'จ.ม.');
-    drawData($pdf, $jm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $jm, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page เบญจมาภรณ์ช้างเผือก
 if (count($bc)) {
     $medal = array('เบญจมาภรณ์ช้างเผือก', 'บ.ช.');
-    drawData($pdf, $bc, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $bc, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page เบญจมาภรณ์มงกุฎไทย
 if (count($bm)) {
     $medal = array('เบญจมาภรณ์มงกุฎไทย', 'บ.ม.');
-    drawData($pdf, $bm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $bm, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page เหรียญทองช้างเผือก
 if (count($rtc)) {
     $medal = array('เหรียญทองช้างเผือก', 'ร.ท.ช.');
-    drawData($pdf, $rtc, $medal, $year, $unit_name, $condition);
-}
-
-/******************************************************* */
-// add a page เหรียญทองมงกุฎไทย
-if (count($rtm)) {
-    $medal = array('เหรียญทองมงกุฎไทย', 'ร.ท.ม.');
-    drawData($pdf, $rtm, $medal, $year, $unit_name, $condition);
-}
-
-/******************************************************* */
-// add a page เหรียญเงินช้างเผือก
-if (count($rgc)) {
-    $medal = array('เหรียญเงินช้างเผือก', 'ร.ง.ช.');
-    drawData($pdf, $rgc, $medal, $year, $unit_name, $condition);
-}
-
-/******************************************************* */
-// add a page เหรียญเงินมงกุฎไทย
-if (count($rgm)) {
-    $medal = array('เหรียญเงินมงกุฎไทย', 'ร.ง.ม');
-    drawData($pdf, $rgm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $rtc, $medal, $year, $unit_name, $type);
 }
 
 /******************************************************* */

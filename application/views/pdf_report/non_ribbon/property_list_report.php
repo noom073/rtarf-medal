@@ -8,9 +8,9 @@ class MYPDF extends PDF
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
         $this->SetFont($fontname, '', 16);
 
-        if($this->condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';        
+        if ($this->type == 'employee') $head = '<span>บัญชีแสดงคุณสมบัติของลูกจ้างประจำ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
         else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
-        
+
         // $head = '<span style="font-weight:bold;">บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
         $this->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
         // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
@@ -29,7 +29,6 @@ class MYPDF extends PDF
         $this->writeHTMLCell(95, 0, 200, '', "( {$this->p2_name} )", 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(95, 0, 200, '', "ตำแหน่ง {$this->p2_position}", 0, 1, 0, true, 'L', true);
     }
-
 }
 
 $dm = date('dm') . strval(date('Y') + 543);
@@ -40,7 +39,8 @@ $pdf->headerUnitName = $unit_name['NPRT_NAME'];
 $pdf->p2_rank = $p2_rank;
 $pdf->p2_name = $p2_name;
 $pdf->p2_position = $p2_position;
-$pdf->condition = $condition;
+// $pdf->condition = $condition;
+$pdf->type = $type;
 // $pdf->myYear = strval(date('Y') + 543);
 $pdf->myYear = $year;
 $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
@@ -108,7 +108,7 @@ foreach ($persons as $r) {
         $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
         $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง' : '';
         $rankOrSalary = "{$r['CRAK_NAME_FULL_PRINT']}<br/> {$specialRank}";
-        $name = substr($r['BIOG_NAME'],strpos($r['BIOG_NAME'], ' '));
+        $name = substr($r['BIOG_NAME'], strpos($r['BIOG_NAME'], ' '));
         $biogName = "{$r['CRAK_NAME_FULL_PRINT']}{$gender} $name";
     }
 

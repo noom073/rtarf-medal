@@ -68,9 +68,9 @@
                                                     <option value="บ.ช.">บ.ช.</option>
                                                     <option value="บ.ม.">บ.ม.</option>
                                                     <option value="ร.ท.ช.">ร.ท.ช.</option>
-                                                    <option value="ร.ท.ม.">ร.ท.ม.</option>
+                                                    <!-- <option value="ร.ท.ม.">ร.ท.ม.</option>
                                                     <option value="ร.ง.ช.">ร.ง.ช.</option>
-                                                    <option value="ร.ง.ม.">ร.ง.ม.</option>
+                                                    <option value="ร.ง.ม.">ร.ง.ม.</option> -->
                                                 </select>
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
 
                             <div class="field is-horizontal">
                                 <div class="field-label is-noraml">
-                                    <label">ประเภท</label>
+                                    <label class="label">ประเภท</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">

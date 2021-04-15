@@ -75,7 +75,7 @@ $html .=            '<th style="text-align: center" width="8%">ตั้งแ�
 $html .=            '<th style="text-align: center" width="5.5%">เงินเดือน (ปัจจุบัน)</th>';
 
 $html .=            '<th style="text-align: center" width="6%">ที่ได้รับ <br /> (จากชั้นสูงไปชั้นรอง)</th>';
-$html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี (28 ก.ค. ...)</th>';
+$html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี <br />(28 ก.ค. ...)</th>';
 $html .=            '<th style="text-align: center" width="5%">ขอครั้งนี้</th>';
 
 $html .=        '</tr>';
