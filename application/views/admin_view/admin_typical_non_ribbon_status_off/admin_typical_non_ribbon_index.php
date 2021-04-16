@@ -67,9 +67,24 @@
                                                     <option value="บ.ช.">บ.ช.</option>
                                                     <option value="บ.ม.">บ.ม.</option>
                                                     <option value="ร.ท.ช.">ร.ท.ช.</option>
-                                                    <option value="ร.ท.ม.">ร.ท.ม.</option>
-                                                    <option value="ร.ง.ช.">ร.ง.ช.</option>
-                                                    <option value="ร.ง.ม.">ร.ง.ม.</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-noraml">
+                                    <label class="label">ประเภท</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <div class="select">
+                                                <select name="type">
+                                                    <option value="officer">นายทหาร</option>
+                                                    <option value="employee">ลูกจ้างประจำ</option>
                                                 </select>
                                             </div>
                                         </div>

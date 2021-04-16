@@ -121,7 +121,7 @@ foreach ($persons as $r) {
     $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
     $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
     $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
-    $html .=        '<td width="14.5%"></td>';
+    $html .=        '<td width="14.5%">'.$r['BDEC_REM'].'</td>';
     $html .=    '</tr>';
 
     $num++;

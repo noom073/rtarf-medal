@@ -49,6 +49,24 @@
                             </div>
 
                             <div class="field is-horizontal">
+                                <div class="field-label is-noraml">
+                                    <label class="label">ประเภท</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <div class="select">
+                                                <select name="type">
+                                                    <option value="officer">นายทหาร</option>
+                                                    <option value="employee">ลูกจ้างประจำ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">ปีที่ขอ</label>
                                 </div>
@@ -88,7 +106,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="p2_rank" placeholder="Text input">
+                                            <input class="input" type="text" name="p1_rank" placeholder="Text input">
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +120,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="p2_name" placeholder="Text input">
+                                            <input class="input" type="text" name="p1_name" placeholder="Text input">
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +133,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="p2_position" placeholder="Text input">
+                                            <input class="input" type="text" name="p1_position" placeholder="Text input">
                                         </div>
                                     </div>
                                 </div>
