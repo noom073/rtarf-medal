@@ -61,7 +61,6 @@ class User_ribbon extends CI_Controller
         }
 
         // var_dump($data);
-        // $this->load->view('user_view/user_ribbon/gen_ribbon_property', $data);
         $this->load->view('pdf_report/ribbon/property_list_report', $data);
     }
 
@@ -87,6 +86,9 @@ class User_ribbon extends CI_Controller
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
         $data['persons_mpc']    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
@@ -120,6 +122,9 @@ class User_ribbon extends CI_Controller
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
         $data['persons_mpc']    = $this->user_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         $data['persons_mvm']    = $this->user_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->user_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();

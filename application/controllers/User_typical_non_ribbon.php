@@ -151,11 +151,11 @@ class User_typical_non_ribbon extends CI_Controller
 	{
 		$this->load->library('pdf');
 		$unitID = $this->myfunction->decode($this->input->post('unitid'));
-		$ribbon = $this->input->post('ribbon_type');
+		$medal = $this->input->post('ribbon_type');
 
 		$data['unit_name']      = $this->person_data->get_unit_name($unitID);
-		$data['ribbon_acm']     = $ribbon;
-		$data['ribbon_name']    = $this->person_data->medal_full_name($ribbon);
+		$data['ribbon_acm']     = $medal;
+		$data['ribbon_name']    = $this->person_data->medal_full_name($medal);
 		$data['year']           = $this->input->post('year');
 		$data['p1_rank']        = $this->input->post('p1_rank');
 		$data['p1_name']        = $this->input->post('p1_name');
@@ -163,9 +163,13 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['p2_rank']        = $this->input->post('p2_rank');
 		$data['p2_name']        = $this->input->post('p2_name');
 		$data['p2_position']    = $this->input->post('p2_position');
-		$data['condition']      = $this->input->post('condition');
+		$data['type']      		= $this->input->post('type');
 
-		$data['persons'] = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		if ($data['type']=='officer') {
+			$data['persons'] = $this->utnr_model->get_officer_prop($unitID, $medal)->result_array();
+		} else {
+			$data['persons'] = $this->utnr_model->get_employee_prop($unitID, $medal)->result_array();
+		}
 
 		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_property', $data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/property_list_report', $data);
@@ -193,31 +197,32 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['year']           = $this->input->post('year');
 		$data['condition']      = $this->input->post('condition');
 		$data['unit_name']      = $this->person_data->get_unit_name($unitID);
+		$data['type']      		= $this->input->post('type');
+		$data['p1_rank']        = $this->input->post('p1_rank');
+		$data['p1_name']        = $this->input->post('p1_name');
+		$data['p1_position']    = $this->input->post('p1_position');
 
-		$data['ribbon_acm'] = 'ท.ช.';
-		$data['thc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ท.ม.';
-		$data['thm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ต.ช.';
-		$data['tc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ต.ม.';
-		$data['tm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'จ.ช.';
-		$data['jc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'จ.ม.';
-		$data['jm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'บ.ช.';
-		$data['bc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'บ.ม.';
-		$data['bm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ท.ช.';
-		$data['rtc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ท.ม.';
-		$data['rtm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ง.ช.';
-		$data['rgc']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ง.ม.';
-		$data['rgm']    = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		if ($data['type']== 'officer') {
+			$data['thc']	= $this->utnr_model->get_officer_prop($unitID, 'ท.ช.')->result_array();
+			$data['thm']    = $this->utnr_model->get_officer_prop($unitID, 'ท.ม.')->result_array();
+			$data['tc']		= $this->utnr_model->get_officer_prop($unitID, 'ต.ช.')->result_array();
+			$data['tm']    	= $this->utnr_model->get_officer_prop($unitID, 'ต.ม.')->result_array();
+			$data['jc']    	= $this->utnr_model->get_officer_prop($unitID, 'จ.ช.')->result_array();
+			$data['jm']    	= $this->utnr_model->get_officer_prop($unitID, 'จ.ม.')->result_array();
+			$data['bc']    	= $this->utnr_model->get_officer_prop($unitID, 'บ.ช.')->result_array();
+			$data['bm']    	= $this->utnr_model->get_officer_prop($unitID, 'บ.ม.')->result_array();
+			$data['rtc']    = $this->utnr_model->get_officer_prop($unitID, 'ร.ท.ช.')->result_array();
+		} else {
+			$data['thc']	= $this->utnr_model->get_employee_prop($unitID, 'ท.ช.')->result_array();
+			$data['thm']    = $this->utnr_model->get_employee_prop($unitID, 'ท.ม.')->result_array();
+			$data['tc']		= $this->utnr_model->get_employee_prop($unitID, 'ต.ช.')->result_array();
+			$data['tm']    	= $this->utnr_model->get_employee_prop($unitID, 'ต.ม.')->result_array();
+			$data['jc']    	= $this->utnr_model->get_employee_prop($unitID, 'จ.ช.')->result_array();
+			$data['jm']    	= $this->utnr_model->get_employee_prop($unitID, 'จ.ม.')->result_array();
+			$data['bc']    	= $this->utnr_model->get_employee_prop($unitID, 'บ.ช.')->result_array();
+			$data['bm']    	= $this->utnr_model->get_employee_prop($unitID, 'บ.ม.')->result_array();
+			$data['rtc']    = $this->utnr_model->get_employee_prop($unitID, 'ร.ท.ช.')->result_array();
+		}
 
 		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/name_list_report', $data);
@@ -246,31 +251,32 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['year']    	= $this->input->post('year');
 		$data['condition']  = $this->input->post('condition');
 		$data['unit_name'] 	= $this->person_data->get_unit_name($unitID);
+		$data['type']      	= $this->input->post('type');
+		$data['p1_rank']    = $this->input->post('p1_rank');
+		$data['p1_name']    = $this->input->post('p1_name');
+		$data['p1_position']= $this->input->post('p1_position');
 
-		$data['ribbon_acm'] = 'ท.ช.';
-		$dtthc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ท.ม.';
-		$dtthm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ต.ช.';
-		$dttc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ต.ม.';
-		$dttm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'จ.ช.';
-		$dtjc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'จ.ม.';
-		$dtjm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'บ.ช.';
-		$dtbc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'บ.ม.';
-		$dtbm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ท.ช.';
-		$dtrtc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ท.ม.';
-		$dtrtm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ง.ช.';
-		$dtrgc = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
-		$data['ribbon_acm'] = 'ร.ง.ม.';
-		$dtrgm = $this->utnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		if ($data['type']=='officer') {
+			$dtthc	= $this->utnr_model->get_officer_prop($unitID, 'ท.ช.')->result_array();
+			$dtthm 	= $this->utnr_model->get_officer_prop($unitID, 'ท.ม.')->result_array();
+			$dttc 	= $this->utnr_model->get_officer_prop($unitID, 'ต.ช.')->result_array();
+			$dttm 	= $this->utnr_model->get_officer_prop($unitID, 'ต.ม.')->result_array();
+			$dtjc 	= $this->utnr_model->get_officer_prop($unitID, 'จ.ช.')->result_array();
+			$dtjm 	= $this->utnr_model->get_officer_prop($unitID, 'จ.ม.')->result_array();
+			$dtbc 	= $this->utnr_model->get_officer_prop($unitID, 'บ.ช.')->result_array();
+			$dtbm 	= $this->utnr_model->get_officer_prop($unitID, 'บ.ม')->result_array();
+			$dtrtc 	= $this->utnr_model->get_officer_prop($unitID, 'ร.ท.ช.')->result_array();
+		} else {
+			$dtthc 	= $this->utnr_model->get_employee_prop($unitID, 'ท.ช.')->result_array();
+			$dtthm 	= $this->utnr_model->get_employee_prop($unitID, 'ท.ม.')->result_array();
+			$dttc 	= $this->utnr_model->get_employee_prop($unitID, 'ต.ช.')->result_array();
+			$dttm 	= $this->utnr_model->get_employee_prop($unitID, 'ต.ม.')->result_array();
+			$dtjc 	= $this->utnr_model->get_employee_prop($unitID, 'จ.ช.')->result_array();
+			$dtjm 	= $this->utnr_model->get_employee_prop($unitID, 'จ.ม.')->result_array();
+			$dtbc 	= $this->utnr_model->get_employee_prop($unitID, 'บ.ช.')->result_array();
+			$dtbm 	= $this->utnr_model->get_employee_prop($unitID, 'บ.ม')->result_array();
+			$dtrtc 	= $this->utnr_model->get_employee_prop($unitID, 'ร.ท.ช.')->result_array();
+		}
 
 		$persons_thc_men        = array_filter($dtthc, function ($r) {
 			return $r['BIOG_SEX'] == 0;
@@ -352,33 +358,6 @@ class User_typical_non_ribbon extends CI_Controller
 		});
 		$data['rtc']['men']     = count($persons_rtc_men);
 		$data['rtc']['women']   = count($persons_rtc_women);
-
-		$persons_rtm_men        = array_filter($dtrtm, function ($r) {
-			return $r['BIOG_SEX'] == 0;
-		});
-		$persons_rtm_women      = array_filter($dtrtm, function ($r) {
-			return $r['BIOG_SEX'] == 1;
-		});
-		$data['rtm']['men']     = count($persons_rtm_men);
-		$data['rtm']['women']   = count($persons_rtm_women);
-
-		$persons_rgc_men        = array_filter($dtrgc, function ($r) {
-			return $r['BIOG_SEX'] == 0;
-		});
-		$persons_rgc_women      = array_filter($dtrgc, function ($r) {
-			return $r['BIOG_SEX'] == 1;
-		});
-		$data['rgc']['men']     = count($persons_rgc_men);
-		$data['rgc']['women']   = count($persons_rgc_women);
-
-		$persons_rgm_men        = array_filter($dtrgm, function ($r) {
-			return $r['BIOG_SEX'] == 0;
-		});
-		$persons_rgm_women      = array_filter($dtrgm, function ($r) {
-			return $r['BIOG_SEX'] == 1;
-		});
-		$data['rgm']['men']     = count($persons_rgm_men);
-		$data['rgm']['women']   = count($persons_rgm_women);
 
 		// var_dump($data);
 		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_amount', $data);

@@ -12,12 +12,12 @@ class User_non_ribbon extends CI_Controller
         $this->load->library('person_data');
         $this->load->library('set_env');
 
-        $this->load->model('user_nonribbon_model');
+        $this->load->model('user_nonribbon_filter_model', 'unrf_model');
     }
 
     public function index()
     {
-        $unit = $this->user_nonribbon_model->get_unitname($this->session->unit)->row_array();
+        $unit = $this->unrf_model->get_unitname($this->session->unit)->row_array();
         $data['unitname']     = $unit['NPRT_NAME'];
         $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
@@ -33,11 +33,11 @@ class User_non_ribbon extends CI_Controller
         $this->load->library('pdf');
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
-        $ribbon = $this->input->post('ribbon_type');
+        $medal = $this->input->post('ribbon_type');
 
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
-        $data['ribbon_acm']     = $ribbon;
-        $data['ribbon_name']    = $this->person_data->medal_full_name($ribbon);
+        $data['ribbon_acm']     = $medal;
+        $data['ribbon_name']    = $this->person_data->medal_full_name($medal);
         $data['year']           = $this->input->post('year');
         $data['p1_rank']        = $this->input->post('p1_rank');
         $data['p1_name']        = $this->input->post('p1_name');
@@ -45,69 +45,23 @@ class User_non_ribbon extends CI_Controller
         $data['p2_rank']        = $this->input->post('p2_rank');
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
+        $data['type']           = $this->input->post('type');
 
-        if ($ribbon == 'ท.ช.') {
-            $decArray = array('ท.ช.');
-            $data['persons'] = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, '05')->result_array();
-        } else if ($ribbon == 'ท.ม.') {
-            $decArray = array('ท.ม.');
-            $data['persons'] = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, '06')->result_array();
-        } else if ($ribbon == 'ต.ช.') {
-            $decArray = array('ต.ช.');
-            $data['persons'] = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, '07')->result_array();
-        } else if ($ribbon == 'ต.ม.') {
-            $decArray = array('ต.ม.');
-            $data['persons'] = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, '08')->result_array();
-        } else if ($ribbon == 'จ.ช.') {
-            $decArray = array('จ.ช.');
-            $data['persons'] = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, '09')->result_array();
-        } else if ($ribbon == 'จ.ม.') {
-            $decArray = array('จ.ม.');
-            $rankAray = array('10', '11');
-            $result = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->jm_person_filter($result);
-        } else if ($ribbon == 'บ.ช.') {
-            $decArray = array('บ.ช.');
-            $rankAray = array('11', '21');
-            $result = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->bc_person_filter($result);
-        } else if ($ribbon == 'บ.ม.') {
-            $decArray = array('บ.ม.');
-            $rankAray = array('11', '21', '22', '23', '24');
-            $result = $this->user_nonribbon_model->get_person_prop($unitID, $decArray, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->bm_person_filter($result);
-        } else if ($ribbon == 'ร.ท.ช.') {
-            // $decArray = array('ร.ท.ช.', 'บ.ม.', 'บ.ช.');
-            $rankAray = array('21', '22', '23', '24');
-            $result = $this->user_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->rtc_person_filter($result);
-        } else if ($ribbon == 'ร.ท.ม.') {
-            // $decArray = array('ร.ท.ม.');
-            $rankAray = array('25');
-            $result = $this->user_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->rtm_person_filter($result);
-        } else if ($ribbon == 'ร.ง.ช.') {
-            // $decArray = array('ร.ง.ช.');
-            $rankAray = array('26');
-            $result = $this->user_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->rgc_person_filter($result);
-        } else if ($ribbon == 'ร.ง.ม.') {
-            // $decArray = array('ร.ง.ม.');
-            $rankAray = array('27');
-            $result = $this->user_nonribbon_model->get_person_coin_prop($unitID, $rankAray)->result_array();
-            $data['persons'] = $this->user_nonribbon_model->rgm_person_filter($result);
+        if ($data['type'] == 'officer') {
+            $data['persons'] = $this->unrf_model->get_officer_prop($unitID, $medal, $data['year']);
+        } elseif ($data['type'] == 'employee') {
+            $data['persons'] = $this->unrf_model->get_employee_prop($unitID, $medal, $data['year']);
         } else {
             $data['persons'] = [];
         }
 
-        // var_dump($result);
-        // $this->load->view('user_view/user_nonribbon/gen_property', $data);
+        // var_dump($data);
         $this->load->view('pdf_report/non_ribbon/property_list_report', $data);
     }
 
     public function summarize_name()
     {
-        $unit = $this->user_nonribbon_model->get_unitname($this->session->unit)->row_array();
+        $unit = $this->unrf_model->get_unitname($this->session->unit)->row_array();
         $data['unitname']     = $unit['NPRT_NAME'];
         $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
@@ -121,52 +75,48 @@ class User_non_ribbon extends CI_Controller
     public function action_summarize_name()
     {
         $this->load->library('pdf');
-
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
+        $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
-        $data['thc'] = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
-        $data['thm'] = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
-        $data['tc'] = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
-        $data['tm'] = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
-        $data['jc'] = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
-
-        $rsJm = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
-        $data['jm'] = $this->user_nonribbon_model->jm_person_filter($rsJm);
-
-        $rsBc = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
-        $data['bc'] = $this->user_nonribbon_model->bc_person_filter($rsBc);
-
-        $rsBm = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
-        $data['bm'] = $this->user_nonribbon_model->bm_person_filter($rsBm);
-
-        $rsRtc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
-        $data['rtc'] = $this->user_nonribbon_model->rtc_person_filter($rsRtc);
-
-        $rsRtm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('25'))->result_array();
-        $data['rtm'] = $this->user_nonribbon_model->rtm_person_filter($rsRtm);
-
-        $rsRgc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('26'))->result_array();
-        $data['rgc'] = $this->user_nonribbon_model->rgc_person_filter($rsRgc);
-
-        $rsRgm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
-        $data['rgm'] = $this->user_nonribbon_model->rgm_person_filter($rsRgm);
-
-        // $data['persons_mpc']    = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data['year'])->result_array();
-        // $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data['year'])->result_array();
-        // $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data['year'])->result_array();
-        // $data['persons_pm']     = $this->admin_ribbon_prop_model->get_person_prop_pm($unitID, $data['year']);
+        if ($data['type'] == 'officer') {
+            $data['validType'] = true;
+            $data['thc'] = $this->unrf_model->get_officer_prop($unitID, 'ท.ช.', $data['year']);
+            $data['thm'] = $this->unrf_model->get_officer_prop($unitID, 'ท.ม.', $data['year']);
+            $data['tc'] = $this->unrf_model->get_officer_prop($unitID, 'ต.ช.', $data['year']);
+            $data['tm'] = $this->unrf_model->get_officer_prop($unitID, 'ต.ม.', $data['year']);
+            $data['jc'] = $this->unrf_model->get_officer_prop($unitID, 'จ.ช.', $data['year']);
+            $data['jm'] = $this->unrf_model->get_officer_prop($unitID, 'จ.ม.', $data['year']);
+            $data['bc'] = $this->unrf_model->get_officer_prop($unitID, 'บ.ช.', $data['year']);
+            $data['bm'] = $this->unrf_model->get_officer_prop($unitID, 'บ.ม.', $data['year']);
+            $data['rtc'] = $this->unrf_model->get_officer_prop($unitID, 'ร.ท.ช.', $data['year']);
+        } elseif ($data['type'] == 'employee') {
+            $data['validType'] = true;
+            $data['thc'] = $this->unrf_model->get_employee_prop($unitID, 'ท.ช.', $data['year']);
+            $data['thm'] = $this->unrf_model->get_employee_prop($unitID, 'ท.ม.', $data['year']);
+            $data['tc'] = $this->unrf_model->get_employee_prop($unitID, 'ต.ช.', $data['year']);
+            $data['tm'] = $this->unrf_model->get_employee_prop($unitID, 'ต.ม.', $data['year']);
+            $data['jc'] = $this->unrf_model->get_employee_prop($unitID, 'จ.ช.', $data['year']);
+            $data['jm'] = $this->unrf_model->get_employee_prop($unitID, 'จ.ม.', $data['year']);
+            $data['bc'] = $this->unrf_model->get_employee_prop($unitID, 'บ.ช.', $data['year']);
+            $data['bm'] = $this->unrf_model->get_employee_prop($unitID, 'บ.ม.', $data['year']);
+            $data['rtc'] = $this->unrf_model->get_employee_prop($unitID, 'ร.ท.ช.', $data['year']);
+        } else {
+            $data['validType'] = false;
+        }
 
         // var_dump($data);
-        // $this->load->view('user_view/user_nonribbon/gen_summarize_name', $data);
         $this->load->view('pdf_report/non_ribbon/name_list_report', $data);
     }
 
     public function nonribbon_amount()
     {
-        $unit = $this->user_nonribbon_model->get_unitname($this->session->unit)->row_array();
+        $unit = $this->unrf_model->get_unitname($this->session->unit)->row_array();
         $data['unitname']     = $unit['NPRT_NAME'];
         $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
         $data['sidemenu'] = $this->load->view('user_view/user_menu/list_user_menu', null, true);
@@ -182,36 +132,36 @@ class User_non_ribbon extends CI_Controller
         $this->load->library('pdf');
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
-
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
+        $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
-        $dtthc = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
-        $dtthm = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
-        $dttc = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
-        $dttm = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
-        $dtjc = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
-
-        $rsJm = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
-        $dtjm = $this->user_nonribbon_model->jm_person_filter($rsJm);
-
-        $rsBc = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
-        $dtbc = $this->user_nonribbon_model->bc_person_filter($rsBc);
-
-        $rsBm = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
-        $dtbm = $this->user_nonribbon_model->bm_person_filter($rsBm);
-
-        $rsRtc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
-        $dtrtc = $this->user_nonribbon_model->rtc_person_filter($rsRtc);
-
-        $rsRtm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('25'))->result_array();
-        $dtrtm = $this->user_nonribbon_model->rtm_person_filter($rsRtm);
-
-        $rsRgc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('26'))->result_array();
-        $dtrgc = $this->user_nonribbon_model->rgc_person_filter($rsRgc);
-
-        $rsRgm = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('27'))->result_array();
-        $dtrgm = $this->user_nonribbon_model->rgm_person_filter($rsRgm);
+        if ($data['type'] == 'officer') {
+            $data['validType'] = true;
+            $dtthc = $this->unrf_model->get_officer_prop($unitID, 'ท.ช.', $data['year']);
+            $dtthm = $this->unrf_model->get_officer_prop($unitID, 'ท.ม.', $data['year']);
+            $dttc = $this->unrf_model->get_officer_prop($unitID, 'ต.ช.', $data['year']);
+            $dttm = $this->unrf_model->get_officer_prop($unitID, 'ต.ม.', $data['year']);
+            $dtjc = $this->unrf_model->get_officer_prop($unitID, 'จ.ช.', $data['year']);
+            $dtjm = $this->unrf_model->get_officer_prop($unitID, 'จ.ม.', $data['year']);
+            $dtbc = $this->unrf_model->get_officer_prop($unitID, 'บ.ช.', $data['year']);
+            $dtbm = $this->unrf_model->get_officer_prop($unitID, 'บ.ม.', $data['year']);
+            $dtrtc = $this->unrf_model->get_officer_prop($unitID, 'ร.ท.ช.', $data['year']);
+        } elseif ($data['type'] == 'employee') {
+            $data['validType'] = true;
+            $dtthc = $this->unrf_model->get_employee_prop($unitID, 'ท.ช.', $data['year']);
+            $dtthm = $this->unrf_model->get_employee_prop($unitID, 'ท.ม.', $data['year']);
+            $dttc = $this->unrf_model->get_employee_prop($unitID, 'ต.ช.', $data['year']);
+            $dttm = $this->unrf_model->get_employee_prop($unitID, 'ต.ม.', $data['year']);
+            $dtjc = $this->unrf_model->get_employee_prop($unitID, 'จ.ช.', $data['year']);
+            $dtjm = $this->unrf_model->get_employee_prop($unitID, 'จ.ม.', $data['year']);
+            $dtbc = $this->unrf_model->get_employee_prop($unitID, 'บ.ช.', $data['year']);
+            $dtbm = $this->unrf_model->get_employee_prop($unitID, 'บ.ม.', $data['year']);
+            $dtrtc = $this->unrf_model->get_employee_prop($unitID, 'ร.ท.ช.', $data['year']);
+        }         
 
         $persons_thc_men        = array_filter($dtthc, function ($r) {
             return $r['BIOG_SEX'] == 0;
@@ -293,35 +243,7 @@ class User_non_ribbon extends CI_Controller
         });
         $data['rtc']['men']     = count($persons_rtc_men);
         $data['rtc']['women']   = count($persons_rtc_women);
-
-        $persons_rtm_men        = array_filter($dtrtm, function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        });
-        $persons_rtm_women      = array_filter($dtrtm, function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        });
-        $data['rtm']['men']     = count($persons_rtm_men);
-        $data['rtm']['women']   = count($persons_rtm_women);
-
-        $persons_rgc_men        = array_filter($dtrgc, function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        });
-        $persons_rgc_women      = array_filter($dtrgc, function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        });
-        $data['rgc']['men']     = count($persons_rgc_men);
-        $data['rgc']['women']   = count($persons_rgc_women);
-
-        $persons_rgm_men        = array_filter($dtrgm, function ($r) {
-            return $r['BIOG_SEX'] == 0;
-        });
-        $persons_rgm_women      = array_filter($dtrgm, function ($r) {
-            return $r['BIOG_SEX'] == 1;
-        });
-        $data['rgm']['men']     = count($persons_rgm_men);
-        $data['rgm']['women']   = count($persons_rgm_women);
         // var_dump($data);
-        // $this->load->view('user_view/user_nonribbon/gen_person_amount', $data);
         $this->load->view('pdf_report/non_ribbon/total_group_report', $data);
     }
 
@@ -330,7 +252,7 @@ class User_non_ribbon extends CI_Controller
         if ($this->set_env->get_system_status() == 0) {
             redirect('user_fundamental/system_off');
         } else {
-            $unit = $this->user_nonribbon_model->get_unitname($this->session->unit)->row_array();
+            $unit = $this->unrf_model->get_unitname($this->session->unit)->row_array();
             $data['unitname']   = $unit['NPRT_NAME'];
             $data['unitID']     = $this->myfunction->encode($unit['NPRT_UNIT']);
             $data['sidemenu']   = $this->load->view('user_view/user_menu/list_user_menu', null, true);

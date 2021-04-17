@@ -87,7 +87,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="p2_rank" placeholder="Text input">
+                                            <input class="input" type="text" name="p1_rank" placeholder="Text input">
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="p2_name" placeholder="Text input">
+                                            <input class="input" type="text" name="p1_name" placeholder="Text input">
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <input class="input" type="text" name="p2_position" placeholder="Text input">
+                                            <input class="input" type="text" name="p1_position" placeholder="Text input">
                                         </div>
                                     </div>
                                 </div>

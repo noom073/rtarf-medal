@@ -22,9 +22,10 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
+        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
         A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL,
-        B.CRAK_NAME_FULL
+        A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
@@ -65,9 +66,10 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
+        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
         A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL,
-        B.CRAK_NAME_FULL
+        A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
@@ -120,9 +122,10 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, 
+        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, 
         A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL,
-        B.CRAK_NAME_FULL
+        A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
@@ -181,10 +184,10 @@ class User_ribbon_prop_model extends CI_Model
             $retireCondition = '';
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
+        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
         A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CPOS, A.BIOG_SEX,
-        A.BIOG_DEC, A.BIOG_DECY, retire60(A.BIOG_DMY_BORN) as RETIRE60,
-        B.CRAK_NAME_FULL
+        A.BIOG_DEC, A.BIOG_DECY, retire60(A.BIOG_DMY_BORN) as RETIRE60, A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
