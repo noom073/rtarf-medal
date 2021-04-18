@@ -10,12 +10,12 @@ class User_nonribbon_filter_model extends CI_Model
     {
         parent::__construct();
         $this->oracle = $this->load->database('oracle', true);
-    }  
+    }
 
     public function get_unitname($unitID4)
     {
         $this->oracle->select('NPRT_NAME, NPRT_ACM, NPRT_UNIT');
-        $this->oracle->where('NPRT_UNIT', $unitID4.'000000');
+        $this->oracle->where('NPRT_UNIT', $unitID4 . '000000');
         $result = $this->oracle->get('PER_NPRT_TAB');
         // echo $this->oracle->last_query();
         return $result;
@@ -24,7 +24,7 @@ class User_nonribbon_filter_model extends CI_Model
     private function get_officer_list($unit, $rank, $medal)
     {
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
-            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS,
+            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS, A.BIOG_UNIT, A.BIOG_RANK,
             B.CRAK_NAME_FULL_PRINT
             FROM PER_BIOG_VIEW A
             INNER JOIN PER_CRAK_TAB B 
@@ -117,7 +117,7 @@ class User_nonribbon_filter_model extends CI_Model
                     $personsProp = $this->get_rtc_person_prop($persons, $year);
                     break;
                 default:
-                    $personsProp = $this->get_thc_person_prop($persons, $year);
+                    $personsProp = [];
                     break;
             }
         } else {
@@ -366,7 +366,7 @@ class User_nonribbon_filter_model extends CI_Model
     {
         $decNotIn = array_merge(array('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.'), $decArray);
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
-            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS,
+            A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS, A.BIOG_UNIT, A.BIOG_RANK,
             B.CRAK_NAME_FULL_PRINT
             FROM PER_BIOG_VIEW A
             INNER JOIN PER_CRAK_TAB B 
@@ -565,6 +565,20 @@ class User_nonribbon_filter_model extends CI_Model
         return $query;
     }
 
+    public function getPersonBeforeInsertBdec($unit, $year)
+    {
+        $data['thc'] = array_merge($this->get_officer_prop($unit, 'ท.ช.', $year), $this->get_employee_prop($unit, 'ท.ช.', $year));
+        $data['thm'] = array_merge($this->get_officer_prop($unit, 'ท.ม.', $year), $this->get_employee_prop($unit, 'ท.ม.', $year));
+        $data['tc'] = array_merge($this->get_officer_prop($unit, 'ต.ช.', $year), $this->get_employee_prop($unit, 'ต.ช.', $year));
+        $data['tm'] = array_merge($this->get_officer_prop($unit, 'ต.ม.', $year), $this->get_employee_prop($unit, 'ต.ม.', $year));
+        $data['jc'] = array_merge($this->get_officer_prop($unit, 'จ.ช.', $year), $this->get_employee_prop($unit, 'จ.ช.', $year));
+        $data['jm'] = array_merge($this->get_officer_prop($unit, 'จ.ม.', $year), $this->get_employee_prop($unit, 'จ.ม.', $year));
+        $data['bc'] = array_merge($this->get_officer_prop($unit, 'บ.ช.', $year), $this->get_employee_prop($unit, 'บ.ช.', $year));
+        $data['bm'] = array_merge($this->get_officer_prop($unit, 'บ.ม.', $year), $this->get_employee_prop($unit, 'บ.ม.', $year));
+        $data['rtc'] = array_merge($this->get_officer_prop($unit, 'ร.ท.ช.', $year), $this->get_employee_prop($unit, 'ร.ท.ช.', $year));
+        return $data;
+    }
+
     private function insert_bdec($row, $nextMedal, $round, $bdecSeq)
     {
         $this->oracle->set('BDEC_ROUND', $round);
@@ -579,7 +593,7 @@ class User_nonribbon_filter_model extends CI_Model
         return $insert;
     }
 
-    public function process_insert_to_bdec($person, $nextMedal)
+    private function process_insert_to_bdec($person, $nextMedal)
     {
         if ($nextMedal == 'ท.ช.') $cseq = '5';
         else if ($nextMedal == 'ท.ม.') $cseq = '6';
@@ -598,7 +612,7 @@ class User_nonribbon_filter_model extends CI_Model
             if ($insert) {
                 $result['status']   = true;
                 $result['text']     = 'บันทึกสำเร็จ';
-                $result['data']     = array( 
+                $result['data']     = array(
                     'BIOG_ID' => $person['BIOG_ID'],
                     'BIOG_NAME' => $person['BIOG_NAME'],
                     'BIOG_RANK' => $person['BIOG_RANK'],
@@ -609,7 +623,7 @@ class User_nonribbon_filter_model extends CI_Model
             } else {
                 $result['status']   = false;
                 $result['text']     = 'บันทึกไม่สำเร็จ';
-                $result['data']     = array( 
+                $result['data']     = array(
                     'BIOG_ID' => $person['BIOG_ID'],
                     'BIOG_NAME' => $person['BIOG_NAME'],
                     'BIOG_RANK' => $person['BIOG_RANK'],
@@ -617,11 +631,11 @@ class User_nonribbon_filter_model extends CI_Model
                     'BIOG_DEC' => $person['BIOG_DEC'],
                     'NEXT_DEC' => $nextMedal
                 );
-            }            
+            }
         } else {
             $result['status']   = false;
             $result['text']     = 'มีข้อมูลแล้ว';
-            $result['data']     = array( 
+            $result['data']     = array(
                 'BIOG_ID' => $person['BIOG_ID'],
                 'BIOG_NAME' => $person['BIOG_NAME'],
                 'BIOG_RANK' => $person['BIOG_RANK'],
@@ -631,6 +645,78 @@ class User_nonribbon_filter_model extends CI_Model
             );
         }
 
+        return $result;
+    }
+
+    public function runInList_insertBdec($typeList)
+    {
+        $result = array();
+        foreach ($typeList as $key => $value) {
+            switch ($key) {
+                case 'thc':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'ท.ช.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'thm':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'ท.ม.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'tc':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'ต.ช.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'tm':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'ต.ม.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'jc':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'จ.ช.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'jm':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'จ.ม.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'bc':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'บ.ช.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'bm':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'บ.ม.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                case 'rtc':
+                    foreach ($value as $person) {
+                        $insertBdec = $this->process_insert_to_bdec($person, 'ร.ท.ช.');
+                        array_push($result, $insertBdec);
+                    }
+                    break;
+                default:
+                    foreach ($value as $person) {
+                        $array['data'] = $person;
+                        $array['status'] = false;
+                        $array['text'] = "Other medal type key:{$key}";
+                        array_push($result, $array);
+                    }
+                    break;
+            }
+        }
         return $result;
     }
 }

@@ -112,7 +112,7 @@
             event.preventDefault();
             let formData = $(this).serialize();
             $(".save-person-bdec-form-result").html('Loading...');
-
+            $("#save-person-bdec-form-save").addClass('is-loading');
             $.post({
                 url: '<?= site_url('user_non_ribbon/ajax_save_person_to_bdec') ?>',
                 data: formData,
@@ -130,10 +130,10 @@
                     $(".save-person-bdec-form-result").addClass('class', 'notification is-warning');
                     $(".save-person-bdec-form-result").html('Failure');
                 }
+                $("#save-person-bdec-form-save").removeClass('is-loading');
             }).fail((jhr, status, error) => {
                 console.error(jhr, status, error);
             });
-            // $("#property-form-data").html('Loading...');           
         });
     });
 </script>

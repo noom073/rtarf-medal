@@ -161,7 +161,7 @@ class User_non_ribbon extends CI_Controller
             $dtbc = $this->unrf_model->get_employee_prop($unitID, 'บ.ช.', $data['year']);
             $dtbm = $this->unrf_model->get_employee_prop($unitID, 'บ.ม.', $data['year']);
             $dtrtc = $this->unrf_model->get_employee_prop($unitID, 'ร.ท.ช.', $data['year']);
-        }         
+        }
 
         $persons_thc_men        = array_filter($dtthc, function ($r) {
             return $r['BIOG_SEX'] == 0;
@@ -264,70 +264,89 @@ class User_non_ribbon extends CI_Controller
         }
     }
 
+    // public function ajax_save_person_to_bdec() // BACKUP BEFORE UPDATE PROCESS 07-04-2564
+    // {
+    //     $result = array();
+    //     if ($this->set_env->get_system_status() == 1) {
+    //         $unitIDEnc  = $this->input->post('unitid');
+    //         $unitID     = $this->myfunction->decode($unitIDEnc);
+    //         $data['year']   = (int) date("Y") + 543;
+
+    //         $personThc = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
+    //         $personThm = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
+    //         $personTc = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
+    //         $personTm = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
+    //         $personJc = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
+
+    //         $rsJm = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
+    //         $personJm = $this->user_nonribbon_model->jm_person_filter($rsJm);
+
+    //         $rsBc = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
+    //         $personBc = $this->user_nonribbon_model->bc_person_filter($rsBc);
+
+    //         $rsBm = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
+    //         $personBm = $this->user_nonribbon_model->bm_person_filter($rsBm);
+
+    //         $rsRtc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
+    //         $personRtc = $this->user_nonribbon_model->rtc_person_filter($rsRtc);
+
+    //         foreach ($personThc as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ช.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personThm as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ม.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personTc as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ช.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personTm as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ม.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personJc as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ช.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personJm as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ม.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personBc as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ช.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personBm as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ม.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //         foreach ($personRtc as $r) {
+    //             $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ร.ท.ช.');
+    //             array_push($result, $insertBdec);
+    //         }
+    //     }
+    //     $response = json_encode($result);
+    //     $this->output
+    //         ->set_content_type('application/json')
+    //         ->set_output($response);
+    // }
+
     public function ajax_save_person_to_bdec()
     {
-        $result = array();
         if ($this->set_env->get_system_status() == 1) {
             $unitIDEnc  = $this->input->post('unitid');
             $unitID     = $this->myfunction->decode($unitIDEnc);
+            $unitID4    = substr($unitID, 0, 4);
             $data['year']   = (int) date("Y") + 543;
-
-            $personThc = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ช.'), '05')->result_array();
-            $personThm = $this->user_nonribbon_model->get_person_prop($unitID, array('ท.ม.'), '06')->result_array();
-            $personTc = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ช.'), '07')->result_array();
-            $personTm = $this->user_nonribbon_model->get_person_prop($unitID, array('ต.ม.'), '08')->result_array();
-            $personJc = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ช.'), '09')->result_array();
-
-            $rsJm = $this->user_nonribbon_model->get_person_prop($unitID, array('จ.ม.'), array('10', '11'))->result_array();
-            $personJm = $this->user_nonribbon_model->jm_person_filter($rsJm);
-
-            $rsBc = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ช.'), array('11', '21'))->result_array();
-            $personBc = $this->user_nonribbon_model->bc_person_filter($rsBc);
-
-            $rsBm = $this->user_nonribbon_model->get_person_prop($unitID, array('บ.ม.'), array('11', '21', '22', '23', '24'))->result_array();
-            $personBm = $this->user_nonribbon_model->bm_person_filter($rsBm);
-
-            $rsRtc = $this->user_nonribbon_model->get_person_coin_prop($unitID, array('21', '22', '23', '24'))->result_array();
-            $personRtc = $this->user_nonribbon_model->rtc_person_filter($rsRtc);
-
-            foreach ($personThc as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ช.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personThm as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ท.ม.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personTc as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ช.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personTm as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ต.ม.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personJc as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ช.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personJm as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'จ.ม.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personBc as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ช.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personBm as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'บ.ม.');
-                array_push($result, $insertBdec);
-            }
-            foreach ($personRtc as $r) {
-                $insertBdec = $this->user_nonribbon_model->process_insert_to_bdec($r, 'ร.ท.ช.');
-                array_push($result, $insertBdec);
-            }
+            $typeList = $this->unrf_model->getPersonBeforeInsertBdec($unitID4, $data['year']);
+            $insertResult = $this->unrf_model->runInList_insertBdec($typeList);
+        } else {
+            $insertResult = [];
         }
-        $response = json_encode($result);
+
+        $response = json_encode($insertResult);
         $this->output
             ->set_content_type('application/json')
             ->set_output($response);
