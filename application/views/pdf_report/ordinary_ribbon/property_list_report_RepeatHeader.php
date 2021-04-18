@@ -3,19 +3,19 @@
 class MYPDF extends PDF
 {
     //Page header
-    // public function Header()
-    // {
-    //     $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
-    //     $this->SetFont($fontname, '', 15);
+    public function Header()
+    {
+        $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+        $this->SetFont($fontname, '', 15);
 
-    //     if($this->condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';        
-    //     else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
-
-    //     $this->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
-    //     // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-    //     $this->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
-    //     $this->writeHTMLCell(0, '', '', '', $this->headerUnitName, 0, 1, 0, true, 'C', true);
-    // }
+        if($this->condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';        
+        else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+        
+        $this->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
+        // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', $this->headerUnitName, 0, 1, 0, true, 'C', true);
+    }
 
     //Page Footer
     public function Footer()
@@ -35,13 +35,16 @@ $dm = date('dm') . strval(date('Y') + 543);
 
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf->headerUnitName = $unit_name['NPRT_NAME'];
 $pdf->p2_rank = $p2_rank;
 $pdf->p2_name = $p2_name;
 $pdf->p2_position = $p2_position;
-// $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
-$pdf->setPrintHeader(false);
-$pdf->SetMargins(5, 15, 5);
-// $pdf->SetHeaderMargin(15);
+$pdf->condition = $condition;
+// $pdf->myYear = strval(date('Y') + 543);
+$pdf->myYear = $year;
+$pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
+$pdf->SetMargins(5, 45, 5);
+$pdf->SetHeaderMargin(15);
 $pdf->SetFooterMargin(30);
 
 // set auto page breaks
@@ -53,14 +56,6 @@ $pdf->SetFont($fontname, '', 15, '', true);
 
 // add a page
 $pdf->AddPage('L');
-
-if ($condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
-else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $year . '</span>';
-
-$pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
-// $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
 
 // set Content To print
 $html = '';
@@ -112,7 +107,7 @@ foreach ($persons as $r) {
         $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
         $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง' : '';
         $rankOrSalary = "{$r['CRAK_NAME_FULL_PRINT']}<br/> {$specialRank}";
-        $name = substr($r['BIOG_NAME'], strpos($r['BIOG_NAME'], ' '));
+        $name = substr($r['BIOG_NAME'],strpos($r['BIOG_NAME'], ' '));
         $biogName = "{$r['CRAK_NAME_FULL_PRINT']}{$gender} $name";
     }
 
@@ -126,7 +121,7 @@ foreach ($persons as $r) {
     $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
     $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
     $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
-    $html .=        '<td width="14.5%">' . $r['BDEC_REM'] . '</td>';
+    $html .=        '<td width="14.5%">'.$r['BDEC_REM'].'</td>';
     $html .=    '</tr>';
 
     $num++;

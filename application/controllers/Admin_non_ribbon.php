@@ -10,7 +10,7 @@ class Admin_non_ribbon extends CI_Controller
         $this->load->library('myfunction');
         $this->load->library('person_data');
 
-        $this->load->model('admin_nonribbon_model');
+        // $this->load->model('admin_nonribbon_model');
         $this->load->model('admin_nonribbon_filter_model', 'anrf_model');
     }
 

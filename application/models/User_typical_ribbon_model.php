@@ -17,7 +17,7 @@ class User_typical_ribbon_model extends CI_Model
         $this->oracle->where('BDEC_CSEQ <= 4');
         $this->oracle->order_by('BDEC_RANK');
         $result = $this->oracle->get('PER_BDEC_TAB');
-        
+
         return $result;
     }
 
@@ -38,11 +38,13 @@ class User_typical_ribbon_model extends CI_Model
             $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) = {$year}";
         } else {
             $retireCondition = '';
-        }  
+        }
 
-        $result = $this->oracle->query("SELECT A.BDEC_NAME,B.BIOG_NAME, B.BIOG_DMY_WORK,
-        B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SCLASS, B.BIOG_SLEVEL,
-        C.CRAK_NAME_FULL
+        $result = $this->oracle->query("SELECT A.BDEC_NAME, A.BDEC_REM,
+            B.BIOG_NAME, B.BIOG_DMY_WORK,
+            B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SCLASS, B.BIOG_SLEVEL,
+            B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP,
+            C.CRAK_NAME_FULL, C.CRAK_NAME_FULL_PRINT
         FROM PER_BDEC_TAB A
         INNER JOIN PER_BIOG_VIEW B
             ON A.BDEC_ID = B.BIOG_ID

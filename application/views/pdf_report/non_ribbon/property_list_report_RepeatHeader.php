@@ -3,21 +3,21 @@
 class MYPDF extends PDF
 {
     //Page header
-    // public function Header()
-    // {
-    //     $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
-    //     $this->SetFont($fontname, '', 15);
+    public function Header()
+    {
+        $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+        $this->SetFont($fontname, '', 16);
 
-    //     if($this->condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';        
-    //     else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+        if ($this->type == 'employee') $head = '<span>บัญชีแสดงคุณสมบัติของลูกจ้างประจำ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+        else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
 
-    //     $this->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
-    //     // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-    //     $this->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
-    //     $this->writeHTMLCell(0, '', '', '', $this->headerUnitName, 0, 1, 0, true, 'C', true);
-    // }
+        // $head = '<span style="font-weight:bold;">บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+        $this->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
+        // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', $this->headerUnitName, 0, 1, 0, true, 'C', true);
+    }
 
-    //Page Footer
     public function Footer()
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -35,13 +35,17 @@ $dm = date('dm') . strval(date('Y') + 543);
 
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf->headerUnitName = $unit_name['NPRT_NAME'];
 $pdf->p2_rank = $p2_rank;
 $pdf->p2_name = $p2_name;
 $pdf->p2_position = $p2_position;
-// $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
-$pdf->setPrintHeader(false);
-$pdf->SetMargins(5, 15, 5);
-// $pdf->SetHeaderMargin(15);
+// $pdf->condition = $condition;
+$pdf->type = $type;
+// $pdf->myYear = strval(date('Y') + 543);
+$pdf->myYear = $year;
+$pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
+$pdf->SetMargins(5, 45, 5);
+$pdf->SetHeaderMargin(15);
 $pdf->SetFooterMargin(30);
 
 // set auto page breaks
@@ -53,14 +57,6 @@ $pdf->SetFont($fontname, '', 15, '', true);
 
 // add a page
 $pdf->AddPage('L');
-
-if ($condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
-else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $year . '</span>';
-
-$pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
-// $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
 
 // set Content To print
 $html = '';
@@ -79,8 +75,8 @@ $html .=            '<th style="text-align: center" width="8.5%">ระดับ
 $html .=            '<th style="text-align: center" width="8%">ตั้งแต่ วัน เดือน ปี</th>';
 $html .=            '<th style="text-align: center" width="5.5%">เงินเดือน (ปัจจุบัน)</th>';
 
-$html .=            '<th style="text-align: center" width="6%">ที่ได้รับ <br /> (จากชั้นสูงไปชั้นรอง)</th>';
-$html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี (28 ก.ค. ...)</th>';
+$html .=            '<th style="text-align: center" width="6%">ที่ได้รับ <br/> (จากชั้นสูงไปชั้นรอง)</th>';
+$html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี <br/> (28 ก.ค. ...)</th>';
 $html .=            '<th style="text-align: center" width="5%">ขอครั้งนี้</th>';
 
 $html .=        '</tr>';
@@ -126,7 +122,7 @@ foreach ($persons as $r) {
     $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
     $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
     $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
-    $html .=        '<td width="14.5%">' . $r['BDEC_REM'] . '</td>';
+    $html .=        '<td width="14.5%"></td>';
     $html .=    '</tr>';
 
     $num++;
@@ -134,7 +130,7 @@ foreach ($persons as $r) {
 
 $html .=    '</tbody>';
 $html .= '</table>';
-$pdf->writeHTML($html, 0, 0, true, 0);
+$pdf->writeHTML($html, true, 0, true, 0);
 if (($pdf->GetY() - $pdf->getBreakMargin()) > 90) $pdf->AddPage('L'); // Add page เทื่อระยยกระดาษมีไม่พอสำหรับลงนาม
 $message = 'ขอรับรองว่ารายละเอียดข้างต้นถูกต้องและเป็นผู้มีคุณสมบัติตามระเบียบ 
     ว่าด้วยการขอพระราชทานเครื่องราชอิสริยาภรณ์ พ.ศ. 2536 ข้อ 8,10,19(3),21
