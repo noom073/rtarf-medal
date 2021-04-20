@@ -68,20 +68,22 @@ $html = '';
 $html .= '<table border=".5" cellpadding="3" cellspacing="0">';
 $html .=    '<thead>';
 $html .=        '<tr>';
-$html .=            '<th rowspan="2" width="4%" style="text-align: center">ลำดับ</th>';
-$html .=            '<th rowspan="2" width="18%" style="text-align: center">ชื่อตัว - ชื่อสกุล</th>';
+$html .=            '<th width="4%" style="text-align: center; border-bottom-color:white; border-right-color:black; border-top-color:black"></th>';
+$html .=            '<th width="18%" style="text-align: center; border-bottom-color:white; border-top-color:black"></th>';
 $html .=            '<th colspan="3" width="22%" style="text-align: center">เป็นข้าราชการ</th>';
 $html .=            '<th rowspan="2" width="22%" style="text-align: center">ตำแหน่ง <br /> ปัจจุบันและอดีตเฉพาะปีที่ได้รับ <br /> พระราชทานเครื่องราชอิสริยาภรณ์</th>';
 $html .=            '<th colspan="3" width="19.5%" style="text-align: center">เครื่องราชอิสริยาภรณ์</th>';
 $html .=            '<th rowspan="2" width="14.5%" style="text-align: center">หมายเหตุ <br /> (เริ่มบรรจุกรณีขอครั้งแรก, โอนมาจาก, ชื่อตัว - ชื่อสกุลเดิม ชื่อตำแหน่งตามบัญชีอื่น, ปีเกษียณ)</th>';
 $html .=        '</tr>';
 $html .=        '<tr>';
+$html .=            '<th width="4%" style="text-align: center; border-top-color:white; border-right-color:black;; border-bottom-color:black;">ลำดับ</th>';
+$html .=            '<th width="18%" style="text-align: center; border-top-color:white; border-bottom-color:black;">ชื่อตัว - ชื่อสกุล</th>';
 $html .=            '<th style="text-align: center" width="8.5%">ระดับ/ขั้น (ปัจจุบัน)</th>';
 $html .=            '<th style="text-align: center" width="8%">ตั้งแต่ วัน เดือน ปี</th>';
 $html .=            '<th style="text-align: center" width="5.5%">เงินเดือน (ปัจจุบัน)</th>';
 
 $html .=            '<th style="text-align: center" width="6%">ที่ได้รับ <br /> (จากชั้นสูงไปชั้นรอง)</th>';
-$html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี <br />(28 ก.ค. ...)</th>';
+$html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี</th>';
 $html .=            '<th style="text-align: center" width="5%">ขอครั้งนี้</th>';
 
 $html .=        '</tr>';
@@ -117,17 +119,37 @@ foreach ($persons as $r) {
         $biogName = "{$r['CRAK_NAME_FULL_PRINT']}{$gender} $name";
     }
 
+    // ================== BACKUP ก่อนปรับการเรียกตำแหน่งอดีต =====================
+    // $html .=    '<tr nobr="true">';
+    // $html .=        '<td width="4%" style="text-align: center">' . $num . '</td>';
+    // $html .=        '<td width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
+    // $html .=        '<td width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
+    // $html .=        '<td width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
+    // $html .=        '<td width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
+    // $html .=        '<td width="22%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . "{$r['CRAK_NAME_FULL_PRINT']}{$gender} {$specialRank}" . '</td>';
+    // $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
+    // $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
+    // $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
+    // $html .=        '<td width="14.5%"></td>';
+    // $html .=    '</tr>';
+    // End ================ BACKUP ก่อนปรับการเรียกตำแหน่งอดีต =======================
+
     $html .=    '<tr nobr="true">';
-    $html .=        '<td width="4%" style="text-align: center">' . $num . '</td>';
-    $html .=        '<td width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
-    $html .=        '<td width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
-    $html .=        '<td width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
-    $html .=        '<td width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
-    $html .=        '<td width="22%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . "{$r['CRAK_NAME_FULL_PRINT']}{$gender} {$specialRank}" . '</td>';
-    $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
-    $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
-    $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
-    $html .=        '<td width="14.5%"></td>';
+    $html .=        '<td rowspan="2" width="4%" style="text-align: center"  nobr="true">' . $num . '</td>';
+    $html .=        '<td rowspan="2" width="18%" nobr="true">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
+    $html .=        '<td rowspan="2" width="8.5%" style="text-align: center" nobr="true">' . $rankOrSalary . '</td>';
+    $html .=        '<td rowspan="2" width="8%" style="text-align: center" nobr="true">' . $biog_dmy_rank . '</td>';
+    $html .=        '<td rowspan="2" width="5.5%" style="text-align: center" nobr="true">' . number_format($r['BIOG_SALARY']) . '</td>';
+    $html .=        '<td width="22%" style="border-bottom-color:white; border-right-color:black;" nobr="true">' . $r['BIOG_POSNAME_FULL'] . '<br/></td>';
+    $html .=        '<td width="6%" style="text-align: center; border-bottom-color:white; border-right-color:black;">' . $r['BIOG_DEC'] . '</td>';
+    $html .=        '<td width="8.5%" style="text-align: center; border-bottom-color:white;">' . $biog_decy . '</td>';
+    $html .=        '<td rowspan="2" width="5%" style="text-align: center" nobr="true">' . $ribbon_acm . '</td>';
+    $html .=        '<td rowspan="2" width="14.5%" nobr="true"></td>';
+    $html .=    '</tr>';
+    $html .=    '<tr>';
+    $html .=        '<td width="22%" style="border-top-color:white; border-bottom-color:black; border-right-color:black;" nobr="true">' . $r['BIOG_POSNAME_FULL']  . " {$r['CRAK_NAME_FULL_PRINT']}{$gender} {$specialRank}" . '</td>';
+    $html .=        '<td width="6%" style="text-align: center; border-top-color:white; border-bottom-color:black; border-right-color:black;">' . $r['BIOG_DEC'] . '</td>';
+    $html .=        '<td width="8.5%" style="text-align: center; border-top-color:white; border-bottom-color:black; border-right-color:black;">' . $biog_decy . '</td>';
     $html .=    '</tr>';
 
     $num++;
