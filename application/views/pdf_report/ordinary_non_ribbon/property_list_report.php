@@ -18,6 +18,15 @@ class MYPDF extends PDF
     //     $this->writeHTMLCell(0, '', '', '', $this->headerUnitName, 0, 1, 0, true, 'C', true);
     // }
 
+    public function Header()
+    {
+        if ($this->PageNo() > 1) {
+            $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+            $this->SetFont($fontname, '', 14);
+            $this->writeHTMLCell(55, 5, 250, '', 'แผ่นที่ ' . $this->getAliasNumPage(), 0, 1, 0, true, 'C', true);
+        }
+    }
+
     public function Footer()
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -39,13 +48,13 @@ $pdf->p2_position = $p2_position;
 // $pdf->condition = $condition;
 // $pdf->myYear = strval(date('Y') + 543);
 // $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
-$pdf->setPrintHeader(false);
 $pdf->SetMargins(5, 15, 5);
-// $pdf->SetHeaderMargin(15);
+$pdf->SetHeaderMargin(5);
 $pdf->SetFooterMargin(30);
+$pdf->setOpenCell(false); // ตั้งค่าให้มีเส้น bottom border ก่อนข้าม page
 
 // set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, 37);
+$pdf->SetAutoPageBreak(TRUE, 40);
 
 // set font
 $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -54,7 +63,7 @@ $pdf->SetFont($fontname, '', 15, '', true);
 // add a page
 $pdf->AddPage('L');
 
-if ($type == 'employee') $head = '<span>บัญชีแสดงคุณสมบัติของลูกจ้างประจำ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
+if ($type == 'employee') $head = '<span>บัญชีแสดงคุณสมบัติของลูกจ้างประจำ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $year . '</span>';
 else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $year . '</span>';
 
 $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
@@ -103,29 +112,51 @@ foreach ($persons as $r) {
     $biog_dmy_rank  = $this->myfunction->dmy_to_thai($r['BIOG_DMY_RANK'], 2);
     $biog_decy  = $this->person_data->set_cdec_date($r['BIOG_DECY']);
     if (in_array($r['BIOG_RANK'], array('50', '51'))) {
-        $specialRank = '';
+        $prevPostName = '';
         $gender = '';
+        $specialRank = '';
         $rankOrSalary = "{$r['BIOG_SLEVEL']}/{$r['BIOG_SCLASS']}";
         $biogName = $r['BIOG_NAME'];
     } else {
-        $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
+        $prevPostName = $this->person_data->getPrevPosnameOrrankname($r['BIOG_ID'], $r['BIOG_DEC'], $r['BIOG_DECY'], $r['BIOG_SEX'], $r['BIOG_RANK'], $r['BIOG_CDEP']);
         $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง' : '';
+        $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
         $rankOrSalary = "{$r['CRAK_NAME_FULL_PRINT']}<br/> {$specialRank}";
         $name = substr($r['BIOG_NAME'], strpos($r['BIOG_NAME'], ' '));
         $biogName = "{$r['CRAK_NAME_FULL_PRINT']}{$gender} $name";
     }
 
+    // ================ BACKUP ก่อนปรับการเรียกตำแหน่งอดีต =======================
+    // $html .=    '<tr nobr="true">';
+    // $html .=        '<td width="4%" style="text-align: center">' . $num . '</td>';
+    // $html .=        '<td width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
+    // $html .=        '<td width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
+    // $html .=        '<td width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
+    // $html .=        '<td width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
+    // $html .=        '<td width="22%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . "{$r['CRAK_NAME_FULL_PRINT']}{$gender} {$specialRank}" . '</td>';
+    // $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
+    // $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
+    // $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
+    // $html .=        '<td width="14.5%">' . $r['BDEC_REM'] . '</td>';
+    // $html .=    '</tr>';
+    // End ================ BACKUP ก่อนปรับการเรียกตำแหน่งอดีต =======================
+
     $html .=    '<tr nobr="true">';
-    $html .=        '<td width="4%" style="text-align: center">' . $num . '</td>';
-    $html .=        '<td width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
-    $html .=        '<td width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
-    $html .=        '<td width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
-    $html .=        '<td width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
-    $html .=        '<td width="22%">' . $r['BIOG_POSNAME_FULL'] . '<br/> <br/>' . "{$r['CRAK_NAME_FULL_PRINT']}{$gender} {$specialRank}" . '</td>';
-    $html .=        '<td width="6%" style="text-align: center">' . $r['BIOG_DEC'] . '</td>';
-    $html .=        '<td width="8.5%" style="text-align: center">' . $biog_decy . '</td>';
-    $html .=        '<td width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
-    $html .=        '<td width="14.5%">' . $r['BDEC_REM'] . '</td>';
+    $html .=        '<td rowspan="2" width="4%" style="text-align: center">' . $num . '</td>';
+    $html .=        '<td rowspan="2" width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
+    $html .=        '<td rowspan="2" width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
+    $html .=        '<td rowspan="2" width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
+    $html .=        '<td rowspan="2" width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
+    $html .=        '<td width="22%" style="border-bottom-color:white; border-right-color:black;">' . $r['BIOG_POSNAME_FULL'] . '<br/></td>';
+    $html .=        '<td width="6%" style="text-align: center; border-bottom-color:white; border-right-color:black;"></td>';
+    $html .=        '<td width="8.5%" style="text-align: center; border-bottom-color:white;"></td>';
+    $html .=        '<td rowspan="2" width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
+    $html .=        '<td rowspan="2" width="14.5%"></td>';
+    $html .=    '</tr>';
+    $html .=    '<tr nobr="true">';
+    $html .=        '<td width="22%" style="border-top-color:white; border-bottom-color:black; border-right-color:black;">' . $prevPostName . '</td>';
+    $html .=        '<td width="6%" style="text-align: center; border-top-color:white; border-bottom-color:black; border-right-color:black;">' . $r['BIOG_DEC'] . '</td>';
+    $html .=        '<td width="8.5%" style="text-align: center; border-top-color:white; border-bottom-color:black; border-right-color:black;">' . $biog_decy . '</td>';
     $html .=    '</tr>';
 
     $num++;
@@ -134,7 +165,35 @@ foreach ($persons as $r) {
 $html .=    '</tbody>';
 $html .= '</table>';
 $pdf->writeHTML($html, true, 0, true, 0);
-if (($pdf->GetY() - $pdf->getBreakMargin()) > 90) $pdf->AddPage('L'); // Add page เทื่อระยยกระดาษมีไม่พอสำหรับลงนาม
+// ============= BOTTOM CONTENT ==============
+if (($pdf->GetY() - $pdf->getBreakMargin()) > 90) {
+    $pdf->AddPage('L'); // Add page เทื่อระยยกระดาษมีไม่พอสำหรับลงนาม
+    $html = '<table border=".5" cellpadding="3" cellspacing="0">';
+    $html .=    '<thead>';
+    $html .=        '<tr>';
+    $html .=            '<th width="4%" style="text-align: center; border-bottom-color:white; border-right-color:black; border-top-color:black"></th>';
+    $html .=            '<th width="18%" style="text-align: center; border-bottom-color:white; border-top-color:black"></th>';
+    $html .=            '<th colspan="3" width="22%" style="text-align: center">เป็นข้าราชการ</th>';
+    $html .=            '<th rowspan="2" width="22%" style="text-align: center">ตำแหน่ง <br /> ปัจจุบันและอดีตเฉพาะปีที่ได้รับ <br /> พระราชทานเครื่องราชอิสริยาภรณ์</th>';
+    $html .=            '<th colspan="3" width="19.5%" style="text-align: center">เครื่องราชอิสริยาภรณ์</th>';
+    $html .=            '<th rowspan="2" width="14.5%" style="text-align: center">หมายเหตุ <br /> (เริ่มบรรจุกรณีขอครั้งแรก, โอนมาจาก, ชื่อตัว - ชื่อสกุลเดิม ชื่อตำแหน่งตามบัญชีอื่น, ปีเกษียณ)</th>';
+    $html .=        '</tr>';
+    $html .=        '<tr>';
+    $html .=            '<th width="4%" style="text-align: center; border-top-color:white; border-right-color:black;; border-bottom-color:black;">ลำดับ</th>';
+    $html .=            '<th width="18%" style="text-align: center; border-top-color:white; border-bottom-color:black;">ชื่อตัว - ชื่อสกุล</th>';
+    $html .=            '<th style="text-align: center" width="8.5%">ระดับ/ขั้น (ปัจจุบัน)</th>';
+    $html .=            '<th style="text-align: center" width="8%">ตั้งแต่ <br/> วัน เดือน ปี</th>';
+    $html .=            '<th style="text-align: center" width="5.5%">เงินเดือน (ปัจจุบัน)</th>';
+
+    $html .=            '<th style="text-align: center" width="6%">ที่ได้รับ <br /> (จากชั้นสูงไปชั้นรอง)</th>';
+    $html .=            '<th style="text-align: center" width="8.5%">วัน เดือน ปี</th>';
+    $html .=            '<th style="text-align: center" width="5%">ขอครั้งนี้</th>';
+
+    $html .=        '</tr>';
+    $html .=    '</thead>';
+    $html .= '</table>';
+    $pdf->writeHTML($html, 0, 0, true, 0);
+}
 $message = 'ขอรับรองว่ารายละเอียดข้างต้นถูกต้องและเป็นผู้มีคุณสมบัติตามระเบียบ 
     ว่าด้วยการขอพระราชทานเครื่องราชอิสริยาภรณ์ พ.ศ. 2536 ข้อ 8,10,19(3),21
     (เฉพาะกลาโหมพลเรือน),22';

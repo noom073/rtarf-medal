@@ -149,4 +149,38 @@ class Lib_model extends CI_Model
 
         return $query;
     }
+
+    public function getPrevPosname($biogID, $cdecgetYear)
+    {
+        $sql = "SELECT POST_ID, POST_SEQ, POST_POS_NAME, POST_DMY
+        FROM per_post_tab
+        WHERE post_id = ?
+        ORDER BY SUBSTR(post_dmy, 5,4)";
+        $query = $this->oracle->query($sql, array($biogID));
+        $posnames = $query->result_array();
+
+        $findPost = '';
+        $yearPost = '';
+        $prevPost = '';
+        $countPost = 0;
+        foreach ($posnames as $r) {
+            $countPost++;
+            $yearPost = substr($r['POST_DMY'], 4, 4);
+            if ($yearPost == $cdecgetYear) {
+                $findPost = $r['POST_POS_NAME'];
+                break;
+            } else if ($yearPost > $cdecgetYear) {
+                if ($countPost == 1) {
+                    $findPost = $r['POST_POS_NAME'];
+                    break;
+                } else {
+                    $findPost = $prevPost;
+                }
+            } else{
+                $prevPost = $r['POST_POS_NAME'];
+                $findPost = $r['POST_POS_NAME'];
+            }
+        }
+        return $findPost;
+    }
 }

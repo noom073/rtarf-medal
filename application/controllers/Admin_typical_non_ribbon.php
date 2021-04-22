@@ -167,7 +167,7 @@ class Admin_typical_non_ribbon extends CI_Controller
 		} else {
 			$data['persons'] = $this->atnr_model->get_employee_prop($unitID, $medal)->result_array();
 		}
-		// $data['persons'] = $this->atnr_model->get_person_prop_by_medal($unitID, $data)->result_array();
+		// var_dump($data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/property_list_report', $data);
 	}
 

@@ -461,4 +461,113 @@ class Person_data
         }
         return $result;
     }
+
+    public function retrunPrevPosname($biogID, $cdecgetYear)
+    {
+        $result = $this->CI->lib_model->getPrevPosname($biogID, $cdecgetYear);
+        return $result;
+    }
+
+    public function getPrevPosnameOrrankname($biogID, $currentMedal, $cdecget_dmy, $genderKey, $rankID, $cdep)
+    {
+        $gender = ($genderKey == '1') ? 'หญิง' : '';
+        $ribbonArray = array('ม.ป.ช', 'ม.ว.ม', 'ป.ช.', 'ป.ม.');
+        if (in_array($currentMedal, $ribbonArray)) {
+            $result = $this->retrunPrevPosname($biogID, $cdecget_dmy);
+        } else if ($currentMedal == 'ท.ช.') {
+            if ($cdep == '1') $result = 'พันเอก' . $gender . '(พิเศษ)';
+            else if ($cdep == '2') $result = 'นาวาเอก' . $gender . '(พิเศษ)';
+            else if ($cdep == '3') $result = 'นาวาอากาศเอก' . $gender . '(พิเศษ)';
+            else $result = $cdep . ' not in';
+        } else if ($currentMedal == 'ท.ม.') {
+            if ($cdep == '1') $result = 'พันเอก' . $gender;
+            else if ($cdep == '2') $result = 'นาวาเอก' . $gender;
+            else if ($cdep == '3') $result = 'นาวาอากาศเอก' . $gender;
+            else $result = $cdep . ' not in';
+        } else if ($currentMedal == 'ต.ช.') {
+            if ($cdep == '1') $result = 'พันโท' . $gender;
+            else if ($cdep == '2') $result = 'นาวาโท' . $gender;
+            else if ($cdep == '3') $result = 'นาวาอากาศโท' . $gender;
+            else $result = $cdep . ' not in';
+        } else if ($currentMedal == 'ต.ม.') {
+            if ($cdep == '1') $result = 'พันตรี' . $gender;
+            else if ($cdep == '2') $result = 'นาวาตรี' . $gender;
+            else if ($cdep == '3') $result = 'นาวาอากาศตรี' . $gender;
+            else $result = $cdep . ' not in';
+        } else if ($currentMedal == 'จ.ช.') {
+            if ($cdep == '1') $result = 'ร้อยเอก' . $gender;
+            else if ($cdep == '2') $result = 'เรือเอก' . $gender;
+            else if ($cdep == '3') $result = 'เรืออากาศเอก' . $gender;
+            else $result = $cdep . ' not in';
+        } else if ($currentMedal == 'จ.ม.') {
+            if (in_array($rankID, array('09', '10'))) {
+                if ($cdep == '1') $result = 'ร้อยโท' . $gender;
+                else if ($cdep == '2') $result = 'เรือโท' . $gender;
+                else if ($cdep == '3') $result = 'เรืออากาศโท' . $gender;
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '11') {
+                if ($cdep == '1') $result = 'ร้อยตรี' . $gender;
+                else if ($cdep == '2') $result = 'เรือโท' . $gender;
+                else if ($cdep == '3') $result = 'เรืออากาศตรี' . $gender;
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '21') {
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else $result = $rankID . ' rankID not in';
+        } else if (in_array($currentMedal, array('บ.ช.', 'บ.ม'))) {
+            if (in_array($rankID, array('09', '10', '11', '12'))) {
+                if ($cdep == '1') $result = 'ร้อยตรี' . $gender;
+                else if ($cdep == '2') $result = 'เรือโท' . $gender;
+                else if ($cdep == '3') $result = 'เรืออากาศตรี' . $gender;
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '21') {
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '22') {
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '23') {
+                if ($cdep == '1') $result = 'จ่าสิบโท' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าโท' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศโท' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '24') {
+                if ($cdep == '1') $result = 'จ่าสิบตรี' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าตรี' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศตรี' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else $result = $rankID . ' rankID not in';
+        } else if ($currentMedal == 'ร.ท.ช.') {
+            if ($rankID == '21') {
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '22') {
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '23') {
+                if ($cdep == '1') $result = 'จ่าสิบโท' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าโท' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศโท' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else if ($rankID == '24') {
+                if ($cdep == '1') $result = 'จ่าสิบตรี' . $gender . '(พิเศษ)';
+                else if ($cdep == '2') $result = 'พันจ่าตรี' . $gender . '(พิเศษ)';
+                else if ($cdep == '3') $result = 'พันจ่าอากาศตรี' . $gender . '(พิเศษ)';
+                else $result = $cdep . ' not in';
+            } else $result = $rankID . ' rankID not in';
+        } else {
+            $result = $currentMedal . ' currentMedal not in';
+        }
+        return $result;
+    }
 }
