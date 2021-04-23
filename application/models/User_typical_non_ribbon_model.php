@@ -116,9 +116,9 @@ class User_typical_non_ribbon_model extends CI_Model
         $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
-            B.BIOG_NAME, B.BIOG_DMY_WORK,
-            B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
-            B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP,
+            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, 
+            B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP,
+            B.BIOG_ID, B.BIOG_CDEP,
             C.CRAK_NAME_FULL, C.CRAK_NAME_FULL_PRINT
             FROM PER_BDEC_TAB A
             INNER JOIN {$biogTable} B
@@ -130,7 +130,10 @@ class User_typical_non_ribbon_model extends CI_Model
             AND A.BDEC_COIN LIKE ?
             AND A.BDEC_RANK BETWEEN '05' AND '24'
             AND A.BDEC_CSEQ > 4
-            order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
+            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
+                SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
         $result = $this->oracle->query($sql, array($unitID4, $medal));
 
         return $result;
@@ -146,7 +149,7 @@ class User_typical_non_ribbon_model extends CI_Model
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK,
             B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
-            B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP,
+            B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP ,B.BIOG_ID, B.BIOG_CDEP,
             C.CRAK_NAME_FULL, C.CRAK_NAME_FULL_PRINT
             FROM PER_BDEC_TAB A
             INNER JOIN {$biogTable} B
@@ -158,7 +161,10 @@ class User_typical_non_ribbon_model extends CI_Model
             AND A.BDEC_COIN LIKE ?
             AND A.BDEC_RANK BETWEEN '50' AND '51'
             AND A.BDEC_CSEQ > 4
-            order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
+            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
+                SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
         $result = $this->oracle->query($sql, array($unitID4, $medal));
 
         return $result;

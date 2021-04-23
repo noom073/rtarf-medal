@@ -19,17 +19,20 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = '';
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
-        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL,
-        A.BIOG_DMY_RANK,
-        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
+        A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_CPOS,
+        A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CDEP, A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT,
+        C.BDEC_REM
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
             AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
+        LEFT JOIN PER_BDEC_TAB C 
+	        ON A.BIOG_ID = C.BDEC_ID
         WHERE A.BIOG_UNIT LIKE '$unitID4%'
         AND 
         (
@@ -50,7 +53,10 @@ class User_ribbon_prop_model extends CI_Model
             )
         )
         {$retireCondition}
-        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
+        -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
+        order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
+                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
+                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
 
         return $result;
     }
@@ -63,17 +69,20 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = '';
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
-        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL,
-        A.BIOG_DMY_RANK,
-        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
+        A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_CPOS,
+        A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CDEP, A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT,
+        C.BDEC_REM
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
             AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
+        LEFT JOIN PER_BDEC_TAB C 
+	        ON A.BIOG_ID = C.BDEC_ID
         WHERE A.BIOG_UNIT LIKE '$unitID4%'
         AND 
         (
@@ -106,7 +115,10 @@ class User_ribbon_prop_model extends CI_Model
             )
         )
         {$retireCondition}
-        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
+        -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
+        order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
+                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
+                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
 
         return $result;
     }
@@ -119,17 +131,20 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = '';
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY, 
-        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL,
-        A.BIOG_DMY_RANK,
-        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
+        A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_CPOS,
+        A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CDEP, A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT,
+        C.BDEC_REM
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
             AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
+        LEFT JOIN PER_BDEC_TAB C 
+	        ON A.BIOG_ID = C.BDEC_ID
         WHERE A.BIOG_UNIT LIKE '$unitID4%'
         AND 
         (
@@ -168,7 +183,10 @@ class User_ribbon_prop_model extends CI_Model
             )
         )
         {$retireCondition}
-        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
+        -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
+        order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
+                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
+                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
         // echo $this->oracle->last_query();
         return $result;
     }
@@ -181,17 +199,20 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = '';
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
         }
 
-        $result = $this->oracle->query("SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_DMY_WORK, A.BIOG_SALARY,
-        A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CPOS, A.BIOG_SEX,
-        A.BIOG_DEC, A.BIOG_DECY, retire60(A.BIOG_DMY_BORN) as RETIRE60, A.BIOG_DMY_RANK,
-        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT
+        $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
+        A.BIOG_DMY_WORK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_UNIT, A.BIOG_DEC, A.BIOG_CPOS,
+        A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SCLASS, A.BIOG_SLEVEL, A.BIOG_CDEP, A.BIOG_DMY_RANK,
+        B.CRAK_NAME_FULL, B.CRAK_NAME_FULL_PRINT,
+        C.BDEC_REM
         FROM PER_BIOG_VIEW A
         INNER JOIN PER_CRAK_TAB B 
             ON A.BIOG_RANK = B.CRAK_CODE 
             AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
+        LEFT JOIN PER_BDEC_TAB C 
+	        ON A.BIOG_ID = C.BDEC_ID
         WHERE A.BIOG_UNIT LIKE '$unitID4%'
         AND 
         (
@@ -211,7 +232,10 @@ class User_ribbon_prop_model extends CI_Model
             )
         )
         {$retireCondition}
-        order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP");
+        -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
+        order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
+                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
+                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
 
         $persons = $result->result_array();
         $data = array();
