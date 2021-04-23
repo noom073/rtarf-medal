@@ -55,7 +55,7 @@ $pdf->SetFooterMargin(30);
 $pdf->setOpenCell(false); // ตั้งค่าให้มีเส้น bottom border ก่อนข้าม page
 
 // set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, 40);
+$pdf->SetAutoPageBreak(TRUE, 30);
 
 // set font
 $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -169,7 +169,7 @@ $html .= '</table>';
 $pdf->writeHTML($html, 0, 0, true, 0);
 
 // ============= BOTTOM CONTENT ==============
-if (($pdf->GetY() - $pdf->getBreakMargin()) > 90) {
+if (($pdf->GetY() - $pdf->getBreakMargin()) > 100) {
     $pdf->AddPage('L'); // Add page เทื่อระยยกระดาษมีไม่พอสำหรับลงนาม
     $html = '<table border=".5" cellpadding="3" cellspacing="0">';
     $html .=    '<thead>';
