@@ -191,17 +191,20 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
 
         $data['ribbon_acm'] = 'ม.ป.ช.';
-        $data['persons_mpc']    = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_mpc']    = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
         $data['ribbon_acm'] = 'ม.ว.ม.';
-        $data['persons_mvm']    = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_mvm']    = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
         $data['ribbon_acm'] = 'ป.ช.';
-        $data['persons_pc']     = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_pc']     = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
         $data['ribbon_acm'] = 'ป.ม.';
-        $data['persons_pm']     = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_pm']     = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 
-        // $this->load->view('admin_view/admin_typical_ribbon/gen_ribbon_summarize_name', $data);
+        // var_dump($data);
         $this->load->view('pdf_report/ordinary_ribbon/name_list_report', $data);
     }
 
@@ -229,15 +232,18 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         $data['year']        = $this->input->post('year');
         $data['condition']  = $this->input->post('condition');
         $data['unit_name']     = $this->person_data->get_unit_name($unitID);
+        $data['p1_rank']        = $this->input->post('p1_rank');
+        $data['p1_name']        = $this->input->post('p1_name');
+        $data['p1_position']    = $this->input->post('p1_position');
 
         $data['ribbon_acm'] = 'ม.ป.ช.';
-        $data['persons_mpc']    = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_mpc']    = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
         $data['ribbon_acm'] = 'ม.ว.ม.';
-        $data['persons_mvm']    = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_mvm']    = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
         $data['ribbon_acm'] = 'ป.ช.';
-        $data['persons_pc']     = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_pc']     = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
         $data['ribbon_acm'] = 'ป.ม.';
-        $data['persons_pm']     = $this->atr_model->get_person_prop_by_medal_biog_back($data)->result_array();
+        $data['persons_pm']     = $this->atr_model->get_person_prop_by_medal_biog_back($unitID, $data)->result_array();
 
         $persons_mpc_men        = array_filter($data['persons_mpc'], function ($r) {
             return $r['BIOG_SEX'] == 0;

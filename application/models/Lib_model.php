@@ -4,12 +4,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Lib_model extends CI_Model
 {
 
-    var $oracle;
+    protected $oracle;
+    protected $systemStatus;
 
     function __construct()
     {
         parent::__construct();
         $this->oracle = $this->load->database('oracle', true);
+        $this->load->library('set_env');
+        $this->systemStatus = $this->set_env->get_system_status();
     }
 
     public function to_army_rank($rankID)
@@ -152,8 +155,11 @@ class Lib_model extends CI_Model
 
     public function getPrevPosname($biogID, $cdecgetYear)
     {
+        if ($this->systemStatus == '1') $postTable = 'PER_POST_TAB';
+        else $postTable = 'PER_POST_BACK_TAB';
+
         $sql = "SELECT POST_ID, POST_SEQ, POST_POS_NAME, POST_DMY
-        FROM per_post_tab
+        FROM {$postTable}
         WHERE post_id = ?
         ORDER BY SUBSTR(post_dmy, 5,4)";
         $query = $this->oracle->query($sql, array($biogID));

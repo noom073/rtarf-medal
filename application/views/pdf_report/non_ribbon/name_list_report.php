@@ -68,7 +68,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows 
         $women = array_filter($person, function ($r) {
             return $r['BIOG_SEX'] == '1';
         });
-        $footText2 = $medalName[1] . "  {$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . ' นาย  สตรี ' . count($women) . ' นาย';
+        $footText2 = $medalName[1] . "  {$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . ' สตรี ' . count($women);
         $pdf->writeHTMLCell(0, '', 120, 245, $footText2, 0, 1, 0, true, 'C', true);
         if ($p <= $totalPage - 2) {
             $pdf->AddPage('P');

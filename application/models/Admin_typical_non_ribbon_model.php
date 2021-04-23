@@ -131,7 +131,10 @@ class Admin_typical_non_ribbon_model extends CI_Model
             AND A.BDEC_COIN LIKE ?
             AND A.BDEC_RANK BETWEEN '05' AND '24'
             AND A.BDEC_CSEQ > 4
-            order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
+            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
+                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
+                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
         $result = $this->oracle->query($sql, array($unitID4, $medal));
 
         return $result;
@@ -159,7 +162,10 @@ class Admin_typical_non_ribbon_model extends CI_Model
             AND A.BDEC_COIN LIKE ?
             AND A.BDEC_RANK BETWEEN '50' AND '51'
             AND A.BDEC_CSEQ > 4
-            order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
+            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
+                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
+                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
         $result = $this->oracle->query($sql, array($unitID4, $medal));
 
         return $result;

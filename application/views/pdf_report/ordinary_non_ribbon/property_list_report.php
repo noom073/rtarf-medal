@@ -151,7 +151,7 @@ foreach ($persons as $r) {
     $html .=        '<td width="6%" style="text-align: center; border-bottom-color:white; border-right-color:black;"></td>';
     $html .=        '<td width="8.5%" style="text-align: center; border-bottom-color:white;"></td>';
     $html .=        '<td rowspan="2" width="5%" style="text-align: center">' . $ribbon_acm . '</td>';
-    $html .=        '<td rowspan="2" width="14.5%"></td>';
+    $html .=        '<td rowspan="2" width="14.5%">' . $r['BDEC_REM'] . '</td>';
     $html .=    '</tr>';
     $html .=    '<tr nobr="true">';
     $html .=        '<td width="22%" style="border-top-color:white; border-bottom-color:black; border-right-color:black;">' . $prevPostName . '</td>';

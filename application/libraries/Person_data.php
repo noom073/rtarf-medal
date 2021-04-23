@@ -471,7 +471,7 @@ class Person_data
     public function getPrevPosnameOrrankname($biogID, $currentMedal, $cdecget_dmy, $genderKey, $rankID, $cdep)
     {
         $gender = ($genderKey == '1') ? 'หญิง' : '';
-        $ribbonArray = array('ม.ป.ช', 'ม.ว.ม', 'ป.ช.', 'ป.ม.');
+        $ribbonArray = array('ม.ป.ช.', 'ม.ว.ม.', 'ป.ช.', 'ป.ม.');
         if (in_array($currentMedal, $ribbonArray)) {
             $result = $this->retrunPrevPosname($biogID, $cdecget_dmy);
         } else if ($currentMedal == 'ท.ช.') {
@@ -516,7 +516,7 @@ class Person_data
                 else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
                 else $result = $cdep . ' not in';
             } else $result = $rankID . ' rankID not in';
-        } else if (in_array($currentMedal, array('บ.ช.', 'บ.ม'))) {
+        } else if (in_array($currentMedal, array('บ.ช.', 'บ.ม.'))) {
             if (in_array($rankID, array('09', '10', '11', '12'))) {
                 if ($cdep == '1') $result = 'ร้อยตรี' . $gender;
                 else if ($cdep == '2') $result = 'เรือโท' . $gender;

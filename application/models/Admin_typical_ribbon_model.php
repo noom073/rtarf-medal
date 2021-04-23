@@ -39,7 +39,7 @@ class Admin_typical_ribbon_model extends CI_Model
         $year       = (int) $array['year'];
 
         if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
-        else $retireCondition = '';
+        else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP,
@@ -55,7 +55,10 @@ class Admin_typical_ribbon_model extends CI_Model
             WHERE A.BDEC_UNIT LIKE '$unitID4%'
             AND A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
             {$retireCondition}
-            order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
+            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
+                SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
 
         $result = $this->oracle->query($sql);
         return $result;
@@ -67,11 +70,11 @@ class Admin_typical_ribbon_model extends CI_Model
         $year       = (int) $array['year'];
 
         if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
-        else $retireCondition = '';
+        else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
 
         $sql = "SELECT A.BDEC_NAME,A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP,
-            B.BIOG_IDP, ฺB.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, 
+            B.BIOG_IDP, B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, 
             B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
             C.CRAK_NAME_FULL_PRINT
             FROM PER_BDEC_TAB A
@@ -83,7 +86,10 @@ class Admin_typical_ribbon_model extends CI_Model
             WHERE A.BDEC_UNIT LIKE '$unitID4%'
             AND A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
             {$retireCondition}
-            order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
+            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
+                SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
 
         $result = $this->oracle->query($sql);
         return $result;
