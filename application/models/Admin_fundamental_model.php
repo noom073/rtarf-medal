@@ -60,7 +60,10 @@ class Admin_fundamental_model extends CI_Model
             A.BIOG_DMY_RANK, A.BIOG_SLEVEL, A.BIOG_SCLASS, 
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_POSNAME, 
             A.BIOG_STAPOS, A.BIOG_UNIT');
-        $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1, 4) = ", $unitid);
+        if ($unitid !== '6001') {
+            $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1, 4) = ", $unitid);
+        }
+
         $this->oracle->where('A.BIOG_RANK >=', '01');
         $this->oracle->where('A.BIOG_RANK <=', '05');
         $this->oracle->order_by('A.BIOG_RANK');
@@ -83,10 +86,9 @@ class Admin_fundamental_model extends CI_Model
             "CONCAT(SUBSTR(A.BIOG_UNIT, 1, 4), '000000') = CONCAT(SUBSTR(B.UNIT_CODE, 1, 4), '000000')"
         );
 
-        if ($unitSub4 != '6000') {
+        if ($unitSub4 !== '6001') {
             $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1, 4) LIKE ", $unitSub4);
         }
-
         $this->oracle->where("A.BIOG_RANK >= ", $rankStart);
         $this->oracle->where("A.BIOG_RANK <= ", $rankEnd);
         $this->oracle->order_by('A.BIOG_RANK');

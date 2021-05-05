@@ -41,7 +41,6 @@ class Admin_non_ribbon extends CI_Controller
         $data['p2_rank']        = $this->input->post('p2_rank');
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
-        // $data['condition']      = $this->input->post('condition');
         $data['type']           = $this->input->post('type');
 
         if ($data['type'] == 'officer') {
@@ -67,6 +66,7 @@ class Admin_non_ribbon extends CI_Controller
 
     public function action_summarize_name()
     {
+        set_time_limit(1000);
         $this->load->library('pdf');
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
 
@@ -118,6 +118,7 @@ class Admin_non_ribbon extends CI_Controller
 
     public function action_person_amount()
     {
+        set_time_limit(1000);
         $this->load->library('pdf');
 
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
@@ -151,7 +152,7 @@ class Admin_non_ribbon extends CI_Controller
             $dtbc = $this->anrf_model->get_employee_prop($unitID, 'บ.ช.', $data['year']);
             $dtbm = $this->anrf_model->get_employee_prop($unitID, 'บ.ม.', $data['year']);
             $dtrtc = $this->anrf_model->get_employee_prop($unitID, 'ร.ท.ช.', $data['year']);
-        }         
+        }
 
         $persons_thc_men        = array_filter($dtthc, function ($r) {
             return $r['BIOG_SEX'] == 0;

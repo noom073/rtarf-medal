@@ -77,8 +77,6 @@ class Admin_fundamental extends CI_Controller
 		$unitcode4          = substr($unitid, 0, 4);
 		$data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
 		$data['persons'] 	= $this->admin_fundamental_model->get_ribbon_person($unitcode4)->result_array();
-		// var_dump($data);
-		// $this->load->view('admin_view/admin_fdmt/gen_ribbon_report', $data);
 		$this->load->view('pdf_report/ribbon_list_report', $data);
 	}
 
@@ -98,6 +96,7 @@ class Admin_fundamental extends CI_Controller
 
 	public function non_ribbon_generate_report()
 	{
+		set_time_limit(500);
 		$this->load->library('pdf');
 		$this->load->library('person_data');
 

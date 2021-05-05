@@ -71,7 +71,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows 
         $footText2 = $medalName[1] . " {$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . '  สตรี ' . count($women);
         $pdf->writeHTMLCell(0, '', 120, 245, $footText2, 0, 1, 0, true, 'C', true);
         if ($p <= $totalPage - 2) {
-            $pdf->AddPage('L');
+            $pdf->AddPage('P');
         }
     }
 }

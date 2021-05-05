@@ -15,6 +15,13 @@ class Admin_nonribbon_filter_model extends CI_Model
 
     private function get_officer_list($unit, $rank, $medal)
     {
+        if ($unit === '6001000000') {
+            $unit = "";
+        } else {
+            $unitID4Esc = substr($unit, 0, 4);
+            $unit = "AND SUBSTR(A.BIOG_UNIT, 1,4) LIKE {$unitID4Esc}";
+        }
+
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS, A.BIOG_CDEP,
             B.CRAK_NAME_FULL_PRINT,
@@ -25,20 +32,19 @@ class Admin_nonribbon_filter_model extends CI_Model
                 AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
             LEFT JOIN PER_BDEC_TAB C 
 	            ON A.BIOG_ID = C.BDEC_ID
-            WHERE SUBSTR(A.BIOG_UNIT, 1,4) LIKE ?
-            AND A.BIOG_DEC NOT IN ('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.')
+            WHERE A.BIOG_DEC NOT IN ('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.')
             AND (
                 A.BIOG_RANK IN ?
                 AND A.BIOG_DEC NOT IN ?                
             )
             OR A.BIOG_DEC IS NULL
+            {$unit}
             -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
                 SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
                 LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
 
-        $unitID4Esc = substr($unit, 0, 4);
-        $result = $this->oracle->query($sql, array($unitID4Esc, $rank, $medal));
+        $result = $this->oracle->query($sql, array($rank, $medal));
         // echo $this->oracle->last_query();
         return $result;
     }
@@ -363,6 +369,14 @@ class Admin_nonribbon_filter_model extends CI_Model
     private function get_employee_list($unit, $decArray)
     {
         $decNotIn = array_merge(array('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.'), $decArray);
+
+        if ($unit === '6001000000') {
+            $unit = "";
+        } else {
+            $unitID4Esc = substr($unit, 0, 4);
+            $unit = "AND SUBSTR(A.BIOG_UNIT, 1,4) LIKE {$unitID4Esc}";
+        }
+        
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS,
             B.CRAK_NAME_FULL_PRINT,
@@ -373,8 +387,7 @@ class Admin_nonribbon_filter_model extends CI_Model
                 AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
             LEFT JOIN PER_BDEC_TAB C 
 	            ON A.BIOG_ID = C.BDEC_ID
-            WHERE SUBSTR(A.BIOG_UNIT, 1,4) LIKE ?
-            AND A.BIOG_RANK IN ('50', '51')
+            WHERE A.BIOG_RANK IN ('50', '51')
             AND A.BIOG_DEC NOT IN ?
             AND substr( A.BIOG_CPOS,1,5) in ('80169','80170','80171','80172','80179','80178','80177',
  	   	    '80176','80294','80293','80292','80291','80104','80103','80102','80089','80090','80091',
@@ -385,13 +398,14 @@ class Admin_nonribbon_filter_model extends CI_Model
  	   	    '80310','80312','80313','80424','80421','80507','80472','80471','80470','80469','80217',
  	   	    '80218','80219','80220','80247','80191','80191','80192','80193','80321','80320','80137',
  	   	    '80139','80085','80084','80083','80082','80148')
+            {$unit}
             -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
                 SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
                 LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
 
         $unitID4Esc = substr($unit, 0, 4);
-        $result = $this->oracle->query($sql, array($unitID4Esc, $decNotIn));
+        $result = $this->oracle->query($sql, array($decNotIn));
         return $result;
     }
 

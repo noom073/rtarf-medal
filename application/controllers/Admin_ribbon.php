@@ -42,7 +42,7 @@ class Admin_ribbon extends CI_Controller
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
         $data['condition']      = $this->input->post('condition');
-
+        
         if ($ribbon == 'ม.ป.ช.') {
             $data['persons'] = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         } else if ($ribbon == 'ม.ว.ม.') {
@@ -54,7 +54,6 @@ class Admin_ribbon extends CI_Controller
         } else {
             $data['persons'] = [];
         }
-        // var_dump($data);
         $this->load->view('pdf_report/ribbon/property_list_report', $data);
     }
 
