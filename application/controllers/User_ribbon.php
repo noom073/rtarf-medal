@@ -36,6 +36,7 @@ class User_ribbon extends CI_Controller
         $unitID     = $this->myfunction->decode($this->input->post('unitid'));
         $ribbon     = $this->input->post('ribbon_type');
 
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
         $data['ribbon_name']    = $this->person_data->medal_full_name($ribbon);
@@ -85,6 +86,7 @@ class User_ribbon extends CI_Controller
 
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['p1_rank']        = $this->input->post('p1_rank');
         $data['p1_name']        = $this->input->post('p1_name');
@@ -121,6 +123,7 @@ class User_ribbon extends CI_Controller
 
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['p1_rank']        = $this->input->post('p1_rank');
         $data['p1_name']        = $this->input->post('p1_name');

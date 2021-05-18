@@ -4,14 +4,14 @@
 // $columns = 2;
 
 // GENERATE FUNCTION
-function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows = 25, $columns = 2)
+function drawData($pdf, $person, $medalName, $year, $headquarters, $unit_name, $type, $maxRows = 25, $columns = 2)
 {
     $pdf->AddPage('P');
-    if($type == 'officer') $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+    if ($type == 'officer') $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
     else $head = 'บัญชีรายชื่อลูกจ้างประจำ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
     $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
+    $pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', $medalName[0], 0, 1, 0, true, 'C', true);
     $pdf->Ln(5);
@@ -40,7 +40,7 @@ function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows 
             }
             $pdf->Ln();
         }
-        
+
         // ============================================
         // $indexStart = $p * $columns * $maxRows + 1;
         // $indexEnd = $lastIndex + 1;
@@ -115,61 +115,61 @@ $pdf->SetFont($fontname, '', 15, '', true);
 // add a page ทวีติยาภรณ์ช้างเผือก
 if (count($thc)) {
     $medal = array('ทวีติยาภรณ์ช้างเผือก', 'ท.ช.');
-    drawData($pdf, $thc, $medal, $year, $unit_name, $type);
+    drawData($pdf, $thc, $medal, $year, $headquarters, $unit_name, $type);
 }
 /******************************************************* */
 // add a page ทวีติยาภรณ์มงกุฎไทย
 if (count($thm)) {
     $medal = array('ทวีติยาภรณ์มงกุฎไทย', 'ท.ม.');
-    drawData($pdf, $thm, $medal, $year, $unit_name, $type);
+    drawData($pdf, $thm, $medal, $year, $headquarters, $unit_name, $type);
 }
 /******************************************************* */
 // add a page ตริตาภรณ์ช้างเผือก
 if (count($tc)) {
     $medal = array('ตริตาภรณ์ช้างเผือก', 'ต.ช.');
-    drawData($pdf, $tc, $medal, $year, $unit_name, $type);
+    drawData($pdf, $tc, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page ตริตาภรณ์มงกุฏไทย
 if (count($tm)) {
     $medal = array('ตริตาภรณ์มงกุฏไทย', 'ต.ม.');
-    drawData($pdf, $tm, $medal, $year, $unit_name, $type);
+    drawData($pdf, $tm, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page จัตุรถาภรณ์ช้างเผือก
 if (count($jc)) {
     $medal = array('จัตุรถาภรณ์ช้างเผือก', 'จ.ช.');
-    drawData($pdf, $jc, $medal, $year, $unit_name, $type);
+    drawData($pdf, $jc, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page จัตุรถาภรณ์มงกุฏไทย
 if (count($jm)) {
     $medal = array('จัตุรถาภรณ์มงกุฏไทย', 'จ.ม.');
-    drawData($pdf, $jm, $medal, $year, $unit_name, $type);
+    drawData($pdf, $jm, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page เบญจมาภรณ์ช้างเผือก
 if (count($bc)) {
     $medal = array('เบญจมาภรณ์ช้างเผือก', 'บ.ช.');
-    drawData($pdf, $bc, $medal, $year, $unit_name, $type);
+    drawData($pdf, $bc, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page เบญจมาภรณ์มงกุฎไทย
 if (count($bm)) {
     $medal = array('เบญจมาภรณ์มงกุฎไทย', 'บ.ม.');
-    drawData($pdf, $bm, $medal, $year, $unit_name, $type);
+    drawData($pdf, $bm, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */
 // add a page เหรียญทองช้างเผือก
 if (count($rtc)) {
     $medal = array('เหรียญทองช้างเผือก', 'ร.ท.ช.');
-    drawData($pdf, $rtc, $medal, $year, $unit_name, $type);
+    drawData($pdf, $rtc, $medal, $year, $headquarters, $unit_name, $type);
 }
 
 /******************************************************* */

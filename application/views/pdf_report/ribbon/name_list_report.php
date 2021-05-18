@@ -4,14 +4,14 @@
 // $columns = 2;
 
 // GENERATE FUNCTION
-function drawData($pdf, $person, $medalName, $year, $unit_name, $type, $maxRows = 25, $columns = 2)
+function drawData($pdf, $person, $medalName, $year, $headquarters, $unit_name, $type, $maxRows = 25, $columns = 2)
 {
     $pdf->AddPage('P');
-    if($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+    if ($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
     else $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
     $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
+    $pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
     $pdf->writeHTMLCell(0, '', '', '', $medalName[0], 0, 1, 0, true, 'C', true);
     $pdf->Ln(5);
@@ -114,25 +114,25 @@ $pdf->SetFont($fontname, '', 15, '', true);
 // add a page มหาปรมาภรณ์ช้างเผือก
 if (count($persons_mpc)) {
     $medal = array('มหาปรมาภรณ์ช้างเผือก', 'ม.ป.ช.');
-    drawData($pdf, $persons_mpc, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $persons_mpc, $medal, $year, $headquarters, $unit_name, $condition);
 }
 /******************************************************* */
 // add a page มหาวชิรมงกุฎ
 if (count($persons_mvm)) {
     $medal = array('มหาวชิรมงกุฎ', 'ม.ว.ม.');
-    drawData($pdf, $persons_mvm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $persons_mvm, $medal, $year, $headquarters, $unit_name, $condition);
 }
 /******************************************************* */
 // add a page ประถมาภรณ์ช้างเผือก
 if (count($persons_pc)) {
     $medal = array('ประถมาภรณ์ช้างเผือก', 'ป.ช.');
-    drawData($pdf, $persons_pc, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $persons_pc, $medal, $year, $headquarters, $unit_name, $condition);
 }
 /******************************************************* */
 // add a page ประถมาภรณ์มงกุฎไทย
 if (count($persons_pm)) {
     $medal = array('ประถมาภรณ์มงกุฎไทย', 'ป.ม.');
-    drawData($pdf, $persons_pm, $medal, $year, $unit_name, $condition);
+    drawData($pdf, $persons_pm, $medal, $year, $headquarters, $unit_name, $condition);
 }
 
 $pdf->Output('A.pdf', 'I');

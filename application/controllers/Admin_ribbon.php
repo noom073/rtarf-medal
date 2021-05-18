@@ -31,7 +31,8 @@ class Admin_ribbon extends CI_Controller
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
         $ribbon = $this->input->post('ribbon_type');
 
-        $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+        $data['unit_name']      = ($unitID == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $ribbon;
         $data['ribbon_name']    = $this->person_data->medal_full_name($ribbon);
         $data['year']           = $this->input->post('year');
@@ -42,7 +43,7 @@ class Admin_ribbon extends CI_Controller
         $data['p2_name']        = $this->input->post('p2_name');
         $data['p2_position']    = $this->input->post('p2_position');
         $data['condition']      = $this->input->post('condition');
-        
+
         if ($ribbon == 'ม.ป.ช.') {
             $data['persons'] = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         } else if ($ribbon == 'ม.ว.ม.') {
@@ -78,7 +79,8 @@ class Admin_ribbon extends CI_Controller
         $data['p1_position']    = $this->input->post('p1_position');
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
-        $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+        $data['unit_name']      = ($unitID == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitID);
         $data['persons_mpc']    = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();
@@ -109,7 +111,8 @@ class Admin_ribbon extends CI_Controller
         $data['p1_position']    = $this->input->post('p1_position');
         $data['year']           = $this->input->post('year');
         $data['condition']      = $this->input->post('condition');
-        $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+        $data['unit_name']      = ($unitID == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitID);
         $data['persons_mpc']    = $this->admin_ribbon_prop_model->get_person_prop_mpc($unitID, $data)->result_array();
         $data['persons_mvm']    = $this->admin_ribbon_prop_model->get_person_prop_mvm($unitID, $data)->result_array();
         $data['persons_pc']     = $this->admin_ribbon_prop_model->get_person_prop_pc($unitID, $data)->result_array();

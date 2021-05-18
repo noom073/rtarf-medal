@@ -69,7 +69,7 @@ $pdf->AddPage('L');
 if ($condition == 'retire') $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหารเกษียณ ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $year . '</span>';
 else $head = '<span>บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $year . '</span>';
 $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
 $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
 // END ============= HEADER ==============
 

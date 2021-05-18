@@ -34,7 +34,7 @@ $pdf->AddPage('L');
 $type = ($condition == 'retire') ? 'เกษียณ' : '';
 $pdf->writeHTMLCell(0, '', '', '', 'บัญชีแสดงจำนวนชั้นตราเครื่องราชอิสริยาภรณ์', 0, 1, 0, true, 'C', true);
 $pdf->writeHTMLCell(0, '', '', '', "ซึ่งขอพระราชทานให้แก่ข้าราชการทหาร{$type}", 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', "กองทัพไทย", 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
 $pdf->writeHTMLCell(0, '', '', '', "ชั้นสายสะพาย ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
 $pdf->Ln(5);
 

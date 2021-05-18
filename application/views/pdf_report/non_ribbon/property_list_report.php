@@ -73,7 +73,7 @@ else $head = '<span>บัญชีแสดงคุณสมบัติขอ
 // $head = '<span style="font-weight:bold;">บัญชีแสดงคุณสมบัติของข้าราชการทหาร ซึ่งเสนอขอพระราชทานเครื่องราชอิสริยาภรณ์ประจำปี พ.ศ.' . $this->myYear . '</span>';
 $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
 // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-$pdf->writeHTMLCell(0, '', '', '', 'กองทัพไทย', 0, 1, 0, true, 'C', true);
+$pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
 $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
 
 // set Content To print

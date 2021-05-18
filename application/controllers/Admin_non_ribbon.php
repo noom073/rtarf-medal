@@ -31,7 +31,8 @@ class Admin_non_ribbon extends CI_Controller
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
         $medal = $this->input->post('ribbon_type');
 
-        $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+        $data['unit_name']      = ($unitID == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $medal;
         $data['ribbon_name']    = $this->person_data->medal_full_name($medal);
         $data['year']           = $this->input->post('year');
@@ -75,7 +76,8 @@ class Admin_non_ribbon extends CI_Controller
         $data['p1_position']    = $this->input->post('p1_position');
         $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
-        $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+        $data['unit_name']      = ($unitID == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitID);
 
         if ($data['type'] == 'officer') {
             $data['validType'] = true;
@@ -128,7 +130,8 @@ class Admin_non_ribbon extends CI_Controller
         // $data['condition']      = $this->input->post('condition');
         $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
-        $data['unit_name']      = $this->person_data->get_unit_name($unitID);
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+        $data['unit_name']      = ($unitID == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitID);
 
         if ($data['type'] == 'officer') {
             $data['validType'] = true;

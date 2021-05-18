@@ -35,6 +35,7 @@ class User_non_ribbon extends CI_Controller
         $unitID = $this->myfunction->decode($this->input->post('unitid'));
         $medal = $this->input->post('ribbon_type');
 
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
         $data['ribbon_acm']     = $medal;
         $data['ribbon_name']    = $this->person_data->medal_full_name($medal);
@@ -82,6 +83,7 @@ class User_non_ribbon extends CI_Controller
         $data['p1_position']    = $this->input->post('p1_position');
         $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
         if ($data['type'] == 'officer') {
@@ -137,6 +139,7 @@ class User_non_ribbon extends CI_Controller
         $data['p1_position']    = $this->input->post('p1_position');
         $data['type']           = $this->input->post('type');
         $data['year']           = $this->input->post('year');
+        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
         $data['unit_name']      = $this->person_data->get_unit_name($unitID);
 
         if ($data['type'] == 'officer') {
