@@ -35,8 +35,13 @@ class Admin_typical_ribbon_model extends CI_Model
         if ($this->systemStatus == '1') $biogTable = 'PER_BIOG_VIEW';
         else $biogTable = 'PER_BIOG_BACK_DEC_TAB';
 
-        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
         $year       = (int) $array['year'];
+        if ($unitID === '6001000000') {
+            $unit = "";
+        } else {
+            $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+            $unit = "AND A.BDEC_UNIT LIKE '$unitID4%'";
+        }
 
         if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
         else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
@@ -52,9 +57,9 @@ class Admin_typical_ribbon_model extends CI_Model
             INNER JOIN PER_CRAK_TAB C
                 ON B.BIOG_RANK = C.CRAK_CODE 
                 AND B.BIOG_CDEP = C.CRAK_CDEP_CODE 
-            WHERE A.BDEC_UNIT LIKE '$unitID4%'
-            AND A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
+            WHERE A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
             {$retireCondition}
+            {$unit}
             -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
             order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
                 SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
@@ -66,8 +71,13 @@ class Admin_typical_ribbon_model extends CI_Model
 
     public function get_person_prop_by_medal_biog_back($unitID, $array)
     {
-        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
         $year       = (int) $array['year'];
+        if ($unitID === '6001000000') {
+            $unit = "";
+        } else {
+            $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+            $unit = "AND A.BDEC_UNIT LIKE '$unitID4%'";
+        }
 
         if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
         else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
@@ -83,15 +93,15 @@ class Admin_typical_ribbon_model extends CI_Model
             INNER JOIN PER_CRAK_TAB C
                 ON B.BIOG_RANK = C.CRAK_CODE 
                 AND B.BIOG_CDEP = C.CRAK_CDEP_CODE 
-            WHERE A.BDEC_UNIT LIKE '$unitID4%'
-            AND A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
+            WHERE A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
             {$retireCondition}
-            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            {$unit}
             order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
                 SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
                 LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
 
         $result = $this->oracle->query($sql);
+        // echo  $this->oracle->last_query();
         return $result;
     }
 

@@ -114,7 +114,12 @@ class Admin_typical_non_ribbon_model extends CI_Model
         if ($this->systemStatus == '1') $biogTable = 'PER_BIOG_VIEW';
         else $biogTable = 'PER_BIOG_BACK_DEC_TAB';
 
-        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+        if ($unitID === '6001000000') {
+            $unit = "";
+        } else {
+            $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+            $unit = "AND A.BDEC_UNIT LIKE '$unitID4%'";
+        }
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID,B.BIOG_CDEP,
@@ -127,15 +132,14 @@ class Admin_typical_non_ribbon_model extends CI_Model
             INNER JOIN PER_CRAK_TAB C
                 ON B.BIOG_RANK = C.CRAK_CODE 
                 AND B.BIOG_CDEP = C.CRAK_CDEP_CODE 
-            WHERE SUBSTR(A.BDEC_UNIT, 1, 4) LIKE ?
-            AND A.BDEC_COIN LIKE ?
-            AND A.BDEC_RANK BETWEEN '05' AND '24'
-            AND A.BDEC_CSEQ > 4
-            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            WHERE A.BDEC_COIN LIKE ?
+                AND A.BDEC_RANK BETWEEN '05' AND '24'
+                AND A.BDEC_CSEQ > 4
+                {$unit}
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
                 SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
                 LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
-        $result = $this->oracle->query($sql, array($unitID4, $medal));
+        $result = $this->oracle->query($sql, array($medal));
 
         return $result;
     }
@@ -145,7 +149,12 @@ class Admin_typical_non_ribbon_model extends CI_Model
         if ($this->systemStatus == '1') $biogTable = 'PER_BIOG_VIEW';
         else $biogTable = 'PER_BIOG_BACK_DEC_TAB';
 
-        $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+        if ($unitID === '6001000000') {
+            $unit = "";
+        } else {
+            $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
+            $unit = "AND A.BDEC_UNIT LIKE '$unitID4%'";
+        }
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID,B.BIOG_CDEP,
@@ -158,15 +167,14 @@ class Admin_typical_non_ribbon_model extends CI_Model
             INNER JOIN PER_CRAK_TAB C
                 ON B.BIOG_RANK = C.CRAK_CODE 
                 AND B.BIOG_CDEP = C.CRAK_CDEP_CODE 
-            WHERE SUBSTR(A.BDEC_UNIT, 1, 4) LIKE ?
-            AND A.BDEC_COIN LIKE ?
-            AND A.BDEC_RANK BETWEEN '50' AND '51'
-            AND A.BDEC_CSEQ > 4
-            -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
+            WHERE A.BDEC_COIN LIKE ?
+                AND A.BDEC_RANK BETWEEN '50' AND '51'
+                AND A.BDEC_CSEQ > 4
+                {$unit}
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
                 SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
                 LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
-        $result = $this->oracle->query($sql, array($unitID4, $medal));
+        $result = $this->oracle->query($sql, array($medal));
 
         return $result;
     }
