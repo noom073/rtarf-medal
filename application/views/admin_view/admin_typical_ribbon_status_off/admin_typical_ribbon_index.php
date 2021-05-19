@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon_status_off/action_get_ribbon_person_prop') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon_status_off/action_get_ribbon_person_prop') ?>" target="_blank">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">ค้นหาหน่วย</label>

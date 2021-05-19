@@ -32,12 +32,12 @@ class Admin_nonribbon_filter_model extends CI_Model
                 AND A.BIOG_CDEP = B.CRAK_CDEP_CODE 
             LEFT JOIN PER_BDEC_TAB C 
 	            ON A.BIOG_ID = C.BDEC_ID
-            WHERE A.BIOG_DEC NOT IN ('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.')
+            WHERE (A.BIOG_DEC NOT IN ('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.')
             AND (
                 A.BIOG_RANK IN ?
                 AND A.BIOG_DEC NOT IN ?                
             )
-            OR A.BIOG_DEC IS NULL
+            OR A.BIOG_DEC IS NULL)
             {$unit}
             -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 

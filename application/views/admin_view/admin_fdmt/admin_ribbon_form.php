@@ -12,7 +12,7 @@
                         <div class="is-size-5 content">เครื่องราชฯ ชั้นสายสะพาย</div>
                         <div class="columns">
                             <div class="column is-half">
-                                <form id="ribbon-report-form" method="post" action="<?= site_url('admin_fundamental/ajax_ribbon_generate_report') ?>">
+                                <form id="ribbon-report-form" method="post" action="<?= site_url('admin_fundamental/ajax_ribbon_generate_report') ?>" target="_blank">
                                     <div class="field is-horizontal">
                                         <div class="field-label is-normal">
                                             <label class="label">เลือกปีที่ขอ</label>
@@ -113,12 +113,5 @@
             });
             $("#unitid").html(option);
         });
-
-
-        $("#ribbon-report-form").submit(function() {
-            $("#ribbon-report-form-submit").addClass("is-loading");
-        });
-
-
     });
 </script>

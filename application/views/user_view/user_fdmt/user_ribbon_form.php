@@ -11,7 +11,7 @@
                         <div class="is-size-5 content">เครื่องราชฯ ชั้นสายสะพาย</div>
                         <div class="columns">
                             <div class="column is-one-third">
-                                <form id="ribbon-report-form" method="post" action="<?= site_url('user_fundamental/ajax_ribbon_generate_report') ?>">
+                                <form id="ribbon-report-form" method="post" action="<?= site_url('user_fundamental/ajax_ribbon_generate_report') ?>" target="_blank">
                                     <div class="field is-horizontal">
                                         <div class="field-label is-normal">
                                             <label class="label">เลือกปีที่ขอ :</label>
@@ -74,11 +74,5 @@
             $("a#fdmt-report-ul-ribbon").addClass('is-active');
         };
         init_func();
-
-        $("#ribbon-report-form").submit(function() {
-            $("#ribbon-report-form-submit").addClass("is-loading");
-        });
-
-
     });
 </script>

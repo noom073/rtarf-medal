@@ -11,7 +11,7 @@
                     <div class="container content is-size-5">พิมพ์สรุปรายชื่อ</div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon/action_summarize_name') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('admin_typical_ribbon/action_summarize_name') ?>" target="_blank">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">ค้นหาหน่วย</label>

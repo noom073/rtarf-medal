@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="container content">
-                        <form id="property-form" method="post" action="<?= site_url('user_non_ribbon/action_summarize_name') ?>">
+                        <form id="property-form" method="post" action="<?= site_url('user_non_ribbon/action_summarize_name') ?>" target="_blank">
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
                                     <label class="label">หน่วย</label>

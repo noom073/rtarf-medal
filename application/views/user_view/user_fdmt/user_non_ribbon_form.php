@@ -33,7 +33,7 @@
             <div class="container box">
                 <div class="is-size-5 content">เครื่องราชฯ ชั้นต่ำกว่าสายสะพาย</div>
 
-                <form id="non-ribbon-report-form" method="post" action="<?= site_url('user_fundamental/non_ribbon_generate_report') ?>">
+                <form id="non-ribbon-report-form" method="post" action="<?= site_url('user_fundamental/non_ribbon_generate_report') ?>" target="_blank">
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
                             <label class="label">เลือกปีที่ขอ :</label>
@@ -145,11 +145,5 @@
         $("#search-form-close-modal").click(function() {
             $("#search-form-modal").removeClass('is-active');
         });
-
-        $("#non-ribbon-report-form").submit(function() {
-            $("#search-form-submit-modal").addClass("is-loading");
-        });
-
-
     });
 </script>
