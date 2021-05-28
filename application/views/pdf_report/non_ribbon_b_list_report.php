@@ -14,7 +14,7 @@ class MYPDF extends PDF
 
         $this->SetFont($fontname, '', 16);
 
-        $html1 = '<span style="font-weight:bold;">บัญชีรายชื่อผู้ได้รับพระราชทานเครื่องราชอิสริยาภรณ์ชั้นต่ำกว่าสายสะพาย พ.ศ.' . $this->myYear . '</span>';
+        $html1 = '<span style="font-weight:bold;">บัญชีขอพระราชทานเครื่องราชอิสริยาภรณ์ (ชั้นต่ำกว่าสายสะพาย) พ.ศ.' . $this->myYear . '</span>';
         $this->writeHTMLCell(0, '', '', '', $html1, 0, 1, 0, true, 'C', true);
         // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
