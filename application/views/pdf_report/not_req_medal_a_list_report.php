@@ -17,7 +17,8 @@ class MYPDF extends PDF
         $html1 = '<span style="font-weight:bold;">บัญชีผู้ยังไม่ได้รับพระราชทานเครื่องราชอิสริยาภรณ์ชั้นต่ำกว่าสายสะพาย พ.ศ.' . $this->myYear . '</span>';
         $this->writeHTMLCell(0, '', '', '', $html1, 0, 1, 0, true, 'C', true);
         // $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-        $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', $this->headquarters, 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->unitName, 0, 1, 0, true, 'C', true);
     }
 
     // Page footer
@@ -42,7 +43,8 @@ $dm = date('dm') . strval( date('Y') + 543);
 
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-$pdf->headerUnitName = $unit_name['NPRT_NAME'];
+$pdf->headquarters = $headquarters;
+$pdf->unitName = $unit_name['NPRT_NAME'];
 $pdf->myYear = $year;
 $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
 // set document information
@@ -140,4 +142,3 @@ $html .= '</table>';
 // echo $html;
 $pdf->writeHTML($html, true, 0, true, 0);
 $pdf->Output('A.pdf', 'I');
-?>

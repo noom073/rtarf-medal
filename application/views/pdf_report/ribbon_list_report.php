@@ -16,8 +16,8 @@ class MYPDF extends PDF
 
         $html1 = '<span>บัญชีขอพระราชทานเครื่องราชอิสริยาภรณ์ (ชั้นสายสะพาย) พ.ศ.' . $this->myYear . '</span>';
         $this->writeHTMLCell(0, '', '', '', $html1, 0, 1, 0, true, 'C', true);
-        $this->writeHTMLCell(0, '', '', '', 'ของข้าราชการ กองทัพไทย', 0, 1, 0, true, 'C', true);
-        $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->headerUnitName, 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', "ของข้าราชการ {$this->headquarters}", 0, 1, 0, true, 'C', true);
+        $this->writeHTMLCell(0, '', '', '', 'สังกัด  ' . $this->unitName, 0, 1, 0, true, 'C', true);
         $this->writeHTMLCell(30, '', 105, '', 'เป็นข้าราชการ', 0, 1, 0, true, 'L', true);
 
         // set Header to print
@@ -46,7 +46,8 @@ $dm = date('dm') . strval(date('Y') + 543);
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->myYear = $year;
-$pdf->headerUnitName = $unit_name['NPRT_NAME'];
+$pdf->headquarters = $headquarters;
+$pdf->unitName = $unit_name['NPRT_NAME'];
 $pdf->curDate = $this->myfunction->dmy_to_thai($dm, 0);
 $pdf->SetMargins(5, 50, 0);
 $pdf->SetHeaderMargin(15);

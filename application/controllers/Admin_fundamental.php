@@ -75,7 +75,8 @@ class Admin_fundamental extends CI_Controller
 		$data['year']		= $this->input->post('year');
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
 		$unitcode4          = substr($unitid, 0, 4);
-		$data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
+		$data['headquarters']   = ($unitid == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+		$data['unit_name']      = ($unitid == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitid);
 		$data['persons'] 	= $this->admin_fundamental_model->get_ribbon_person($unitcode4)->result_array();
 		$this->load->view('pdf_report/ribbon_list_report', $data);
 	}
@@ -103,7 +104,9 @@ class Admin_fundamental extends CI_Controller
 		$data['year']		= $this->input->post('year');
 		$data['rankid']		= $this->input->post('rankid');
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
-		$data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
+		$data['headquarters']   = ($unitid == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+		$data['unit_name']      = ($unitid == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitid);
+		// $data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
 		$unitcode4          = substr($unitid, 0, 4);
 
 		$data['persons'] 	= $this->admin_fundamental_model
@@ -147,7 +150,9 @@ class Admin_fundamental extends CI_Controller
 		$data['year']		= $this->input->post('year');
 		$data['rankid']		= $this->input->post('rankid');
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
-		$data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
+		$data['headquarters']   = ($unitid == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+		$data['unit_name']      = ($unitid == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitid);
+		// $data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
 		$unitcode4          = substr($unitid, 0, 4);
 
 		$persons = $this->admin_fundamental_model
