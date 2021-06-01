@@ -137,8 +137,9 @@ class Admin_typical_non_ribbon_model extends CI_Model
                 AND A.BDEC_CSEQ > 4
                 {$unit}
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
+                NLSSORT(SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                    LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )";
         $result = $this->oracle->query($sql, array($medal));
 
         return $result;
@@ -172,8 +173,9 @@ class Admin_typical_non_ribbon_model extends CI_Model
                 AND A.BDEC_CSEQ > 4
                 {$unit}
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
+                NLSSORT(SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                    LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )";
         $result = $this->oracle->query($sql, array($medal));
 
         return $result;

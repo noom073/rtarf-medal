@@ -55,8 +55,9 @@ class User_ribbon_prop_model extends CI_Model
         {$retireCondition}
         -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
         order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
+                NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
+                    LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )");
 
         return $result;
     }
@@ -117,8 +118,9 @@ class User_ribbon_prop_model extends CI_Model
         {$retireCondition}
         -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
         order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
+                NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
+                    LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )");
 
         return $result;
     }
@@ -185,8 +187,9 @@ class User_ribbon_prop_model extends CI_Model
         {$retireCondition}
         -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
         order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
+                NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
+                    LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )");
         // echo $this->oracle->last_query();
         return $result;
     }
@@ -234,8 +237,9 @@ class User_ribbon_prop_model extends CI_Model
         {$retireCondition}
         -- order by A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
         order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))");
+                NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
+                    LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )");
 
         $persons = $result->result_array();
         $data = array();

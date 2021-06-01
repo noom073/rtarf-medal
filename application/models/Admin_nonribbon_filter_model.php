@@ -41,8 +41,9 @@ class Admin_nonribbon_filter_model extends CI_Model
             {$unit}
             -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
+                    NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
+                        LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                    )";
 
         $result = $this->oracle->query($sql, array($rank, $medal));
         // echo $this->oracle->last_query();
@@ -401,8 +402,9 @@ class Admin_nonribbon_filter_model extends CI_Model
             {$unit}
             -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
-                SUBSTR(BIOG_NAME, INSTR(BIOG_NAME, ' ')+1, 
-                LENGTH(BIOG_NAME)-INSTR(BIOG_NAME, ' '))";
+                    NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
+                        LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                    )";
 
         $unitID4Esc = substr($unit, 0, 4);
         $result = $this->oracle->query($sql, array($decNotIn));

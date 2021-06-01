@@ -62,8 +62,9 @@ class Admin_typical_ribbon_model extends CI_Model
             {$unit}
             -- order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP
             order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
-                SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
-                LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
+                NLSSORT(SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                    LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )";
 
         $result = $this->oracle->query($sql);
         return $result;
@@ -97,8 +98,9 @@ class Admin_typical_ribbon_model extends CI_Model
             {$retireCondition}
             {$unit}
             order by B.BIOG_RANK, B.BIOG_SEX, B.BIOG_CDEP, 
-                SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
-                LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' '))";
+                NLSSORT(SUBSTR(B.BIOG_NAME, INSTR(B.BIOG_NAME, ' ')+1, 
+                    LENGTH(B.BIOG_NAME)-INSTR(B.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
+                )";
 
         $result = $this->oracle->query($sql);
         // echo  $this->oracle->last_query();
