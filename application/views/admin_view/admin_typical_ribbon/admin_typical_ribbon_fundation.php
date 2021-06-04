@@ -71,6 +71,7 @@
                                             <th class="has-text-centered">เลขประจำตัว</th>
                                             <th class="">ยศ-ชื่อ-นามสกุล</th>
                                             <th class="has-text-centered">เครื่องราชฯ</th>
+                                            <th class="has-text-centered">หมายเหตุ</th>
                                             <th class="has-text-centered">#</th>
                                         </tr>
                                     </thead>
@@ -168,6 +169,50 @@
 
                                             <div class="mt-3">
                                                 <div id="prepare-person-form-result"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="modal-close is-large" aria-label="close"></button>
+                                </div>
+
+                                <div class="modal" id="edit-person-modal">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-content has-background-light py-5 px-5">
+                                        <div class="container">
+                                            <form id="edit-person-form">
+                                                <div class="field">
+                                                    <div class="is-size-5">แก้ไขชื่อกำลังพล</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <div class="input" id="edit-person-name">xxxx</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label class="label">เครื่องราชฯที่ขอ</label>
+                                                    <div class="control">
+                                                        <select id="edit-person-medal" name="medal">
+                                                            <option value="ม.ป.ช.">ม.ป.ช.</option>
+                                                            <option value="ม.ว.ม.">ม.ว.ม.</option>
+                                                            <option value="ป.ช.">ป.ช.</option>
+                                                            <option value="ป.ม.">ป.ม.</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label class="label">หมายเหตุ</label>
+                                                    <div class="control">
+                                                        <input class="input" id="edit-person-remark" type="text" name="remark">
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <input id="edit-person-biog-id" type="hidden" name="biog_id">
+                                                    <button class="button is-primary" type="submit">Save</button>
+                                                </div>
+                                            </form>
+
+                                            <div class="mt-3">
+                                                <div id="edit-person-form-result"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -277,20 +322,24 @@
                     className: 'has-text-centered medal'
                 },
                 {
+                    data: 'BDEC_REM',
+                    className: 'remark'
+                },
+                {
                     data: 'BDEC_ID',
                     className: 'has-text-centered',
                     render: (data, type, row, meta) => {
-                        let select = `<select class="medal-name">
-                                    <option value="ม.ป.ช." ${row.BDEC_COIN == 'ม.ป.ช.' ? 'selected':''}>ม.ป.ช.</option>
-                                    <option value="ม.ว.ม." ${row.BDEC_COIN == 'ม.ว.ม.' ? 'selected':''}>ม.ว.ม.</option>
-                                    <option value="ป.ช." ${row.BDEC_COIN == 'ป.ช.' ? 'selected':''}>ป.ช.</option>
-                                    <option value="ป.ม." ${row.BDEC_COIN == 'ป.ม.' ? 'selected':''}>ป.ม.</option>
-                                </select>`;
+                        let editBtn = `<button 
+                            class="edit-bdec-person py-1 px-3"
+                            data-biog-id="${row.BDEC_ID}"
+                            style="width:50px; color:white; background-color: #3273dc; border: none; cursor:pointer">แก้ไข</button>`;
+                        
                         let delButton = `<button 
                             class="del-bdec-person py-1 px-3" 
                             data-biog-id="${row.BDEC_ID}" 
-                            style="color:white; background-color: #ff4b4b; border: none; cursor:pointer">- ลบ</button>`;
-                        return `${select} ${delButton}`;
+                            style="width:50px; color:white; background-color: #ff4b4b; border: none; cursor:pointer">- ลบ</button>`;
+
+                        return `${editBtn} ${delButton}`;
                     }
                 }
             ]
@@ -425,6 +474,46 @@
                 }
 
                 setTimeout(() => $("#prepare-person-form-result").html(''), 2000);
+            }).fail((jhr, status, error) => console.error(jhr, status, error));
+        });
+
+
+        $(document).on('click', ".edit-bdec-person", function() {
+            let biogID = $(this).data("biog-id");
+            let personName = $(this).parent("td").siblings(".bdec-name").html();
+            let personBdec = $(this).parent("td").siblings(".medal").html();
+            let personRem = $(this).parent("td").siblings(".remark").html();
+            $("#edit-person-modal").addClass("is-active");
+            $("#edit-person-name").html(personName);
+            $("#edit-person-biog-id").val(biogID);
+            $("#edit-person-medal").val(personBdec);
+            $("#edit-person-remark").val(personRem);
+        });
+
+
+        $("#edit-person-form").submit(function(event) {
+            event.preventDefault();
+            let formData = $(this).serialize();
+
+            $.post({
+                url: '<?= site_url('admin_typical_ribbon/ajax_update_medal_bdec') ?>',
+                data: formData,
+                dataType: 'json'
+            }).done(res => {
+                console.log(res);
+                if (res.status) {
+                    $("#edit-person-form-result").prop('class', 'has-text-success');
+                    $("#edit-person-form-result").text(res.text);
+                    bdecDataTable.ajax.reload(null, false);
+                } else {
+                    $("#edit-person-form-result").prop('class', 'has-text-warning');
+                    $("#edit-person-form-result").text(res.text);
+                }
+
+                setTimeout(() => {
+                    $("#edit-person-form-result").prop('class', '');
+                    $("#edit-person-form-result").text('');
+                }, 2000);
             }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 

@@ -32,10 +32,10 @@ class Admin_typical_ribbon_status_off extends CI_Controller
 
     public function ajax_get_person_bdec()
     {
-        $unitInput     = $this->input->post('unitid');
-        $unitID4     = substr($this->myfunction->decode($unitInput), 0, 4);
+        $unitInput  = $this->input->post('unitid');
+        $unitID4    = substr($this->myfunction->decode($unitInput), 0, 4);
         $person     = $this->atr_model->get_person_bdec($unitID4)->result_array();
-        $response     = json_encode($person);
+        $response   = json_encode($person);
         $this->output
             ->set_content_type('application/json')
             ->set_output($response);
@@ -43,11 +43,15 @@ class Admin_typical_ribbon_status_off extends CI_Controller
 
     public function ajax_update_medal_bdec()
     {
-        $data['biogID']     = $this->input->post('id');
-        $data['medal']         = $this->input->post('medal');
-        $data['nextMedal']    = $this->input->post('nextMedal');
+        $biogID     = $this->input->post('biog_id', true);
+        $medal      = $this->input->post('medal', true);
+        $remark  = $this->input->post('remark', true);
 
-        $update = $this->person_data->save_update_medal_bdec($data);
+        $data['BDEC_ID']    = $biogID;
+        $data['BDEC_CSEQ']  = $this->person_data->medalCSeq($medal);
+        $data['BDEC_REM']   = $remark;
+        $data['BDEC_COIN']  = $medal;
+        $update = $this->lib_model->update_person_bdec($data);
         if ($update) {
             $result['status']     = true;
             $result['text']     = 'บันทึกสำเร็จ';
@@ -66,11 +70,12 @@ class Admin_typical_ribbon_status_off extends CI_Controller
         $data['type']    = $this->input->post('type_opt', true);
         $data['text']    = $this->input->post('text_search', true);
         $unitInput         = $this->input->post('unitID', true);
-        $data['unitID4'] = substr($this->myfunction->decode($unitInput), 0, 4);
-        $personData        = $this->atr_model->search_person_in_biog_back($data)->result_array();
-        $persons         = array_filter($personData, function ($x) {
-            return $x['BIOG_RANK'] <= '06'; // filter person's rank <= 06 only
-        });
+        $data['unitID4']    = substr($this->myfunction->decode($unitInput), 0, 4);
+        // $personData         = $this->atr_model->search_person_in_biog_back($data)->result_array();
+        // $persons            = array_filter($personData, function ($x) {
+        //     return $x['BIOG_RANK'] <= '06'; // filter person's rank <= 06 only
+        // });
+        $persons = $this->atr_model->search_person_in_biog_back($data)->result_array();
         if (count($persons) > 0) {
             $result['status']    = true;
             $result['text']     = "พบข้อมูล";

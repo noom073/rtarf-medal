@@ -25,16 +25,25 @@ class Login extends CI_Controller
 		$data['username'] = $this->input->post('username');
 		$data['password'] = $this->input->post('password');
 
-		$sessData = array(
-			'user' => $data['username'],
-			'privilege' => $data['username'],
-			'unit' => $data['username'],
-			'isLogged' => true
-		);
-
-		$this->session->set_userdata($sessData);
-
-		echo json_encode($data);
+		$system = $this->set_env->get_system_status();
+		if ($system == 0) {
+			$result['status'] = false;
+			$result['text'] = '! ระบบได้ปิดการแก้ไขแล้ว';
+		} else {
+			$sessData = array(
+				'user' => $data['username'],
+				'privilege' => $data['username'],
+				'unit' => $data['username'],
+				'isLogged' => true
+			);
+			$this->session->set_userdata($sessData);
+			
+			$result['status'] = true;
+			$result['text'] = 'เข้าระบบสำเร็จ';
+		}
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($result));
 	}
 
 	public function logout()

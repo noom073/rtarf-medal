@@ -15,9 +15,10 @@ class Admin_model extends CI_Model
 
     public function get_unit()
     {
-        $sql = "SELECT NPRT_UNIT, NPRT_ACM, SUBSTR(NPRT_UNIT, 1,4), SUBSTR(NPRT_UNIT, 5,6)
+        $sql = "SELECT NPRT_UNIT, NPRT_ACM, SUBSTR(NPRT_UNIT, 1,4)
             FROM PER_NPRT_TAB 
-            WHERE SUBSTR(NPRT_UNIT, 5,6) LIKE '000000' 
+            WHERE SUBSTR(NPRT_UNIT, 1,2) BETWEEN '60' AND '64'
+            AND SUBSTR(NPRT_UNIT, 5,6) LIKE '000000' 
             AND NPRT_UNIT NOT LIKE '6000000000'
             ORDER BY NPRT_UNIT";
         $result = $this->oracle->query($sql);

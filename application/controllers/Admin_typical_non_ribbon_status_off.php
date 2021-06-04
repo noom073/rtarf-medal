@@ -41,24 +41,28 @@ class Admin_typical_non_ribbon_status_off extends CI_Controller
 	}
 
 	public function ajax_update_medal_bdec()
-	{
-		$data['biogID'] 	= $this->input->post('id');
-		$data['medal'] 		= $this->input->post('medal');
-		$data['nextMedal']	= $this->input->post('nextMedal');
+    {
+        $biogID     = $this->input->post('biog_id', true);
+        $medal      = $this->input->post('medal', true);
+        $remark  = $this->input->post('remark', true);
 
-		$update = $this->person_data->save_update_medal_bdec($data);
-		if ($update) {
-			$result['status'] 	= true;
-			$result['text'] 	= 'บันทึกสำเร็จ';
-		} else {
-			$result['status'] 	= false;
-			$result['text'] 	= 'บันทึกไม่สำเร็จ';
-		}
+        $data['BDEC_ID']    = $biogID;
+        $data['BDEC_CSEQ']  = $this->person_data->medalCSeq($medal);
+        $data['BDEC_REM']   = $remark;
+        $data['BDEC_COIN']  = $medal;
+        $update = $this->lib_model->update_person_bdec($data);
+        if ($update) {
+            $result['status']     = true;
+            $result['text']     = 'บันทึกสำเร็จ';
+        } else {
+            $result['status']     = false;
+            $result['text']     = 'บันทึกไม่สำเร็จ';
+        }
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($result));
-	}
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($result));
+    }
 
 	public function ajax_search_person()
 	{
@@ -365,4 +369,40 @@ class Admin_typical_non_ribbon_status_off extends CI_Controller
 		// $this->load->view('admin_view/admin_typical_non_ribbon/gen_non_ribbon_amount', $data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/total_group_report', $data);
 	}
+
+	public function person_detail_back()
+    {
+        $biogID = $this->input->get('id');
+        $data['person'] = $this->atnr_model->get_person_detail_back($biogID)->row_array();
+        $data['ranks'] = $this->lib_model->get_all_rank()->result_array();
+        $data['sidemenu'] = $this->load->view('admin_view/admin_menu/list_admin_menu', null, true);
+        $this->load->view('foundation_view/header');
+        $this->load->view('admin_view/admin_menu/navbar_admin');
+        $this->load->view('admin_view/admin_typical_ribbon_status_off/admin_person_detail_back', $data);
+        $this->load->view('main_view/container_footer');
+        $this->load->view('foundation_view/footer');
+    }
+
+    public function ajax_update_person_detail_back()
+    {
+        $input['biogName']      = $this->input->post('name', true);
+        $input['rank']          = $this->input->post('rank', true);
+        $input['posnameFull']   = $this->input->post('posnameFull', true);
+        $input['salary']        = str_replace(' ', '', $this->input->post('salary', true));
+        $input['slevel']        = str_replace(' ', '', $this->input->post('slevel', true));
+        $input['sclass']        = str_replace(' ', '', $this->input->post('sclass', true));
+        $input['idp']           = $this->input->post('idp', true);
+        $update = $this->atnr_model->update_person_detail_back($input);
+        if ($update) {
+            $result['status'] = true;
+            $result['text'] = 'บันทึกสำเร็จ';
+        } else {
+            $result['status'] = false;
+            $result['text'] = 'บันทึกไม่สำเร็จ';
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($result));
+    }
 }

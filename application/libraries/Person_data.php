@@ -21,15 +21,6 @@ class Person_data
     // OLD public function this_retire($dmy_born)
     public function retireYear($dmy_born)
     {
-        // $yearRetire = $this->CI->lib_model->retire60($dmy_born);
-        // $thisYear = date("Y") + 543;
-        // if ($yearRetire == $thisYear) {
-        //     $status = true;
-        // } else {
-        //     $status = false;
-        // }
-        // return $status;
-
         $yearRetire = $this->CI->lib_model->retire60($dmy_born);
         return $yearRetire;
     }
@@ -47,7 +38,6 @@ class Person_data
 
     public function set_cdec_date($yyyy)
     {
-        // $y = substr($yyyy, 2, 2);
         $y = $yyyy;
         if ($yyyy >= 2560) {
             $result = "28 ก.ค. {$y}";
@@ -74,9 +64,6 @@ class Person_data
         } else {
             $medal = 'Not in rank';
         }
-
-        // $this->check_col5_5($person['BIOG_ID']);
-
         return $medal;
     }
 
@@ -394,23 +381,28 @@ class Person_data
         return $result;
     }
 
-    public function save_update_medal_bdec($array)
+    public function medalCSeq($medalText)
     {
-        if ($array['nextMedal'] == 'ม.ป.ช.')  $cseq = '1';
-        else if ($array['nextMedal'] == 'ม.ว.ม.') $cseq = '2';
-        else if ($array['nextMedal'] == 'ป.ช.') $cseq = '3';
-        else if ($array['nextMedal'] == 'ป.ม.') $cseq = '4';
-        else if ($array['nextMedal'] == 'ท.ช.') $cseq = '5';
-        else if ($array['nextMedal'] == 'ท.ม.') $cseq = '6';
-        else if ($array['nextMedal'] == 'ต.ช.') $cseq = '7';
-        else if ($array['nextMedal'] == 'ต.ม.') $cseq = '8';
-        else if ($array['nextMedal'] == 'จ.ช.') $cseq = '9';
-        else if ($array['nextMedal'] == 'จ.ม.') $cseq = '10';
-        else if ($array['nextMedal'] == 'บ.ช.') $cseq = '11';
-        else if ($array['nextMedal'] == 'บ.ม.') $cseq = '12';
-        else if ($array['nextMedal'] == 'ร.ท.ช.') $cseq = '13';
+        if ($medalText == 'ม.ป.ช.')  $cseq = '1';
+        else if ($medalText == 'ม.ว.ม.') $cseq = '2';
+        else if ($medalText == 'ป.ช.') $cseq = '3';
+        else if ($medalText == 'ป.ม.') $cseq = '4';
+        else if ($medalText == 'ท.ช.') $cseq = '5';
+        else if ($medalText == 'ท.ม.') $cseq = '6';
+        else if ($medalText == 'ต.ช.') $cseq = '7';
+        else if ($medalText == 'ต.ม.') $cseq = '8';
+        else if ($medalText == 'จ.ช.') $cseq = '9';
+        else if ($medalText == 'จ.ม.') $cseq = '10';
+        else if ($medalText == 'บ.ช.') $cseq = '11';
+        else if ($medalText == 'บ.ม.') $cseq = '12';
+        else if ($medalText == 'ร.ท.ช.') $cseq = '13';
         else $cseq = null;
+        return $cseq;
+    }
 
+    public function save_update_medal_bdec($array) // deplicate
+    {
+        $cseq = $this->medalCSeq($array['nextMedal']);
         $update = $this->CI->lib_model->update_medal_bdec($array['biogID'], $array['medal'], $array['nextMedal'], $cseq);
         return $update;
     }
@@ -428,28 +420,13 @@ class Person_data
             $result = 'ERR-DUPLICATE';
         } else {
             $person = $this->CI->lib_model->search_person_by_id($array['biogID'])->row_array();
-            if ($array['nextMedal'] == 'ม.ป.ช.')  $cseq = '1';
-            else if ($array['nextMedal'] == 'ม.ว.ม.') $cseq = '2';
-            else if ($array['nextMedal'] == 'ป.ช.') $cseq = '3';
-            else if ($array['nextMedal'] == 'ป.ม.') $cseq = '4';
-            else if ($array['nextMedal'] == 'ท.ช.') $cseq = '5';
-            else if ($array['nextMedal'] == 'ท.ม.') $cseq = '6';
-            else if ($array['nextMedal'] == 'ต.ช.') $cseq = '7';
-            else if ($array['nextMedal'] == 'ต.ม.') $cseq = '8';
-            else if ($array['nextMedal'] == 'จ.ช.') $cseq = '9';
-            else if ($array['nextMedal'] == 'จ.ม.') $cseq = '10';
-            else if ($array['nextMedal'] == 'บ.ช.') $cseq = '11';
-            else if ($array['nextMedal'] == 'บ.ม.') $cseq = '12';
-            else if ($array['nextMedal'] == 'ร.ท.ช.') $cseq = '13';
-            else $cseq = null;
-
             $data['BDEC_ROUND'] = 'P0';
             $data['BDEC_ID']    = $person['BIOG_ID'];
             $data['BDEC_NAME']  = $person['BIOG_NAME'];
             $data['BDEC_RANK']  = $person['BIOG_RANK'];
             $data['BDEC_UNIT']  = $person['BIOG_UNIT'];
             $data['BDEC_COIN']  = $array['nextMedal'];
-            $data['BDEC_CSEQ']  = $cseq;
+            $data['BDEC_CSEQ']  = $this->medalCSeq($array['nextMedal']);
             $data['BDEC_REM']   = $array['remark'];
 
             $insert = $this->CI->lib_model->insert_person_bdec($data);
@@ -528,19 +505,19 @@ class Person_data
                 else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
                 else $result = $cdep . ' not in';
             } else if ($rankID == '22') {
-                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
-                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
-                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender;
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender;
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender;
                 else $result = $cdep . ' not in';
             } else if ($rankID == '23') {
-                if ($cdep == '1') $result = 'จ่าสิบโท' . $gender . '(พิเศษ)';
-                else if ($cdep == '2') $result = 'พันจ่าโท' . $gender . '(พิเศษ)';
-                else if ($cdep == '3') $result = 'พันจ่าอากาศโท' . $gender . '(พิเศษ)';
+                if ($cdep == '1') $result = 'จ่าสิบโท' . $gender;
+                else if ($cdep == '2') $result = 'พันจ่าโท' . $gender;
+                else if ($cdep == '3') $result = 'พันจ่าอากาศโท' . $gender;
                 else $result = $cdep . ' not in';
             } else if ($rankID == '24') {
-                if ($cdep == '1') $result = 'จ่าสิบตรี' . $gender . '(พิเศษ)';
-                else if ($cdep == '2') $result = 'พันจ่าตรี' . $gender . '(พิเศษ)';
-                else if ($cdep == '3') $result = 'พันจ่าอากาศตรี' . $gender . '(พิเศษ)';
+                if ($cdep == '1') $result = 'จ่าสิบตรี' . $gender;
+                else if ($cdep == '2') $result = 'พันจ่าตรี' . $gender;
+                else if ($cdep == '3') $result = 'พันจ่าอากาศตรี' . $gender;
                 else $result = $cdep . ' not in';
             } else $result = $rankID . ' rankID not in';
         } else if ($currentMedal == 'ร.ท.ช.') {
@@ -550,19 +527,19 @@ class Person_data
                 else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
                 else $result = $cdep . ' not in';
             } else if ($rankID == '22') {
-                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender . '(พิเศษ)';
-                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender . '(พิเศษ)';
-                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender . '(พิเศษ)';
+                if ($cdep == '1') $result = 'จ่าสิบเอก' . $gender;
+                else if ($cdep == '2') $result = 'พันจ่าเอก' . $gender;
+                else if ($cdep == '3') $result = 'พันจ่าอากาศเอก' . $gender;
                 else $result = $cdep . ' not in';
             } else if ($rankID == '23') {
-                if ($cdep == '1') $result = 'จ่าสิบโท' . $gender . '(พิเศษ)';
-                else if ($cdep == '2') $result = 'พันจ่าโท' . $gender . '(พิเศษ)';
-                else if ($cdep == '3') $result = 'พันจ่าอากาศโท' . $gender . '(พิเศษ)';
+                if ($cdep == '1') $result = 'จ่าสิบโท' . $gender;
+                else if ($cdep == '2') $result = 'พันจ่าโท' . $gender;
+                else if ($cdep == '3') $result = 'พันจ่าอากาศโท' . $gender;
                 else $result = $cdep . ' not in';
             } else if ($rankID == '24') {
-                if ($cdep == '1') $result = 'จ่าสิบตรี' . $gender . '(พิเศษ)';
-                else if ($cdep == '2') $result = 'พันจ่าตรี' . $gender . '(พิเศษ)';
-                else if ($cdep == '3') $result = 'พันจ่าอากาศตรี' . $gender . '(พิเศษ)';
+                if ($cdep == '1') $result = 'จ่าสิบตรี' . $gender;
+                else if ($cdep == '2') $result = 'พันจ่าตรี' . $gender;
+                else if ($cdep == '3') $result = 'พันจ่าอากาศตรี' . $gender;
                 else $result = $cdep . ' not in';
             } else $result = $rankID . ' rankID not in';
         } else {

@@ -4,7 +4,7 @@
     </a>
 </div>
 <aside class="menu">
-    <p class="menu-label">ข้อมูลพื้นฐาน</p>
+    <p class="menu-label has-text-link has-background-primary-light">ข้อมูลพื้นฐาน</p>
     <ul class="menu-list">
         <li><a href="<?= site_url('user_fundamental/index') ?>">ประวัติบุคคล</a></li>
         <li>
@@ -17,7 +17,7 @@
         </li>
     </ul>
 
-    <p class="menu-label">ชั้นสายสะพาย</p>
+    <p class="menu-label has-text-link has-background-primary-light">ชั้นสายสะพาย</p>
     <ul class="menu-list">
         <li><a id="people-property-ul-ribbon" href="<?= site_url('user_ribbon/property_form') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-ribbon" href="<?= site_url('user_ribbon/summarize_name_form') ?>">พิมพ์สรุปรายชื่อ</a></li>
@@ -25,7 +25,7 @@
         <li><a id="save-person-ul-ribbon" href="<?= site_url('user_ribbon/prepare_save_bdec') ?>">บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
-    <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>
+    <p class="menu-label has-text-link has-background-primary-light">ชั้นต่ำกว่าสายสะพาย</p>
     <ul class="menu-list">
         <li><a id="people-property-ul-nonribbon" href="<?= site_url('user_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-nonribbon" href="<?= site_url('user_non_ribbon/summarize_name') ?>">พิมพ์สรุปรายชื่อ</a></li>
@@ -33,9 +33,9 @@
         <li><a id="save-person-ul-nonribbon" href="<?= site_url('user_non_ribbon/prepare_save_bdec') ?>">บันทึกบัญชีขอเครื่องราชฯ</a></li>
     </ul>
 
-    <p class="menu-label">ขอเครื่องราชฯ เพิ่มเติม</p>
+    <p class="menu-label has-text-link has-background-primary-light">ขอเครื่องราชฯ เพิ่มเติม</p>
     <ul class="menu-list">
-    <li>
+        <li>
             <a class="has-dropdown">รอบปกติ ชั้นสายสะพาย <i class="fas fa-angle-down" aria-hidden="true"></i></a>
             <ul class="is-hidden" id="typical-ribbon">
                 <li><a id="user-typical-ribbon-fundation" href="<?= site_url('user_typical_ribbon/fundation') ?>">รอบปกติ ชั้นสายสะพาย ข้อมูลพื้นฐาน</a></li>
@@ -54,12 +54,6 @@
                 <li><a id="user-typical-non-ribbon-amount-person" href="<?= site_url('user_typical_non_ribbon/ribbon_amount') ?>">รอบปกติ ชั้นต่ำกว่าสายสะพาย พิมพ์บัญชีสรุปจำนวน</a></li>
             </ul>
         </li>
-
-    </ul>
-
-    <p class="menu-label">ปรับฐานข้อมูลเครื่องราชฯ</p>
-    <ul class="menu-list">
-        <li><a>ปรับฐานข้อมูลเครื่องราชฯ</a></li>
     </ul>
 </aside>
 
@@ -74,7 +68,7 @@
                 angle.addClass('fa-angle-up');
             } else {
                 angle.removeClass('fa-angle-up');
-                angle.addClass('fa-angle-down');                
+                angle.addClass('fa-angle-down');
             }
         });
 

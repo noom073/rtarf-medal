@@ -4,7 +4,7 @@
     </a>
 </div>
 <aside class="menu">
-    <p class="menu-label">ข้อมูลพื้นฐาน</p>
+    <p class="menu-label has-text-link has-background-primary-light">ข้อมูลพื้นฐาน</p>
     <ul class="menu-list">
         <li><a href="<?= site_url('admin_fundamental/index') ?>">ประวัติบุคคล</a></li>
         <li>
@@ -17,7 +17,7 @@
         </li>
     </ul>
 
-    <p class="menu-label">ชั้นสายสะพาย</p>
+    <p class="menu-label has-text-link has-background-primary-light">ชั้นสายสะพาย</p>
     <ul class="menu-list">
         <li><a id="people-property-ul-ribbon" href="<?= site_url('admin_ribbon/property_form') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-ribbon" href="<?= site_url('admin_ribbon/summarize_name_form') ?>">พิมพ์สรุปรายชื่อ</a></li>
@@ -25,7 +25,7 @@
         <!-- <li><a class="has-text-grey-light" id="save-person-ul-ribbon">บันทึกบัญชีขอเครื่องราชฯ</a></li> -->
     </ul>
 
-    <p class="menu-label">ชั้นต่ำกว่าสายสะพาย</p>
+    <p class="menu-label has-text-link has-background-primary-light">ชั้นต่ำกว่าสายสะพาย</p>
     <ul class="menu-list">
         <li><a id="people-property-ul-nonribbon" href="<?= site_url('admin_non_ribbon/index') ?>">พิมพ์บัญชีแสดงคุณสมบัติ</a></li>
         <li><a id="summarize-name-ul-nonribbon" href="<?= site_url('admin_non_ribbon/summarize_name') ?>">พิมพ์สรุปรายชื่อ</a></li>
@@ -33,7 +33,7 @@
         <!-- <li><a class="has-text-grey-light" id="save-person-ul-nonribbon" >บันทึกบัญชีขอเครื่องราชฯ</a></li> -->
     </ul>
 
-    <p class="menu-label">ขอเครื่องราชฯ เพิ่มเติม</p>
+    <p class="menu-label has-text-link has-background-primary-light">ขอเครื่องราชฯ เพิ่มเติม</p>
     <ul class="menu-list">
         <li>
             <a class="has-dropdown">รอบปกติ ชั้นสายสะพาย <i class="fas fa-angle-down" aria-hidden="true"></i></a>
@@ -57,12 +57,12 @@
 
     </ul>
 
-    <p class="menu-label">ปรับฐานข้อมูลเครื่องราชฯ</p>
+    <p class="menu-label has-text-link has-background-primary-light">ปรับฐานข้อมูลเครื่องราชฯ</p>
     <ul class="menu-list">
         <li><a>ปรับฐานข้อมูลเครื่องราชฯ</a></li>
     </ul>
 
-    <p class="menu-label">ตั้งค่า</p>
+    <p class="menu-label has-text-link has-background-primary-light">ตั้งค่า</p>
     <ul class="menu-list">
         <li><a id="set-system-status" href="<?= site_url('admin/set_system_status') ?>">กำหนดเปิด-ปิดระบบ</a></li>
     </ul>

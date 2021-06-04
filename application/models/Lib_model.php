@@ -116,7 +116,9 @@ class Lib_model extends CI_Model
 
         $this->oracle->select('A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_UNIT, A.BIOG_DEC, B.BDEC_ID, B.BDEC_COIN');
         $this->oracle->join('PER_BDEC_TAB B', 'A.BIOG_ID = B.BDEC_ID ', 'left');
-        $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1,4) = '{$array['unitID4']}'");
+        if ($array['unitID4'] != '6001') {
+            $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1,4) = '{$array['unitID4']}'");
+        }
         $this->oracle->order_by("A.BIOG_RANK, A.BIOG_CDEP");
         $query = $this->oracle->get('PER_BIOG_VIEW A');
         return $query;
@@ -149,6 +151,17 @@ class Lib_model extends CI_Model
         $this->oracle->set('BDEC_CSEQ', $array['BDEC_CSEQ']);
         $this->oracle->set('BDEC_REM', $array['BDEC_REM']);
         $query = $this->oracle->insert('PER_BDEC_TAB');
+
+        return $query;
+    }
+
+    public function update_person_bdec($array)
+    {
+        $this->oracle->set('BDEC_COIN', $array['BDEC_COIN']);
+        $this->oracle->set('BDEC_CSEQ', $array['BDEC_CSEQ']);
+        $this->oracle->set('BDEC_REM', $array['BDEC_REM']);
+        $this->oracle->where('BDEC_ID', $array['BDEC_ID']);
+        $query = $this->oracle->update('PER_BDEC_TAB');
 
         return $query;
     }

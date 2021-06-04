@@ -34,6 +34,11 @@
                             <button class="button">Submit</button>
                         </div>
                     </div>
+                    <div class="field">
+                        <div class="control has-text-centered">
+                            <div id="login-form-result"></div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -52,12 +57,20 @@
                     dataType: 'json'
                 })
                 .done(res => {
-                    console.log(res);
                     let username = $("#usr").val();
                     if (username == 'admin') {
-                        window.location.href = '<?= site_url('admin_fundamental/index') ?>';                        
+                        window.location.href = '<?= site_url('admin_fundamental/index') ?>';
                     } else {
-                        window.location.href = '<?= site_url('user_fundamental/index') ?>';                        
+                        if (res.status) {
+                            $("#login-form-result").html(res.text);
+                            $("#login-form-result").prop('class',"has-text-success");
+                            setTimeout(() => {
+                                window.location.href = '<?= site_url('user_fundamental/index') ?>';
+                            }, 2500);
+                        } else {
+                            $("#login-form-result").html(res.text);
+                            $("#login-form-result").prop('class', "has-text-danger");
+                        }
                     }
                 })
                 .fail((jhr, status, error) => {

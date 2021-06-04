@@ -75,6 +75,7 @@
                                             <th class="has-text-centered">เลขประจำตัว</th>
                                             <th class="">ยศ-ชื่อ-นามสกุล</th>
                                             <th class="has-text-centered">เครื่องราชฯ</th>
+                                            <th class="has-text-centered">หมายเหตุ</th>
                                             <th class="has-text-centered">#</th>
                                         </tr>
                                     </thead>
@@ -86,7 +87,7 @@
 
                         <div class="box">
                             <div class="block">
-                                <div class="is-size-5">ค้นหารายชื่อกำลังพล</div>
+                                <div class="is-size-5">เพิ่มรายชื่อกำลังพล</div>
                                 <button class="button is-success" id="search-person-btn">Search</button>
                                 <button class="button is-danger" id="clear-person-btn">Reset</button>
                                 <div class="block">
@@ -178,6 +179,50 @@
                                     <button class="modal-close is-large" aria-label="close"></button>
                                 </div>
 
+                                <div class="modal" id="edit-person-modal">
+                                    <div class="modal-background"></div>
+                                    <div class="modal-content has-background-light py-5 px-5">
+                                        <div class="container">
+                                            <form id="edit-person-form">
+                                                <div class="field">
+                                                    <div class="is-size-5">แก้ไขชื่อกำลังพล</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <div class="input" id="edit-person-name">xxxx</div>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label class="label">เครื่องราชฯที่ขอ</label>
+                                                    <div class="control">
+                                                        <select id="edit-person-medal" name="medal">
+                                                            <option value="ม.ป.ช.">ม.ป.ช.</option>
+                                                            <option value="ม.ว.ม.">ม.ว.ม.</option>
+                                                            <option value="ป.ช.">ป.ช.</option>
+                                                            <option value="ป.ม.">ป.ม.</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label class="label">หมายเหตุ</label>
+                                                    <div class="control">
+                                                        <input class="input" id="edit-person-remark" type="text" name="remark">
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <input id="edit-person-biog-id" type="hidden" name="biog_id">
+                                                    <button class="button is-primary" type="submit">Save</button>
+                                                </div>
+                                            </form>
+
+                                            <div class="mt-3">
+                                                <div id="edit-person-form-result"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="modal-close is-large" aria-label="close"></button>
+                                </div>
+
                                 <div class="modal" id="delete-bdec-person-modal">
                                     <div class="modal-background"></div>
                                     <div class="modal-content has-background-light py-5 px-5">
@@ -256,7 +301,7 @@
         // function drawDataTable(dataObj) {
         let bdecDataTable = $("#bdec-data").DataTable({
             ajax: {
-                url: '<?= site_url('admin_typical_ribbon/ajax_get_person_bdec') ?>',
+                url: '<?= site_url('admin_typical_ribbon_status_off/ajax_get_person_bdec') ?>',
                 type: 'post',
                 data: () => $("#search-form").serialize(),
                 dataSrc: ''
@@ -281,20 +326,24 @@
                     className: 'has-text-centered medal'
                 },
                 {
+                    data: 'BDEC_REM',
+                    className: 'remark'
+                },
+                {
                     data: 'BDEC_ID',
                     className: 'has-text-centered',
                     render: (data, type, row, meta) => {
-                        let select = `<select class="medal-name">
-                                    <option value="ม.ป.ช." ${row.BDEC_COIN == 'ม.ป.ช.' ? 'selected':''}>ม.ป.ช.</option>
-                                    <option value="ม.ว.ม." ${row.BDEC_COIN == 'ม.ว.ม.' ? 'selected':''}>ม.ว.ม.</option>
-                                    <option value="ป.ช." ${row.BDEC_COIN == 'ป.ช.' ? 'selected':''}>ป.ช.</option>
-                                    <option value="ป.ม." ${row.BDEC_COIN == 'ป.ม.' ? 'selected':''}>ป.ม.</option>
-                                </select>`;
+                        let editBtn = `<button 
+                            class="edit-bdec-person py-1 px-3"
+                            data-biog-id="${row.BDEC_ID}"
+                            style="width:50px; color:white; background-color: #3273dc; border: none; cursor:pointer">แก้ไข</button>`;
+                        
                         let delButton = `<button 
                             class="del-bdec-person py-1 px-3" 
                             data-biog-id="${row.BDEC_ID}" 
-                            style="color:white; background-color: #ff4b4b; border: none; cursor:pointer">- ลบ</button>`;
-                        return `${select} ${delButton}`;
+                            style="width:50px; color:white; background-color: #ff4b4b; border: none; cursor:pointer">- ลบ</button>`;
+
+                        return `${editBtn} ${delButton}`;
                     }
                 }
             ]
@@ -302,40 +351,9 @@
 
 
         $("#search-form").submit(function(event) {
-            /** search person in per_bdec_tab */
             event.preventDefault();
             $("#search-result").text('Loading...');
             bdecDataTable.ajax.reload(() => $("#search-result").text(''), false);
-        });
-
-
-        $(document).on("change", ".medal-name", function() {
-            /** change person's medal */
-            let formData = {
-                id: $(this).parent('td').siblings('.biog-id').text(),
-                medal: $(this).parent('td').siblings('.medal').text(),
-                nextMedal: $(this).val()
-            };
-
-            $.post({
-                url: '<?= site_url('admin_typical_ribbon/ajax_update_medal_bdec') ?>',
-                data: formData,
-                dataType: 'json'
-            }).done(res => {
-                if (res.status) {
-                    $("#data-result").prop('class', 'has-text-success');
-                    $("#data-result").text(res.text);
-                    bdecDataTable.ajax.reload(null, false);
-                } else {
-                    $("#data-result").prop('class', 'has-text-warning');
-                    $("#data-result").text(res.text);
-                }
-
-                setTimeout(() => {
-                    $("#data-result").prop('class', '');
-                    $("#data-result").text('');
-                }, 2000);
-            }).fail((jhr, status, error) => console.error(jhr, status, error));
         });
 
 
@@ -349,8 +367,7 @@
         });
 
 
-        $("#search-person-form").submit(function(event) {
-            /** search person for insert to per_bdec_tab */
+        $("#search-person-form").submit(function(event) { // search person for insert to per_bdec_tab
             event.preventDefault();
             $("#search-person-form-result").html('Loading...');
             $("#search-person-form-data").html('');
@@ -405,8 +422,7 @@
         });
 
 
-        $(document).on("click", ".add-bdec-person", function() {
-            /** on click "เพิ่ม" button to active prepare person form modal */
+        $(document).on("click", ".add-bdec-person", function() { // on click "เพิ่ม" button to active prepare person form modal
             let biogID = $(this).data("biog-id");
             let personName = $(this).parent("td").siblings(".biog-name").html();
             $("#prepare-person-modal").addClass("is-active");
@@ -415,8 +431,7 @@
         });
 
 
-        $("#prepare-person-form").submit(function(event) {
-            /** submit add person to per_bdec_tab */
+        $("#prepare-person-form").submit(function(event) { // submit add person to per_bdec_tab
             event.preventDefault();
             let formData = $(this).serialize();
             $.post({
@@ -437,6 +452,46 @@
         });
 
 
+        $(document).on('click', ".edit-bdec-person", function() {
+            let biogID = $(this).data("biog-id");
+            let personName = $(this).parent("td").siblings(".bdec-name").html();
+            let personBdec = $(this).parent("td").siblings(".medal").html();
+            let personRem = $(this).parent("td").siblings(".remark").html();
+            $("#edit-person-modal").addClass("is-active");
+            $("#edit-person-name").html(personName);
+            $("#edit-person-biog-id").val(biogID);
+            $("#edit-person-medal").val(personBdec);
+            $("#edit-person-remark").val(personRem);
+        });
+
+
+        $("#edit-person-form").submit(function(event) {
+            event.preventDefault();
+            let formData = $(this).serialize();
+
+            $.post({
+                url: '<?= site_url('admin_typical_ribbon_status_off/ajax_update_medal_bdec') ?>',
+                data: formData,
+                dataType: 'json'
+            }).done(res => {
+                console.log(res);
+                if (res.status) {
+                    $("#edit-person-form-result").prop('class', 'has-text-success');
+                    $("#edit-person-form-result").text(res.text);
+                    bdecDataTable.ajax.reload(null, false);
+                } else {
+                    $("#edit-person-form-result").prop('class', 'has-text-warning');
+                    $("#edit-person-form-result").text(res.text);
+                }
+
+                setTimeout(() => {
+                    $("#edit-person-form-result").prop('class', '');
+                    $("#edit-person-form-result").text('');
+                }, 2000);
+            }).fail((jhr, status, error) => console.error(jhr, status, error));
+        });
+
+
         $(document).on('click', ".del-bdec-person", function() {
             /** click to popup delete-cdec-person modal */
             $("#delete-bdec-person-modal").addClass("is-active");
@@ -452,7 +507,7 @@
             event.preventDefault();
             let formData = $(this).serialize();
             $.post({
-                url: '<?= site_url('admin_typical_ribbon/ajax_delete_bdec_person') ?>',
+                url: '<?= site_url('admin_typical_non_ribbon_status_off/ajax_delete_bdec_person') ?>',
                 data: formData,
                 dataType: 'json'
             }).done(res => {

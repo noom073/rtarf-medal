@@ -18,7 +18,7 @@ class Admin_typical_non_ribbon_model extends CI_Model
     {
         $this->oracle->where('BDEC_CSEQ > 4');
         $this->oracle->like('substr(BDEC_UNIT, 1, 4)', $unitID, 'none');
-        $this->oracle->order_by('BDEC_RANK');
+        $this->oracle->order_by('BDEC_CSEQ, BDEC_RANK');
         $result = $this->oracle->get('PER_BDEC_TAB');
         return $result;
     }
@@ -31,65 +31,6 @@ class Admin_typical_non_ribbon_model extends CI_Model
         return $query;
     }
 
-    // public function get_person_prop_by_medal($unitID, $array)
-    // {
-    //     if ($this->systemStatus == '1') $biogTable = 'PER_BIOG_VIEW';
-    //     else $biogTable = 'PER_BIOG_BACK_DEC_TAB';
-
-    //     $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
-    //     $year       = (int) $array['year'];
-
-    //     if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
-    //     else $retireCondition = '';
-
-    //     $sql = "SELECT A.BDEC_NAME,B.BIOG_NAME, B.BIOG_DMY_WORK,
-    //         B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
-    //         C.CRAK_NAME_FULL
-    //         FROM PER_BDEC_TAB A
-    //         INNER JOIN {$biogTable} B
-    //             ON A.BDEC_ID = B.BIOG_ID
-    //         INNER JOIN PER_CRAK_TAB C
-    //             ON B.BIOG_RANK = C.CRAK_CODE 
-    //             AND B.BIOG_CDEP = C.CRAK_CDEP_CODE 
-    //         WHERE A.BDEC_UNIT LIKE '$unitID4%'
-    //         AND A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
-    //         {$retireCondition}
-    //         order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
-
-    //     $result = $this->oracle->query($sql);
-
-    //     return $result;
-    // }
-
-    // public function get_person_prop_by_medal_biog_back($unitID, $array)
-    // {
-    //     if ($this->systemStatus == '1') $biogTable = 'PER_BIOG_VIEW';
-    //     else $biogTable = 'PER_BIOG_BACK_DEC_TAB';
-
-    //     $unitID4    = $this->oracle->escape_like_str(substr($unitID, 0, 4));
-    //     $year       = (int) $array['year'];
-
-    //     if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
-    //     else $retireCondition = '';
-
-    //     $sql = "SELECT A.BDEC_NAME,B.BIOG_NAME, B.BIOG_DMY_WORK,
-    //         B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
-    //         C.CRAK_NAME_FULL
-    //         FROM PER_BDEC_TAB A
-    //         INNER JOIN {$biogTable} B
-    //             ON A.BDEC_ID = B.BIOG_ID
-    //         INNER JOIN PER_CRAK_TAB C
-    //             ON B.BIOG_RANK = C.CRAK_CODE 
-    //             AND B.BIOG_CDEP = C.CRAK_CDEP_CODE 
-    //         WHERE A.BDEC_UNIT LIKE '$unitID4%'
-    //         AND A.BDEC_COIN LIKE '{$array['ribbon_acm']}'
-    //         {$retireCondition}
-    //         order by B.BIOG_SEX, B.BIOG_RANK, B.BIOG_CDEP";
-
-    //     $result = $this->oracle->query($sql);
-
-    //     return $result;
-    // }
 
     public function search_person_in_biog_back($array)
     {
@@ -103,7 +44,9 @@ class Admin_typical_non_ribbon_model extends CI_Model
 
         $this->oracle->select('A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, A.BIOG_UNIT, A.BIOG_DEC, B.BDEC_ID, B.BDEC_COIN');
         $this->oracle->join('PER_BDEC_TAB B', 'A.BIOG_ID = B.BDEC_ID ', 'left');
-        $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1,4) = '{$array['unitID4']}'");
+        if ($array['unitID4'] != '6001') {
+            $this->oracle->where("SUBSTR(A.BIOG_UNIT, 1,4) = '{$array['unitID4']}'");
+        }
         $this->oracle->order_by("A.BIOG_RANK, A.BIOG_CDEP");
         $query = $this->oracle->get('PER_BIOG_BACK_DEC_TAB A');
         return $query;
@@ -179,5 +122,25 @@ class Admin_typical_non_ribbon_model extends CI_Model
         $result = $this->oracle->query($sql, array($medal));
 
         return $result;
+    }
+
+    public function get_person_detail_back($biogID)
+    {
+        $this->oracle->where('BIOG_ID', $biogID);
+        $query = $this->oracle->get('PER_BIOG_BACK_DEC_TAB');
+        return $query;
+    }
+
+    public function update_person_detail_back($array)
+    {
+        $this->oracle->set('BIOG_NAME', $array['biogName']);
+        $this->oracle->set('BIOG_RANK', $array['rank']);
+        $this->oracle->set('BIOG_POSNAME_FULL', $array['posnameFull']);
+        $this->oracle->set('BIOG_SALARY', $array['salary']);
+        $this->oracle->set('BIOG_SLEVEL', $array['slevel']);
+        $this->oracle->set('BIOG_SCLASS', $array['sclass']);
+        $this->oracle->where('BIOG_IDP', $array['idp']);
+        $query = $this->oracle->update('PER_BIOG_BACK_DEC_TAB');
+        return $query;
     }
 }

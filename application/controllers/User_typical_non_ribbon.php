@@ -17,7 +17,7 @@ class User_typical_non_ribbon extends CI_Controller
 		$system = $this->set_env->get_system_status();
 		if ($system == 0) {
 			redirect('user_fundamental/system_off');
-		} 
+		}
 	}
 
 	public function fundation()
@@ -47,17 +47,21 @@ class User_typical_non_ribbon extends CI_Controller
 
 	public function ajax_update_medal_bdec()
 	{
-		$data['biogID'] 	= $this->input->post('id');
-		$data['medal'] 		= $this->input->post('medal');
-		$data['nextMedal']	= $this->input->post('nextMedal');
+		$biogID     = $this->input->post('biog_id', true);
+		$medal      = $this->input->post('medal', true);
+		$remark  = $this->input->post('remark', true);
 
-		$update = $this->person_data->save_update_medal_bdec($data);
+		$data['BDEC_ID']    = $biogID;
+		$data['BDEC_CSEQ']  = $this->person_data->medalCSeq($medal);
+		$data['BDEC_REM']   = $remark;
+		$data['BDEC_COIN']  = $medal;
+		$update = $this->lib_model->update_person_bdec($data);
 		if ($update) {
-			$result['status'] 	= true;
-			$result['text'] 	= 'บันทึกสำเร็จ';
+			$result['status']     = true;
+			$result['text']     = 'บันทึกสำเร็จ';
 		} else {
-			$result['status'] 	= false;
-			$result['text'] 	= 'บันทึกไม่สำเร็จ';
+			$result['status']     = false;
+			$result['text']     = 'บันทึกไม่สำเร็จ';
 		}
 
 		$this->output
@@ -153,7 +157,7 @@ class User_typical_non_ribbon extends CI_Controller
 		$unitID = $this->myfunction->decode($this->input->post('unitid'));
 		$medal = $this->input->post('ribbon_type');
 
-        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+		$data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
 		$data['unit_name']      = $this->person_data->get_unit_name($unitID);
 		$data['ribbon_acm']     = $medal;
 		$data['ribbon_name']    = $this->person_data->medal_full_name($medal);
@@ -166,7 +170,7 @@ class User_typical_non_ribbon extends CI_Controller
 		$data['p2_position']    = $this->input->post('p2_position');
 		$data['type']      		= $this->input->post('type');
 
-		if ($data['type']=='officer') {
+		if ($data['type'] == 'officer') {
 			$data['persons'] = $this->utnr_model->get_officer_prop($unitID, $medal)->result_array();
 		} else {
 			$data['persons'] = $this->utnr_model->get_employee_prop($unitID, $medal)->result_array();
@@ -197,14 +201,14 @@ class User_typical_non_ribbon extends CI_Controller
 
 		$data['year']           = $this->input->post('year');
 		$data['condition']      = $this->input->post('condition');
-        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+		$data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
 		$data['unit_name']      = $this->person_data->get_unit_name($unitID);
 		$data['type']      		= $this->input->post('type');
 		$data['p1_rank']        = $this->input->post('p1_rank');
 		$data['p1_name']        = $this->input->post('p1_name');
 		$data['p1_position']    = $this->input->post('p1_position');
 
-		if ($data['type']== 'officer') {
+		if ($data['type'] == 'officer') {
 			$data['thc']	= $this->utnr_model->get_officer_prop($unitID, 'ท.ช.')->result_array();
 			$data['thm']    = $this->utnr_model->get_officer_prop($unitID, 'ท.ม.')->result_array();
 			$data['tc']		= $this->utnr_model->get_officer_prop($unitID, 'ต.ช.')->result_array();
@@ -252,14 +256,14 @@ class User_typical_non_ribbon extends CI_Controller
 
 		$data['year']    	= $this->input->post('year');
 		$data['condition']  = $this->input->post('condition');
-        $data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
+		$data['headquarters']   = ($unitID == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
 		$data['unit_name'] 	= $this->person_data->get_unit_name($unitID);
 		$data['type']      	= $this->input->post('type');
 		$data['p1_rank']    = $this->input->post('p1_rank');
 		$data['p1_name']    = $this->input->post('p1_name');
-		$data['p1_position']= $this->input->post('p1_position');
+		$data['p1_position'] = $this->input->post('p1_position');
 
-		if ($data['type']=='officer') {
+		if ($data['type'] == 'officer') {
 			$dtthc	= $this->utnr_model->get_officer_prop($unitID, 'ท.ช.')->result_array();
 			$dtthm 	= $this->utnr_model->get_officer_prop($unitID, 'ท.ม.')->result_array();
 			$dttc 	= $this->utnr_model->get_officer_prop($unitID, 'ต.ช.')->result_array();

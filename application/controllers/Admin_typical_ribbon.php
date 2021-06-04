@@ -41,24 +41,28 @@ class Admin_typical_ribbon extends CI_Controller
 	}
 
 	public function ajax_update_medal_bdec()
-	{
-		$data['biogID'] 	= $this->input->post('id');
-		$data['medal'] 		= $this->input->post('medal');
-		$data['nextMedal']	= $this->input->post('nextMedal');
+    {
+        $biogID     = $this->input->post('biog_id', true);
+        $medal      = $this->input->post('medal', true);
+        $remark  = $this->input->post('remark', true);
 
-		$update = $this->person_data->save_update_medal_bdec($data);
-		if ($update) {
-			$result['status'] 	= true;
-			$result['text'] 	= 'บันทึกสำเร็จ';
-		} else {
-			$result['status'] 	= false;
-			$result['text'] 	= 'บันทึกไม่สำเร็จ';
-		}
+        $data['BDEC_ID']    = $biogID;
+        $data['BDEC_CSEQ']  = $this->person_data->medalCSeq($medal);
+        $data['BDEC_REM']   = $remark;
+        $data['BDEC_COIN']  = $medal;
+        $update = $this->lib_model->update_person_bdec($data);
+        if ($update) {
+            $result['status']     = true;
+            $result['text']     = 'บันทึกสำเร็จ';
+        } else {
+            $result['status']     = false;
+            $result['text']     = 'บันทึกไม่สำเร็จ';
+        }
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($result));
-	}
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($result));
+    }
 
 	public function ajax_search_person()
 	{
@@ -111,22 +115,22 @@ class Admin_typical_ribbon extends CI_Controller
 	}
 
 	public function ajax_delete_bdec_person()
-	{
-		$biogID = $this->input->post('bdec_id', true);
-		$delete = $this->atr_model->delete_bdec_person($biogID);
+    {
+        $biogID = $this->input->post('bdec_id', true);
+        $delete = $this->atr_model->delete_bdec_person($biogID);
 
-		if ($delete) {
-			$result['status'] = true;
-			$result['text'] = 'ลบข้อมูลสำเร็จ';
-		} else {
-			$result['status'] = false;
-			$result['text'] = 'ไม่สามารถลบข้อมูลได้';
-		}
+        if ($delete) {
+            $result['status'] = true;
+            $result['text'] = 'ลบข้อมูลสำเร็จ';
+        } else {
+            $result['status'] = false;
+            $result['text'] = 'ไม่สามารถลบข้อมูลได้';
+        }
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($result));
-	}
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($result));
+    }
 
 	public function property()
 	{

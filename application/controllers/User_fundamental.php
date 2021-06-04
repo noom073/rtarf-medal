@@ -86,6 +86,7 @@ class User_fundamental extends CI_Controller
 		$data['year']		= $this->input->post('year');
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
 		$unitcode4          = substr($unitid, 0, 4);
+		$data['headquarters']   = 'กองทัพไทย';
 		$data['unit_name'] 	= $this->user_fundamental_model->get_unit_name($unitid)->row_array();
 		$data['persons'] 	= $this->user_fundamental_model->get_ribbon_person($unitcode4)->result_array();
 		// var_dump($data);
@@ -119,6 +120,7 @@ class User_fundamental extends CI_Controller
 		$data['year']		= $this->input->post('year');
 		$data['rankid']		= $this->input->post('rankid');
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
+		$data['headquarters']   = 'กองทัพไทย';
 		$data['unit_name'] 	= $this->user_fundamental_model->get_unit_name($unitid)->row_array();
 		$unitcode4          = substr($unitid, 0, 4);
 
@@ -167,6 +169,7 @@ class User_fundamental extends CI_Controller
 		$data['year']		= $this->input->post('year');
 		$data['rankid']		= $this->input->post('rankid');
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
+		$data['headquarters']   = 'กองทัพไทย';
 		$data['unit_name'] 	= $this->user_fundamental_model->get_unit_name($unitid)->row_array();
 		$unitcode4          = substr($unitid, 0, 4);
 
