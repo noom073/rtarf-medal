@@ -230,7 +230,6 @@ class User_typical_non_ribbon extends CI_Controller
 			$data['rtc']    = $this->utnr_model->get_employee_prop($unitID, 'ร.ท.ช.')->result_array();
 		}
 
-		// $this->load->view('user_view/user_typical_non_ribbon/gen_non_ribbon_summarize_name', $data);
 		$this->load->view('pdf_report/ordinary_non_ribbon/name_list_report', $data);
 	}
 

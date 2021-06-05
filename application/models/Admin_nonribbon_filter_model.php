@@ -39,7 +39,6 @@ class Admin_nonribbon_filter_model extends CI_Model
             )
             OR A.BIOG_DEC IS NULL)
             {$unit}
-            -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by BIOG_RANK, BIOG_SEX, BIOG_CDEP, 
                     NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
                         LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'

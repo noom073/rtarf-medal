@@ -35,13 +35,14 @@ class User_nonribbon_filter_model extends CI_Model
             LEFT JOIN PER_BDEC_TAB C 
 	            ON A.BIOG_ID = C.BDEC_ID
             WHERE SUBSTR(A.BIOG_UNIT, 1,4) LIKE ?
-            AND A.BIOG_DEC NOT IN ('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.')
             AND (
-                A.BIOG_RANK IN ?
-                AND A.BIOG_DEC NOT IN ?                
+                A.BIOG_DEC NOT IN ('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.')
+                AND (
+                    A.BIOG_RANK IN ?
+                    AND A.BIOG_DEC NOT IN ?                
+                )
+                OR A.BIOG_DEC IS NULL
             )
-            OR A.BIOG_DEC IS NULL
-            -- ORDER BY A.BIOG_SEX, A.BIOG_RANK, A.BIOG_CDEP
             order by A.BIOG_RANK, A.BIOG_SEX, A.BIOG_CDEP, 
                 NLSSORT(SUBSTR(A.BIOG_NAME, INSTR(A.BIOG_NAME, ' ')+1, 
                     LENGTH(A.BIOG_NAME)-INSTR(A.BIOG_NAME, ' ')), 'NLS_SORT = THAI_M'
@@ -50,6 +51,7 @@ class User_nonribbon_filter_model extends CI_Model
         $unitID4Esc = substr($unit, 0, 4);
         $result = $this->oracle->query($sql, array($unitID4Esc, $rank, $medal));
         // echo $this->oracle->last_query();
+        // echo "<hr> <br>";
         return $result;
     }
 
