@@ -355,7 +355,7 @@
             /** search person in per_bdec_tab */
             event.preventDefault();
             $("#search-result").text('Loading...');
-            bdecDataTable.ajax.reload(null, false);
+            bdecDataTable.ajax.reload(() => $("#search-result").text(''), false);
         });
 
 
