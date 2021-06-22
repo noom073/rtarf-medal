@@ -201,5 +201,5 @@ class Lib_model extends CI_Model
             }
         }
         return $findPost;
-    }
+    }    
 }

@@ -24,7 +24,7 @@ class User_nonribbon_filter_model extends CI_Model
     private function get_officer_list($unit, $rank, $medal)
     {
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, 
-            A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK, A.BIOG_DEC, A.BIOG_DECY, 
+            A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_DMYPOS,
             A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS, A.BIOG_UNIT, A.BIOG_RANK, A.BIOG_CDEP,
             B.CRAK_NAME_FULL_PRINT,
             C.BDEC_REM
@@ -376,7 +376,7 @@ class User_nonribbon_filter_model extends CI_Model
     {
         $decNotIn = array_merge(array('ท.ช.', 'ป.ม.', 'ป.ช.', 'ม.ว.ม.', 'ม.ป.ช.'), $decArray);
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, A.BIOG_SALARY, 
-            A.BIOG_POSNAME_FULL, A.BIOG_RANK, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, 
+            A.BIOG_POSNAME_FULL, A.BIOG_RANK, A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_DMYPOS,
             A.BIOG_SCLASS, A.BIOG_UNIT, A.BIOG_RANK,
             B.CRAK_NAME_FULL_PRINT
             FROM PER_BIOG_VIEW A

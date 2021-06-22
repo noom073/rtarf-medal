@@ -1,18 +1,28 @@
 <?php
-// SETTING COLUMNS
-// $maxRows = 15;
-// $columns = 2;
-
 // GENERATE FUNCTION
+function nameWithRankFull($person)
+{
+    if (in_array($person['BIOG_RANK'], array('50', '51'))) {
+        $biogName = $person['BIOG_NAME'];
+    } else {
+        $gender = ($person['BIOG_SEX'] == '1') ? 'หญิง' : '';
+        $name = substr($person['BIOG_NAME'], strpos($person['BIOG_NAME'], ' '));
+        $biogName = "{$person['CRAK_NAME_FULL_PRINT']}{$gender} $name";
+    }
+    return $biogName;
+}
+
 function drawData($pdf, $person, $medalName, $year, $headquarters, $unit_name, $type, $maxRows = 25, $columns = 2)
 {
     $pdf->AddPage('P');
-    if ($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
-    else $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
-    $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
-    $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
+    if ($pdf->PageNo() == 1) {
+        if ($type == 'retire') $head = 'บัญชีรายชื่อข้าราชการทหารเกษียณ ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+        else $head = 'บัญชีรายชื่อข้าราชการทหาร ผู้ขอพระราชทานเครื่องราชอิสริยาภรณ์';
+        $pdf->writeHTMLCell(0, '', '', '', $head, 0, 1, 0, true, 'C', true);
+        $pdf->writeHTMLCell(0, '', '', '', "ประจำปี พ.ศ. {$year}", 0, 1, 0, true, 'C', true);
+        $pdf->writeHTMLCell(0, '', '', '', $headquarters, 0, 1, 0, true, 'C', true);
+        $pdf->writeHTMLCell(0, '', '', '', $unit_name['NPRT_NAME'], 0, 1, 0, true, 'C', true);
+    }
     $pdf->writeHTMLCell(0, '', '', '', $medalName[0], 0, 1, 0, true, 'C', true);
     $pdf->Ln(5);
 
@@ -20,20 +30,25 @@ function drawData($pdf, $person, $medalName, $year, $headquarters, $unit_name, $
     $totalPage = ceil($totalLen / ($maxRows * $columns));
     for ($p = 0; $p < $totalPage; $p++) {
         $lastIndex = 0;
+        $currentPeople = array();
         for ($i = 0; $i < $maxRows; $i++) {
             for ($e = 0; $e < $columns; $e++) {
                 $index = $p * $maxRows * $columns + $i;
                 if ($e == 0) {
                     if (isset($person[$index])) {
-                        $data = $index + 1 . ". {$person[$index]['BIOG_NAME']}";
-                        $pdf->writeHTMLCell(100, '', 30, '', $data, 0, 0, 0, true, 'L', true);
+                        // $biogName = $index + 1 . ". {$person[$index]['BIOG_NAME']}";
+                        $biogName = $index + 1 . " " . nameWithRankFull($person[$index]);
+                        $pdf->writeHTMLCell(100, '', 30, '', $biogName, 0, 0, 0, true, 'L', true);
                         $lastIndex = $lastIndex > $index ? $lastIndex : $index;
+                        array_push($currentPeople, $person[$index]);
                     } else break 2;
                 } else {
                     if (isset($person[$index + $e * $maxRows])) {
-                        $data = $index + $maxRows * $e + 1 . ". {$person[$index +$e *$maxRows]['BIOG_NAME']}";
-                        $pdf->writeHTMLCell(100, '', '', '', $data, 0, 0, 0, true, 'L', true);
+                        // $biogName = $index + $maxRows * $e + 1 . ". {$person[$index +$e *$maxRows]['BIOG_NAME']}";
+                        $biogName = $index + $maxRows * $e + 1 . " " . nameWithRankFull($person[$index + $e * $maxRows]);
+                        $pdf->writeHTMLCell(100, '', '', '', $biogName, 0, 0, 0, true, 'L', true);
                         $lastIndex = $lastIndex > $index + $e * $maxRows ? $lastIndex : $index + $e * $maxRows;
+                        array_push($currentPeople, $person[$index + $e * $maxRows]);
                     }
                 }
             }
@@ -62,10 +77,10 @@ function drawData($pdf, $person, $medalName, $year, $headquarters, $unit_name, $
         $indexEnd = $lastIndex + 1;
         $footText1 = "ลำดับที่ {$indexStart} - {$indexEnd}";
         // $pdf->writeHTMLCell(0, '', 120, 230, $footText1, 0, 1, 0, true, 'C', true);
-        $men = array_filter($person, function ($r) {
+        $men = array_filter($currentPeople, function ($r) {
             return $r['BIOG_SEX'] == '0';
         });
-        $women = array_filter($person, function ($r) {
+        $women = array_filter($currentPeople, function ($r) {
             return $r['BIOG_SEX'] == '1';
         });
         $footText2 = $medalName[1] . " {$indexStart} - {$indexEnd}" . ' <br/>บุรุษ ' . count($men) . '  สตรี ' . count($women);
@@ -78,7 +93,15 @@ function drawData($pdf, $person, $medalName, $year, $headquarters, $unit_name, $
 
 class MYPDF extends PDF
 {
-    //Page Footer
+    public function Header()
+    {
+        if ($this->PageNo() > 1) {
+            $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
+            $this->SetFont($fontname, '', 14);
+            $this->writeHTMLCell(55, 5, 180, '', 'แผ่นที่ ' . $this->getAliasNumPage(), 0, 1, 0, true, 'C', true);
+        }
+    }
+
     public function Footer()
     {
         $fontname = TCPDF_FONTS::addTTFfont(FCPATH . 'assets/fonts/THSarabun.ttf', 'TrueTypeUnicode', '', 96);
@@ -98,7 +121,7 @@ $pdf->p1_rank = $p1_rank;
 $pdf->p1_name = $p1_name;
 $pdf->p1_position = $p1_position;
 
-$pdf->setPrintHeader(false);
+// $pdf->setPrintHeader(false);
 // $pdf->setPrintFooter(false);
 
 // set auto page breaks

@@ -546,5 +546,5 @@ class Person_data
             $result = $currentMedal . ' currentMedal not in';
         }
         return $result;
-    }
+    }    
 }

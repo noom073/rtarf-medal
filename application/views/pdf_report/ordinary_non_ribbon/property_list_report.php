@@ -109,7 +109,7 @@ $html .=        '</tr>';
 
 $num = 1;
 foreach ($persons as $r) {
-    $biog_dmy_rank  = $this->myfunction->dmy_to_thai($r['BIOG_DMY_RANK'], 2);
+    $biog_dmy_pos  = $this->myfunction->dmy_to_thai($r['BIOG_DMYPOS'], 2);
     $biog_decy  = $this->person_data->set_cdec_date($r['BIOG_DECY']);
     if (in_array($r['BIOG_RANK'], array('50', '51'))) {
         $prevPostName = '';
@@ -145,7 +145,7 @@ foreach ($persons as $r) {
     $html .=        '<td rowspan="2" width="4%" style="text-align: center">' . $num . '</td>';
     $html .=        '<td rowspan="2" width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
     $html .=        '<td rowspan="2" width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
-    $html .=        '<td rowspan="2" width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
+    $html .=        '<td rowspan="2" width="8%" style="text-align: center">' . $biog_dmy_pos . '</td>';
     $html .=        '<td rowspan="2" width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
     $html .=        '<td width="22%" style="border-bottom-color:white; border-right-color:black;">' . $r['BIOG_POSNAME_FULL'] . '<br/></td>';
     $html .=        '<td width="6%" style="text-align: center; border-bottom-color:white; border-right-color:black;"></td>';
