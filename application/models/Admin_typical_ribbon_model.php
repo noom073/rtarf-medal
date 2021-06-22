@@ -46,7 +46,7 @@ class Admin_typical_ribbon_model extends CI_Model
         }
 
         if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
-        else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
+        else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) > {$year}";
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP, B.BIOG_DMYPOS,
@@ -83,7 +83,7 @@ class Admin_typical_ribbon_model extends CI_Model
         }
 
         if ($array['condition'] == 'retire') $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN) = {$year}";
-        else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
+        else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) > {$year}";
 
         $sql = "SELECT A.BDEC_NAME,A.BDEC_REM,
             B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP, B.BIOG_DMYPOS,

@@ -19,7 +19,7 @@ class Admin_ribbon_prop_model extends CI_Model
         if ($array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         if ($unitID === '6001000000') {
@@ -75,7 +75,7 @@ class Admin_ribbon_prop_model extends CI_Model
         if ($array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         if ($unitID === '6001000000') {
@@ -143,7 +143,7 @@ class Admin_ribbon_prop_model extends CI_Model
         if ($array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         if ($unitID === '6001000000') {
@@ -217,7 +217,7 @@ class Admin_ribbon_prop_model extends CI_Model
         if ($array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         if ($unitID === '6001000000') {

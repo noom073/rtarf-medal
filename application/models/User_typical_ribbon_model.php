@@ -37,7 +37,7 @@ class User_typical_ribbon_model extends CI_Model
         if ($array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) > {$year}";
         }
 
         $result = $this->oracle->query("SELECT A.BDEC_NAME, A.BDEC_REM,

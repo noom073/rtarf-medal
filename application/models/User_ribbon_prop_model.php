@@ -19,7 +19,7 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
@@ -70,7 +70,7 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
@@ -133,7 +133,7 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
@@ -202,7 +202,7 @@ class User_ribbon_prop_model extends CI_Model
         if (isset($array['condition']) && $array['condition'] == 'retire') {
             $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) = {$year}";
         } else {
-            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) <> {$year}";
+            $retireCondition = "AND RETIRE60(A.BIOG_DMY_BORN ) > {$year}";
         }
 
         $result = $this->oracle->query("SELECT A.BIOG_ID, A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_RANK, 
