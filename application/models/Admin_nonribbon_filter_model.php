@@ -23,7 +23,7 @@ class Admin_nonribbon_filter_model extends CI_Model
         }
 
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, 
-            A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK, A.BIOG_DMYPOS,
+            A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS, A.BIOG_CDEP,
             B.CRAK_NAME_FULL_PRINT,
             C.BDEC_REM
@@ -379,7 +379,7 @@ class Admin_nonribbon_filter_model extends CI_Model
         }
         
         $sql = "SELECT A.BIOG_IDP, A.BIOG_ID, A.BIOG_NAME, A.BIOG_DMY_WORK, A.BIOG_DMY_RANK, 
-            A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK, A.BIOG_DMYPOS,
+            A.BIOG_SALARY, A.BIOG_POSNAME_FULL, A.BIOG_RANK,
             A.BIOG_DEC, A.BIOG_DECY, A.BIOG_SEX, A.BIOG_SLEVEL, A.BIOG_SCLASS,
             B.CRAK_NAME_FULL_PRINT,
             C.BDEC_REM

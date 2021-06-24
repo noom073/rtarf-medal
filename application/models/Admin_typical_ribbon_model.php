@@ -49,7 +49,7 @@ class Admin_typical_ribbon_model extends CI_Model
         else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) > {$year}";
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
-            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP, B.BIOG_DMYPOS,
+            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP,
             B.BIOG_IDP, B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, 
             B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS, 
             C.CRAK_NAME_FULL_PRINT
@@ -86,7 +86,7 @@ class Admin_typical_ribbon_model extends CI_Model
         else $retireCondition = "AND RETIRE60(B.BIOG_DMY_BORN ) > {$year}";
 
         $sql = "SELECT A.BDEC_NAME,A.BDEC_REM,
-            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP, B.BIOG_DMYPOS,
+            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID, B.BIOG_CDEP,
             B.BIOG_IDP, B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_SALARY, B.BIOG_POSNAME_FULL, 
             B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
             C.CRAK_NAME_FULL_PRINT

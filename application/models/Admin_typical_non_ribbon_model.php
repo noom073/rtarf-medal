@@ -65,7 +65,7 @@ class Admin_typical_non_ribbon_model extends CI_Model
         }
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
-            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID,B.BIOG_CDEP, B.BIOG_DMYPOS,
+            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID,B.BIOG_CDEP,
             B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
             B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP, 
             C.CRAK_NAME_FULL, C.CRAK_NAME_FULL_PRINT
@@ -101,7 +101,7 @@ class Admin_typical_non_ribbon_model extends CI_Model
         }
 
         $sql = "SELECT A.BDEC_NAME, A.BDEC_REM,
-            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID,B.BIOG_CDEP, B.BIOG_DMYPOS,
+            B.BIOG_NAME, B.BIOG_DMY_WORK, B.BIOG_ID,B.BIOG_CDEP,
             B.BIOG_SALARY, B.BIOG_POSNAME_FULL, B.BIOG_DEC, B.BIOG_DECY, B.BIOG_SEX, B.BIOG_SLEVEL, B.BIOG_SCLASS,
             B.BIOG_DMY_RANK, B.BIOG_RANK, B.BIOG_IDP, 
             C.CRAK_NAME_FULL, C.CRAK_NAME_FULL_PRINT

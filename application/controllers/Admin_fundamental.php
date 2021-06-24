@@ -106,7 +106,6 @@ class Admin_fundamental extends CI_Controller
 		$unitid				= $this->myfunction->decode($this->input->post('unitid'));
 		$data['headquarters']   = ($unitid == '6001000000') ? 'กระทรวงกลาโหม' : 'กองทัพไทย';
 		$data['unit_name']      = ($unitid == '6001000000') ? array('NPRT_NAME' => 'กองบัญชาการกองทัพไทย') : $this->person_data->get_unit_name($unitid);
-		// $data['unit_name'] 	= $this->admin_fundamental_model->get_unit_name($unitid)->row_array();
 		$unitcode4          = substr($unitid, 0, 4);
 
 		$data['persons'] 	= $this->admin_fundamental_model

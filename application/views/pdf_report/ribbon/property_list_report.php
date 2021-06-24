@@ -112,16 +112,18 @@ $html .=            '<td width="14.5%"></td>';
 $html .=        '</tr>';
 
 $num = 1;
-foreach ($persons as $r) {    
-    $biog_dmy_rank  = $this->myfunction->dmy_to_thai($r['BIOG_DMY_RANK'], 2);
+foreach ($persons as $r) {
     $biog_decy  = $this->person_data->set_cdec_date($r['BIOG_DECY']);
     if (in_array($r['BIOG_RANK'], array('50', '51'))) {
+        $currentDmySalary = $this->lib_model->currentDmySalary($r['BIOG_ID']);
+        $dmyA = $this->myfunction->dmy_to_thai($currentDmySalary, 2);
         $prevPostName = '';
         $gender = '';
         $specialRank = '';
         $rankOrSalary = "{$r['BIOG_SLEVEL']}/{$r['BIOG_SCLASS']}";
         $biogName = $r['BIOG_NAME'];
     } else {
+        $dmyA = $this->myfunction->dmy_to_thai($r['BIOG_DMY_RANK'], 2);
         $prevPostName = $this->person_data->getPrevPosnameOrrankname($r['BIOG_ID'], $r['BIOG_DEC'], $r['BIOG_DECY'], $r['BIOG_SEX'], $r['BIOG_RANK'], $r['BIOG_CDEP']);
         $gender = ($r['BIOG_SEX'] == '1') ? 'หญิง' : '';
         $specialRank = ($r['BIOG_RANK'] == '05' || $r['BIOG_RANK'] == '21') ? '(พิเศษ)' : '';
@@ -149,7 +151,7 @@ foreach ($persons as $r) {
     $html .=        '<td rowspan="2" width="4%" style="text-align: center">' . $num . '</td>';
     $html .=        '<td rowspan="2" width="18%">' . $biogName . '<br>' . $r['BIOG_IDP'] . '</td>';
     $html .=        '<td rowspan="2" width="8.5%" style="text-align: center">' . $rankOrSalary . '</td>';
-    $html .=        '<td rowspan="2" width="8%" style="text-align: center">' . $biog_dmy_rank . '</td>';
+    $html .=        '<td rowspan="2" width="8%" style="text-align: center">' . $dmyA . '</td>';
     $html .=        '<td rowspan="2" width="5.5%" style="text-align: center">' . number_format($r['BIOG_SALARY']) . '</td>';
     $html .=        '<td width="22%" style="border-bottom-color:white; border-right-color:black;">' . $r['BIOG_POSNAME_FULL'] . '<br/></td>';
     $html .=        '<td width="6%" style="text-align: center; border-bottom-color:white; border-right-color:black;"></td>';

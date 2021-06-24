@@ -201,5 +201,16 @@ class Lib_model extends CI_Model
             }
         }
         return $findPost;
-    }    
+    }  
+    
+    public function currentDmySalary($biogID)
+    {
+        $sql = "SELECT *
+            FROM PER_SALA_tab
+            WHERE sala_id LIKE ?
+            ORDER BY SALA_SEQ DESC";
+        $query = $this->oracle->query($sql, array($biogID));
+        $data = $query->row_array();        
+        return $data['SALA_DMY'];
+    }
 }

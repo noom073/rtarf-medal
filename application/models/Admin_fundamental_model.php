@@ -91,6 +91,7 @@ class Admin_fundamental_model extends CI_Model
         }
         $this->oracle->where("A.BIOG_RANK >= ", $rankStart);
         $this->oracle->where("A.BIOG_RANK <= ", $rankEnd);
+        $this->oracle->where_not_in("A.BIOG_DEC", array('ป.ม.','ป.ช.','ม.ว.ม.','ม.ป.ช.'));
         $this->oracle->order_by('A.BIOG_RANK');
         $this->oracle->order_by('A.BIOG_CPOS');
         $this->oracle->order_by('A.BIOG_SLEVEL', 'desc');
