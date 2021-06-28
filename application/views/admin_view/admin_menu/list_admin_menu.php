@@ -3,7 +3,7 @@
         <button class="button is-small is-rounded mb-3">Menu</button>
     </a>
 </div>
-<aside class="menu">
+<aside class="menu" style="height:600px; overflow-y: scroll;">
     <p class="menu-label has-text-link has-background-primary-light">ข้อมูลพื้นฐาน</p>
     <ul class="menu-list">
         <li><a href="<?= site_url('admin_fundamental/index') ?>">ประวัติบุคคล</a></li>
@@ -65,6 +65,11 @@
     <p class="menu-label has-text-link has-background-primary-light">ตั้งค่า</p>
     <ul class="menu-list">
         <li><a id="set-system-status" href="<?= site_url('admin/set_system_status') ?>">กำหนดเปิด-ปิดระบบ</a></li>
+    </ul>
+
+    <p class="menu-label has-text-link has-background-primary-light">ข้อมูลผู้เสนอขอเครื่องราชฯของ บก.ทท.</p>
+    <ul class="menu-list">
+        <li><a id="set-system-status" href="<?= site_url('admin_fundamental/generate_spread_sheet') ?>" target="_blank">Export to Excel</a></li>
     </ul>
 </aside>
 

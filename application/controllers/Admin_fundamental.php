@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin_fundamental extends CI_Controller
 {
-
 	function __construct()
 	{
 		parent::__construct();
@@ -173,5 +172,16 @@ class Admin_fundamental extends CI_Controller
 			$data['rankType'] = 'not in rank';
 			redirect('admin_fundamental/non_ribbon_report');
 		}
+	}
+
+	public function generate_spread_sheet()
+	{
+		$this->load->model('admin_spreadsheet_model');
+		$data['persons'] = $this->admin_spreadsheet_model->xlsData()->result_array();
+		// $data['persons'] = array(
+		// 	array('UNIT' => 'xxx', 'UNIT_NAME'=> 'zzz', 'BIOG_ID'=> 'bb'),
+		// 	array('UNIT' => 'xxx', 'UNIT_NAME'=> 'zzz', 'BIOG_ID'=> 'bb')
+		// );
+		$this->load->view('admin_view/admin_fdmt/spread_sheet', $data);		
 	}
 }
